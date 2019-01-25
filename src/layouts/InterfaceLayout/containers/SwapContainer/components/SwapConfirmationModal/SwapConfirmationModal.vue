@@ -61,6 +61,7 @@ import { mapGetters } from 'vuex';
 import Arrow from '@/assets/images/etc/single-arrow.svg';
 import iconBtc from '@/assets/images/currency/btc.svg';
 import iconEth from '@/assets/images/currency/eth.svg';
+import iconXsm from '@/assets/images/currency/xsm.svg';
 import ButtonWithQrCode from '@/components/Buttons/ButtonWithQrCode';
 import HelpCenterButton from '@/components/Buttons/HelpCenterButton';
 
@@ -93,7 +94,8 @@ export default {
       swapReady: false,
       currencyIcons: {
         BTC: iconBtc,
-        ETH: iconEth
+        ETH: iconEth,
+        XSM: iconXsm
       },
       timeRemaining: 0,
       qrcode: '',

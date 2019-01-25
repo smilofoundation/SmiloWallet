@@ -1,8 +1,8 @@
 import { XSM } from '../types';
 export default {
   type: XSM,
-  service: 'MySmiloWallet.io',
-  url: 'https://testnet-wallet.smilo.network/api',
+  service: 'Smilo Mainnet 1',
+  url: 'https://wallet.smilo.network/api',
   port: 443,
   auth: false,
   username: '',

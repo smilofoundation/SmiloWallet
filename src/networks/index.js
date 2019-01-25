@@ -8,7 +8,7 @@ Object.keys(types).forEach(key => {
 });
 
 Object.keys(nodes).forEach(key => {
-  if (nodes[key].service === nodes['xsmmsw'].service) {
+  if (nodes[key].service === nodes['xsmtestnet'].service) {
     nodeList[nodes[key].type.name].splice(0, 0, nodes[key]);
   } else {
     nodeList[nodes[key].type.name].push(nodes[key]);

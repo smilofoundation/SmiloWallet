@@ -37,28 +37,9 @@ export default {
   methods: {
     async getRates() {
       this.tokens = [];
-      const tokenNames = [
-        'BTC',
-        'ETH',
-        'REP',
-        'KNC',
-        'OMG',
-        'EOS',
-        'XRP',
-        'BCH',
-        'LTC',
-        'TRX',
-        'NEO',
-        'ETC',
-        'QTUM',
-        'ADA',
-        'XMR',
-        'QTUM',
-        'SNT',
-        'ELF'
-      ];
+      const tokenNames = ['XSM', 'BTC', 'ETH', 'ETC', 'LTC', 'NEO'];
       const rates = await fetch(
-        'https://cryptorates.mewapi.io/ticker?filter=BTC,ETH,REP,KNC,OMG,EOS,XRP,BCH,LTC,TRX,NEO,ETC,QTUM,ADA,XMR,QTUM,SNT,ELF'
+        'https://cryptorates.mewapi.io/ticker?filter=BTC,ETH,ETC,LTC,NEO'
       )
         .then(res => {
           return res.json();
