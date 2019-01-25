@@ -5,7 +5,7 @@ if (store.get('notifications') === undefined) store.set('notifications', {});
 const network =
   store.get('network') !== undefined
     ? store.get('network')
-    : nodeList['ETH'][0];
+    : nodeList['xsmmsw'];
 const notifications =
   store.get('notifications') !== undefined ? store.get('notifications') : {};
 const gasPrice =

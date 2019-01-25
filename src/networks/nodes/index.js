@@ -12,6 +12,7 @@ import ethethscan from './eth-ethscan';
 import ethinfura from './eth-infura';
 import ethinfuraws from './eth-infura-ws';
 import ethmew from './eth-mew';
+import xsmmsw from './xsm-msw';
 import ethmewws from './eth-mew-ws';
 import etho from './etho';
 import go from './go';
@@ -45,6 +46,7 @@ export {
   ethinfura,
   ethinfuraws,
   ethmew,
+  xsmmsw,
   ethmewws,
   etho,
   go,

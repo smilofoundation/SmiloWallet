@@ -7,6 +7,7 @@ import EOSC from './EOSC.js';
 import ESN from './ESN.js';
 import ETC from './ETC.js';
 import ETH from './ETH.js';
+import XSM from './XSM.js';
 import ETHO from './ETHO.js';
 import GO from './GO.js';
 import KOV from './KOV.js';
@@ -29,6 +30,7 @@ export {
   ESN,
   ETC,
   ETH,
+  XSM,
   ETHO,
   GO,
   KOV,
