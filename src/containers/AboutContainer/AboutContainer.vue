@@ -3,7 +3,7 @@
     <div class="wrap">
       <div class="top-section">
         <div class="circle"><img src="~@/assets/images/home/circle.png" /></div>
-        <div id="about-mew" class="star-background">
+        <div id="about-sw" class="star-background">
           <div class="page-container">
             <div class="flex-col-1-1-vertical-center content">
               <div class="text-content">
