@@ -187,7 +187,7 @@ export default {
             {
               text: this.$t('common.customerSupport'),
               href: 'mailto:info@smilo.io'
-            },
+            }
           ]
         },
         // Below element left empty on purpose for padding
