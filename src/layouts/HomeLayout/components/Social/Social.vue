@@ -34,7 +34,8 @@ import medium from '@/assets/images/icons/medium.png';
 import twitter from '@/assets/images/icons/twitter.jpg';
 import facebook from '@/assets/images/icons/facebook.png';
 //import slack from '@/assets/images/icons/slack.png';
-//import telegram from '@/assets/images/icons/telegram.png';
+import telegram from '@/assets/images/icons/telegram.png';
+import linkedin from '@/assets/images/icons/linkedin.png';
 
 export default {
   data() {
@@ -49,27 +50,37 @@ export default {
         */
         {
           img: facebook,
-          to: 'https://www.facebook.com/MyEtherWallet',
+          to: 'https://www.facebook.com/SmiloPlatform/',
           name: 'Facebook'
         },
         {
           img: twitter,
-          to: 'https://twitter.com/myetherwallet',
+          to: 'https://twitter.com/SmiloPlatform',
           name: 'Twitter'
         },
         {
           img: medium,
-          to: 'https://medium.com/@myetherwallet',
+          to: 'https://medium.com/smilo-platform',
           name: 'Medium'
         },
         {
           img: reddit,
-          to: 'https://www.reddit.com/r/myetherwallet',
+          to: 'https://smiloplatform.reddit.com/',
           name: 'reddit'
         },
         {
+          img: linkedin,
+          to: 'https://www.linkedin.com/company/smilo-platform-bv/',
+          name: 'linkedin'
+        },
+        {
+          img: telegram,
+          to: 'https://t.me/SmiloPlatform',
+          name: 'telegram'
+        },
+        {
           img: github,
-          to: 'https://www.github.com/myetherwallet',
+          to: 'https://github.com/Smilo-platform',
           name: 'github'
         }
       ]
