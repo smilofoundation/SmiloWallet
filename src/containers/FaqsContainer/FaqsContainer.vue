@@ -5,16 +5,6 @@
         <div class="flex-col-vertical-bottom top-title">
           <div class="title">
             <h2>{{ $t('common.faqs') }}</h2>
-            <!-- <h5>
-              {{ $t('home.faqsSubheading') }}
-              <a
-                target="_blank"
-                rel="noopener noreferrer"
-                href="https://kb.myetherwallet.com/"
-              >
-                {{ $t('home.faqsSeeMore') }}
-              </a>
-            </h5> -->
           </div>
           <customer-support />
         </div>
