@@ -49,7 +49,7 @@
           </li>
           <li v-if="isHomePage">
             <router-link
-              to="/#about-mew"
+              to="/#about-sw"
               @click.native="isMobileMenuOpen = false"
             >
               {{ $t('header.about') }}
@@ -144,7 +144,7 @@
                   @click="scrollTop()"
                   >{{ $t('header.home') }}</b-nav-item
                 >
-                <b-nav-item v-if="isHomePage" to="/#about-mew">
+                <b-nav-item v-if="isHomePage" to="/#about-sw">
                   {{ $t('header.about') }}
                 </b-nav-item>
                 <b-nav-item to="/#faqs">{{ $t('common.faqs') }}</b-nav-item>
@@ -281,7 +281,7 @@ export default {
       supportedLanguages: [
         // { name: 'Deutsch', flag: 'de', langCode: 'de_DL' },
         // { name: 'Ελληνικά', flag: 'gr', langCode: 'gr_GR' },
-        { name: 'English', flag: 'en', langCode: 'en_US' },
+        { name: 'English', flag: 'en', langCode: 'en_US' }
         // { name: 'Español', flag: 'es', langCode: 'es_ES' },
         // { name: 'Farsi', flag: 'ir', langCode: 'ir_IR' },
         // { name: 'Suomi', flag: 'fi', langCode: 'fi_FI' },
@@ -321,7 +321,7 @@ export default {
       if (
         this.wallet === null &&
         (this.$route.fullPath === '/' ||
-          this.$route.fullPath === '/#about-mew' ||
+          this.$route.fullPath === '/#about-sw' ||
           this.$route.fullPath === '/#faqs' ||
           this.$route.fullPath === '/convert-units' ||
           this.$route.fullPath === '/team')
