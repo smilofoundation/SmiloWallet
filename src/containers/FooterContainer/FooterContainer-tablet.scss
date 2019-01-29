@@ -12,6 +12,10 @@
     }
   }
 
+  .hide-on-mobile {
+    display: none !important;
+  }
+
   .wrap {
     background-color: $footer-background-color;
     color: $text-color-1;

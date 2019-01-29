@@ -3,7 +3,7 @@
     <div class="wrap">
       <div class="top-section">
         <div class="circle"><img src="~@/assets/images/home/circle.png" /></div>
-        <div id="about-mew" class="star-background">
+        <div id="about-sw" class="star-background">
           <div class="page-container">
             <div class="flex-col-1-1-vertical-center content">
               <div class="text-content">
@@ -43,24 +43,6 @@
               <div class="text">
                 <h3>{{ $t('home.aboutHardwareWallet') }}</h3>
                 <p>{{ $t('home.aboutHardwareWalletDesc') }}</p>
-              </div>
-            </dir>
-            <dir class="content">
-              <div class="image">
-                <img src="~@/assets/images/home/icon-swap.svg" />
-              </div>
-              <div class="text">
-                <h3>{{ $t('common.swap') }}</h3>
-                <p>{{ $t('home.aboutSwapDesc') }}</p>
-              </div>
-            </dir>
-            <dir class="content">
-              <div class="image">
-                <img src="~@/assets/images/home/icon-mew-connect.svg" />
-              </div>
-              <div class="text">
-                <h3>{{ $t('common.mewConnect') }}</h3>
-                <p>{{ $t('home.aboutMewConnectDesc') }}</p>
               </div>
             </dir>
           </div>
