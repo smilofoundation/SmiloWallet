@@ -134,16 +134,16 @@ export default {
       walletConstructor: function() {},
       hardwareBrand: '',
       buttons: [
-        {
-          func: this.mewConnectModalOpen,
-          title: this.$t('common.mewConnect'),
-          desc: this.$t('accessWallet.mewConnectDesc'),
-          recommend: '',
-          tooltip: this.$t('common.toolTip3'),
-          img: !this.online ? mewConnectImg : mewConnectDisabledImg,
-          disabled: !this.online,
-          classname: 'button-mewconnect'
-        },
+        // {
+        //   func: this.mewConnectModalOpen,
+        //   title: this.$t('common.mewConnect'),
+        //   desc: this.$t('accessWallet.mewConnectDesc'),
+        //   recommend: '',
+        //   tooltip: this.$t('common.toolTip3'),
+        //   img: !this.online ? mewConnectImg : mewConnectDisabledImg,
+        //   disabled: !this.online,
+        //   classname: 'button-mewconnect'
+        // },
         {
           func: this.hardwareModalOpen,
           title: this.$t('common.hardware'),
@@ -156,7 +156,7 @@ export default {
         },
         {
           func: this.metamaskModalOpen,
-          title: 'MetaMask',
+          title: 'Smilo Wallet Extension',
           desc: this.$t('accessWallet.metaMaskDesc'),
           recommend: '',
           tooltip: this.$t('common.toolTip3'),
