@@ -6,11 +6,7 @@
         {{ $t('dapps.finalize') }}
       </button>
     </div>
-    <interface-bottom-text
-      :link-text="$t('interface.learnMore')"
-      :question="$t('interface.haveIssues')"
-      link="mailto:support@myetherwallet.com"
-    />
+    <interface-bottom-text />
   </div>
 </template>
 <script>

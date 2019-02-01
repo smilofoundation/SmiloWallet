@@ -56,7 +56,12 @@
             />
           </div>
           <div class="mobile-hide">
-            <interface-balance :balance="balance" :get-balance="getBalance" />
+            <interface-balance
+              :balance="balance"
+              :get-balance="getBalance"
+              :smilopay-balance="smilopayBalance"
+              :get-smilo-pay-balance="getSmiloPayBalance"
+            />
           </div>
           <div class="mobile-hide">
             <interface-network :block-number="blockNumber" />
@@ -100,6 +105,7 @@ import PrintModal from './components/PrintModal';
 import { Web3Wallet } from '@/wallets/software';
 import * as networkTypes from '@/networks/types';
 import { BigNumber } from 'bignumber.js';
+import * as request from 'request';
 import store from 'store';
 import TokenBalance from '@myetherwallet/eth-token-balance';
 import sortByBalance from '@/helpers/sortByBalance.js';
@@ -137,6 +143,7 @@ export default {
   data() {
     return {
       balance: '0',
+      smilopayBalance: '0',
       blockNumber: 0,
       tokens: [],
       receivedTokens: false,
@@ -417,6 +424,29 @@ export default {
           console.error(err);
         });
     },
+    getSmiloPayBalance() {
+      const web3 = this.web3;
+      request.post(
+        'https://testnet-wallet.smilo.network/api',
+        {
+          json: true,
+          body: {
+            jsonrpc: '2.0',
+            id: 0,
+            method: 'eth_getSmiloPay',
+            params: [this.address.toLowerCase(), 'latest']
+          }
+        },
+        (error, res, body) => {
+          const smiloPayBalance = web3.utils.fromWei(
+            body.result.toString(),
+            'ether'
+          );
+          this.smilopayBalance = smiloPayBalance;
+          this.$store.dispatch('setSmiloPayBalance', smiloPayBalance);
+        }
+      );
+    },
     checkWeb3WalletAddrChange() {
       this.pollAddress = setInterval(() => {
         window.web3.eth.getAccounts((err, accounts) => {
@@ -481,6 +511,7 @@ export default {
           }
           this.getBlock();
           this.getBalance();
+          this.getSmiloPayBalance();
           this.pollBlock = setInterval(this.getBlock, 14000);
           this.setTokens();
           this.setENS();

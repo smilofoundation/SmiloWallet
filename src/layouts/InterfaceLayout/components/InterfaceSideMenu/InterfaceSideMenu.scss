@@ -13,6 +13,11 @@
       cursor: pointer;
       margin-bottom: 40px;
 
+      .disabled {
+        opacity: 0.2;
+        background: none;
+      }
+
       .menu-group-title {
         align-items: center;
         display: flex;

@@ -1,6 +1,6 @@
 import { toPayload } from './jsonrpc';
 import EthCalls from '../web3Calls';
-const WAIT_TIME = 30 * 1000; //30 seconds
+const WAIT_TIME = 5 * 1000; // 5 seconds
 const memcache = {};
 export default async ({ payload, requestManager }, res, next) => {
   if (payload.method !== 'eth_getTransactionReceipt') return next();

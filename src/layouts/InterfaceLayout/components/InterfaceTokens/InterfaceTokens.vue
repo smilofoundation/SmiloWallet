@@ -81,7 +81,9 @@
         </div>
       </div>
       <div class="bottom-image-container">
-        <img class="icon" src="~@/assets/images/etc/mewconnectad.png" />
+        <a href="https://quake.smilo.io/" target="_blank">
+          <img class="icon" src="~@/assets/images/etc/mewconnectad.png" />
+        </a>
       </div>
     </div>
   </div>
@@ -239,6 +241,16 @@ export default {
           .sort(sortByBalance);
       } else {
         this.localTokens = arr;
+        // So... the address is undefined for some reason. Kinda dirty but does the trick...
+        for (let i = 0; i < this.localTokens.length; i++) {
+          if (this.localTokens[i].symbol === 'sEUR') {
+            this.localTokens[i].address =
+              '0xaF38344300132A42F287Bf401135d49ad213d4F9';
+          } else if (this.localTokens[i].symbol === 'sUSD') {
+            this.localTokens[i].address =
+              '0xfB866708Fa764520Bc8E7235D1423239f354514E';
+          }
+        }
         if (
           store.get('customTokens') !== undefined &&
           store.get('customTokens')[this.network.type.name] !== undefined

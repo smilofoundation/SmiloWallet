@@ -48,12 +48,11 @@
           </div>
           <div class="footer">
             <div>
-              <img src="~@/assets/images/icons/support.svg" />
-              support@myetherwallet.com
+              <img src="~@/assets/images/icons/support.svg" /> info@smilo.io
             </div>
             <div>
               <img src="~@/assets/images/icons/web-solution.svg" />
-              https://www.myetherwallet.com
+              https://smilo.io
             </div>
           </div>
         </div>

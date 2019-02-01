@@ -64,11 +64,7 @@
         >
           {{ $t('interface.sendTx') }}
         </div>
-        <interface-bottom-text
-          link="https://kb.myetherwallet.com"
-          question="Have issues?"
-          link-text="Help Center"
-        />
+        <interface-bottom-text />
       </div>
     </div>
   </div>

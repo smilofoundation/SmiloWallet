@@ -9,11 +9,8 @@
     >
       <div class="modal-content">
         If you want to send us your feedback, please use
-        <a
-          href="mailto:support@myetherwallet.com"
-          target="_blank"
-          rel="noopener noreferrer"
-          >support@myetherwallet.com</a
+        <a href="mailto:info@smilo.io" target="_blank" rel="noopener noreferrer"
+          >info@smilo.io</a
         >. Thank you.
       </div>
     </b-modal>

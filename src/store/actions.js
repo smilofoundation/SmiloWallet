@@ -85,6 +85,10 @@ const setAccountBalance = function({ commit }, balance) {
   commit('SET_ACCOUNT_BALANCE', balance);
 };
 
+const setSmiloPayBalance = function({ commit }, balance) {
+  commit('SET_ACCOUNT_SMILOPAY_BALANCE', balance);
+};
+
 const setGasPrice = function({ commit }, gasPrice) {
   commit('SET_GAS_PRICE', gasPrice);
 };
@@ -212,6 +216,7 @@ export default {
   createAndSignTx,
   decryptWallet,
   setAccountBalance,
+  setSmiloPayBalance,
   setGasPrice,
   setState,
   setENS,

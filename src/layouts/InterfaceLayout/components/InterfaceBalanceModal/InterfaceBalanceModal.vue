@@ -11,7 +11,7 @@
         <div class="flex-container">
           <h4 class="modal-title">{{ $t('common.totalBalance') }}</h4>
           <div class="margin-left-auto total-balance-amount">
-            <span>{{ balance }}</span> ETH
+            <span>{{ balance }}</span> XSM
           </div>
         </div>
       </div>
@@ -50,27 +50,33 @@ export default {
       equivalentValues: [
         {
           name: 'BTC',
-          value: '102.22453'
+          value: '100'
         },
         {
-          name: 'REP',
-          value: '5656.22'
+          name: 'ETH',
+          value: '100'
         },
+        // {
+        //   name: 'REP',
+        //   value: '5656.22'
+        // },
+        // {
+        //   name: 'CHF',
+        //   value: '12410004.22453'
+        // },
         {
-          name: 'CHF',
-          value: '12410004.22453'
-        },
-        {
-          name: 'USD'
+          name: 'USD',
+          value: '0.29'
         },
         {
           name: 'EUR',
-          value: '12410.22'
-        },
-        {
-          name: 'GBP',
-          value: '687867.53'
+          value: '0.25'
         }
+        // ,
+        // {
+        //   name: 'GBP',
+        //   value: '687867.53'
+        // }
       ]
     };
   },
@@ -85,7 +91,7 @@ export default {
   methods: {
     async fetchBalanceData() {
       const newArr = [];
-      const url = 'https://cryptorates.mewapi.io/convert/ETH';
+      const url = 'https://cryptorates.mewapi.io/convert/EURS';
       const fetchValues = await fetch(url);
       const values = await fetchValues.json();
       delete values['lastCalled'];
@@ -97,7 +103,7 @@ export default {
         ) {
           const objectRes = {
             name: item,
-            value: new BigNumber(this.balance)
+            value: new BigNumber(this.balance * 0.25)
               .multipliedBy(new BigNumber(values[item]))
               .decimalPlaces(18)
               .toFixed()
@@ -105,6 +111,13 @@ export default {
           newArr.push(objectRes);
         }
       });
+      const usdValue = this.equivalentValues.find(x => x.name == 'USD');
+      usdValue.value = usdValue.value * this.balance;
+      newArr.push(usdValue);
+
+      const eurValue = this.equivalentValues.find(x => x.name == 'EUR');
+      eurValue.value = eurValue.value * this.balance;
+      newArr.push(eurValue);
       this.equivalentValues = newArr;
     }
   }

@@ -4,11 +4,11 @@ import xsm from '@/assets/images/networks/xsm.svg';
 import { EthAbi } from '../ensAbis';
 
 export default {
-  name: 'XSM',
+  name: 'XSMT',
   name_long: 'Smilo',
   homePage: 'https://smilo.io',
-  blockExplorerTX: 'https://explorer.smilo.network/tx/[[txHash]]',
-  blockExplorerAddr: 'https://explorer.smilo.network/addr/[[address]]',
+  blockExplorerTX: 'https://testnet-explorer.smilo.network/tx/[[txHash]]',
+  blockExplorerAddr: 'https://testnet-explorer.smilo.network/addr/[[address]]',
   chainID: 10,
   tokens: tokens,
   contracts: contracts,

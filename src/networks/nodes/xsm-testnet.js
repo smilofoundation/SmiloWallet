@@ -1,7 +1,7 @@
-import { XSM } from '../types';
+import { XSMT } from '../types';
 export default {
-  type: XSM,
-  service: 'Smilo Testnet',
+  type: XSMT,
+  service: 'Testnet Server 1',
   url: 'https://testnet-wallet.smilo.network/api',
   port: 443,
   auth: false,

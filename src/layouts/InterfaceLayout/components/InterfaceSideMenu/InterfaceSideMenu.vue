@@ -10,7 +10,8 @@
           <div
             :class="[
               isTabActive(tab.routes) ? 'active' : '',
-              'menu-group-title'
+              'menu-group-title',
+              isTabDisabled(tab) ? 'disabled' : ''
             ]"
             @click.prevent="tabAction(tab)"
           >
@@ -66,6 +67,9 @@ export default {
     },
     isTabActive(routes) {
       return routes.includes(this.$route.path);
+    },
+    isTabDisabled(tab) {
+      return tab.disabled;
     },
     tabAction(tab) {
       if (!tab.hasOwnProperty('children') || tab.children.length === 0) {

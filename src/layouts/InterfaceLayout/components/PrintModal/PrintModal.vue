@@ -49,8 +49,10 @@
           <div class="right-section">
             <div class="header-text">
               <b>
-                <img src="~@/assets/images/logo-small.png" height="30px" />
-                {{ mew }}
+                <img
+                  src="~@/assets/images/short-hand-logo-white.png"
+                  height="30px"
+                />
               </b>
               <span class="header-line" /> <span> {{ paper }} </span>
             </div>
@@ -132,7 +134,7 @@
             </p>
           </div>
           <div class="logo-container">
-            <img src="~@/assets/images/logo.png" height="25px" />
+            <img src="~@/assets/images/short-hand-logo.png" height="25px" />
             <p class="border-line"></p>
             <p>{{ paper }}</p>
           </div>
@@ -166,8 +168,8 @@ export default {
       subheader: 'Always look for this icon when sending to this wallet',
       mew: 'MyEtherWallet',
       paper: 'Paper Wallet',
-      link1: 'support@myetherwallet.com',
-      link2: 'https://www.myetherwallet.com',
+      link1: 'info@smilo.io',
+      link2: 'https://smilo.io',
       myAddress: 'MY ADDRESS',
       myPriv: 'MY PRIVATE KEY',
       content: {

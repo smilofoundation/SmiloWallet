@@ -17,7 +17,8 @@ const ens = network.type.ensResolver == null;
 store.set('network', network);
 const state = {
   account: {
-    balance: 0
+    balance: 0,
+    smilopayBalance: 0
   },
   customPaths: customPaths,
   ens: ens,
