@@ -98,12 +98,10 @@ import MnemonicModal from '../../components/MnemonicModal';
 import WalletPasswordModal from '@/components/WalletPasswordModal';
 import EnterPinNumberModal from '@/components/EnterPinNumberModal';
 
-import mewConnectImg from '@/assets/images/icons/button-mewconnect.svg';
 import hardwareImg from '@/assets/images/icons/button-hardware.svg';
 import metamaskImg from '@/assets/images/icons/button-metamask.svg';
 import softwareImg from '@/assets/images/icons/button-software.svg';
 
-import mewConnectDisabledImg from '@/assets/images/icons/mewconnect-disable.svg';
 import hardwareDisabledImg from '@/assets/images/icons/hardware-disable.svg';
 import metamaskDisabledImg from '@/assets/images/icons/metamask-disable.svg';
 
@@ -134,16 +132,16 @@ export default {
       walletConstructor: function() {},
       hardwareBrand: '',
       buttons: [
-        {
-          func: this.mewConnectModalOpen,
-          title: this.$t('common.mewConnect'),
-          desc: this.$t('accessWallet.mewConnectDesc'),
-          recommend: '',
-          tooltip: this.$t('common.toolTip3'),
-          img: !this.online ? mewConnectImg : mewConnectDisabledImg,
-          disabled: !this.online,
-          classname: 'button-mewconnect'
-        },
+        // {
+        //   func: this.mewConnectModalOpen,
+        //   title: this.$t('common.mewConnect'),
+        //   desc: this.$t('accessWallet.mewConnectDesc'),
+        //   recommend: '',
+        //   tooltip: this.$t('common.toolTip3'),
+        //   img: !this.online ? mewConnectImg : mewConnectDisabledImg,
+        //   disabled: !this.online,
+        //   classname: 'button-mewconnect'
+        // },
         {
           func: this.hardwareModalOpen,
           title: this.$t('common.hardware'),
@@ -156,7 +154,7 @@ export default {
         },
         {
           func: this.metamaskModalOpen,
-          title: 'MetaMask',
+          title: 'Smilo Wallet Extension',
           desc: this.$t('accessWallet.metaMaskDesc'),
           recommend: '',
           tooltip: this.$t('common.toolTip3'),

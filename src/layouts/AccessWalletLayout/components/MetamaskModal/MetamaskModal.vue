@@ -130,16 +130,16 @@ export default {
     },
     async getWeb3Wallet() {
       if (this.checkWeb3() !== true) return;
-      if (window.ethereum) {
-        window.web3 = new Web3(window.ethereum);
+      if (window.smilo) {
+        window.web3 = new Web3(window.smilo);
         try {
-          await window.ethereum.enable();
+          await window.smilo.enable();
         } catch (e) {
           this.web3WalletExists = false;
         }
         this.signIn(window.web3);
-      } else if (window.web3) {
-        this.signIn(window.web3);
+      } else if (window.smiloWeb3) {
+        this.signIn(window.smiloWeb3);
       }
     },
     signIn(web3) {
@@ -159,9 +159,9 @@ export default {
         });
     },
     checkWeb3() {
-      if (window.ethereum) {
+      if (window.smilo) {
         return true;
-      } else if (window.web3) {
+      } else if (window.smiloWeb3) {
         return true;
       }
       return false;

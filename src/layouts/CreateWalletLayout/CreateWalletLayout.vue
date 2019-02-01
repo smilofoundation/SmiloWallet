@@ -8,8 +8,9 @@
       <div class="page-container">
         <div v-show="!byJson && !byMnemonic" class="nav-tab-user-input-box">
           <b-tabs class="x100">
-            <div v-if="showProgressBar" class="progress-bar" />
-            <b-tab
+            <!-- <div v-if="showProgressBar" class="progress-bar" /> -->
+            <!-- Below lines will be enabled again at a later time when the Smilo Wallet app is available -->
+            <!-- <b-tab
               class="mew-connect-block"
               title="MEWconnect"
               active
@@ -56,7 +57,7 @@
               <div class="bottom-image">
                 <img src="@/assets/images/etc/phones.png" />
               </div>
-            </b-tab>
+            </b-tab> -->
             <b-tab
               :title="$t('createWallet.byJsonFile')"
               @click="showProgressBar = true"
