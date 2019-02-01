@@ -241,6 +241,13 @@ export default {
           .sort(sortByBalance);
       } else {
         this.localTokens = arr;
+        // So... the address is undefined for some reason. Kinda dirty but does the trick...
+        for (let i = 0; i < this.localTokens.length; i++) {
+          if (this.localTokens[i].symbol === 'sEUR') {
+            this.localTokens[i].address =
+              '0xaF38344300132A42F287Bf401135d49ad213d4F9';
+          }
+        }
         if (
           store.get('customTokens') !== undefined &&
           store.get('customTokens')[this.network.type.name] !== undefined

@@ -6,10 +6,7 @@
         {{ $t('dapps.finalize') }}
       </button>
     </div>
-    <interface-bottom-text
-
-
-    />
+    <interface-bottom-text />
   </div>
 </template>
 <script>

@@ -49,10 +49,7 @@
         </form>
       </div>
     </div>
-    <interface-bottom-text
-
-
-    />
+    <interface-bottom-text />
   </div>
 </template>
 <script>
