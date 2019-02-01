@@ -32,7 +32,9 @@
           class="content-block"
         >
           <div class="network-title">
-            <img :src="Networks[key][0].type.icon" />
+            <div class="network-image-div">
+              <img :src="Networks[key][0].type.icon" />
+            </div>
             <h4 :class="key.toLowerCase()">{{ key }}</h4>
           </div>
           <div class="grid-3">
@@ -89,19 +91,17 @@
               class="custom-input-text-1"
               type="text"
               name="nodeName"
-              placeholder="ETH Node Name"
+              placeholder="Smilo Node Name"
               autocomplete="off"
             />
-            <select v-model="selectedNetworkName" class="custom-select-1">
-              <option
-                v-for="type in types"
-                :value="type.name"
-                :key="type.name + type.name_long"
-                :selected="selectedNetworkName === type.name"
-              >
-                {{ type.name | capitalize }} - {{ type.name_long | capitalize }}
-              </option>
-            </select>
+            <input
+              :disabled="true"
+              v-model="networkName"
+              class="custom-input-text-1"
+              type="string"
+              name="networkName"
+              autocomplete="off"
+            />
             <input
               v-validate="{
                 required: true,
@@ -251,11 +251,7 @@
             >
               {{ $t('interface.save') }}
             </button>
-            <interface-bottom-text
-              :link-text="$t('interface.helpCenter')"
-              :question="$t('interface.dontKnow')"
-              link="https://kb.myetherwallet.com"
-            />
+            <interface-bottom-text />
           </div>
         </div>
       </form>
@@ -279,8 +275,9 @@ export default {
   data() {
     return {
       types: networkTypes,
-      selectedNetworkName: 'ETH',
+      selectedNetworkName: 'XSM',
       port: 443,
+      networkName: 'XSM - Smilo',
       name: '',
       url: '',
       username: '',
@@ -316,7 +313,7 @@ export default {
       homePage: '',
       blockExplorerTX: '',
       blockExplorerAddr: '',
-      chainID: networkTypes['ETH'].chainID,
+      chainID: networkTypes['XSM'].chainID,
       tokens: [],
       contracts: [],
       ensResolver: ''

@@ -62,11 +62,7 @@
             {{ $t('common.sign') }}
           </button>
         </div>
-        <interface-bottom-text
-          :link-text="$t('interface.helpCenter')"
-          :question="$t('interface.haveIssues')"
-          link="https://kb.myetherwallet.com"
-        />
+        <interface-bottom-text />
       </div>
     </div>
   </div>

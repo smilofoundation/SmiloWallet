@@ -157,11 +157,7 @@
       >
         {{ $t('interface.sendTx') }}
       </div>
-      <interface-bottom-text
-        :link-text="$t('interface.helpCenter')"
-        :question="$t('interface.haveIssues')"
-        link="https://kb.myetherwallet.com"
-      />
+      <interface-bottom-text />
     </div>
   </div>
 </template>
@@ -312,7 +308,6 @@ export default {
       const coinbase = await this.web3.eth.getCoinbase();
       const params = {
         from: coinbase,
-        value: this.txValue,
         to: this.txTo,
         data: this.txData
       };

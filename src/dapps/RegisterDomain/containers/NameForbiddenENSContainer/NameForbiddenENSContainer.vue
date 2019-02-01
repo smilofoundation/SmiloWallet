@@ -1,11 +1,7 @@
 <template lang="html">
   <div class="name-forbidden-container">
     <h3>{{ domainName }}.eth {{ $t('dapps.ensNotAvailable') }}!</h3>
-    <interface-bottom-text
-      :link-text="$t('interface.helpCenter')"
-      :question="$t('interface.haveIssues')"
-      link="https://kb.myetherwallet.com"
-    />
+    <interface-bottom-text />
   </div>
 </template>
 

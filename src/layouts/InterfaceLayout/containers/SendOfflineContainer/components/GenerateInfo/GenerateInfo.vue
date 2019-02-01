@@ -67,11 +67,6 @@
           {{ $t('common.continue') }}
         </div>
       </div>
-      <interface-bottom-text
-        link="https://kb.myetherwallet.com"
-        question="Have issues?"
-        link-text="Help Center"
-      />
     </div>
   </div>
 </template>

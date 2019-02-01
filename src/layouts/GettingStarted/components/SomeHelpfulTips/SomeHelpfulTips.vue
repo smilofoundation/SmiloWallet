@@ -80,7 +80,7 @@ export default {
           title: this.$t('gettingStarted.tip5Title'),
           desc: this.$t('gettingStarted.tip5Desc'),
           linkText: this.$t('gettingStarted.tip5DescLink'),
-          linkUrl: 'mailto:support@myetherwallet.com',
+          linkUrl: 'mailto:info@smilo.io',
           descCont: this.$t('gettingStarted.tip5DescCont')
         }
       ]

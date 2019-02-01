@@ -13,7 +13,7 @@
             <h2>{{ $t('interface.network') }}</h2>
           </div>
           <p v-if="wallet.identifier !== 'web3_wallet'">
-            {{ network.service + '(' + network.type.name + ')' }}
+            {{ network.service + ' (' + network.type.name + ')' }}
           </p>
           <p v-else>{{ 'Web3 Provider' + '(' + network.type.name + ')' }}</p>
           <p>

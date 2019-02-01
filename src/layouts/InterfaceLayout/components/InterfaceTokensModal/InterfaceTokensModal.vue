@@ -44,11 +44,7 @@
           >
             {{ $t('interface.save') }}
           </button>
-          <interface-bottom-text
-            :link-text="$t('interface.helpCenter')"
-            :question="$t('interface.dontKnow')"
-            link="https://kb.myetherwallet.com"
-          />
+          <interface-bottom-text />
         </div>
       </form>
     </b-modal>

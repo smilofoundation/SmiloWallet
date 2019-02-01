@@ -139,7 +139,7 @@ export default {
       lowerLinks: [
         {
           title: this.$t('footer.feedback'),
-          href: 'mailto:support@myetherwallet.com'
+          href: 'mailto:info@smilo.io'
         },
         {
           title: this.$t('footer.privacy'),
@@ -220,7 +220,7 @@ export default {
             },
             {
               text: this.$t('common.customerSupport'),
-              href: 'mailto:support@myetherwallet.com'
+              href: 'mailto:info@smilo.io'
             },
             {
               text: 'Help Center',
