@@ -104,7 +104,6 @@
                 >CoinMarketCap</a
               >
               <br />
-              {{ $t('footer.copyright') }}
             </p>
           </div>
           <div class="social">
@@ -148,10 +147,6 @@ export default {
         {
           title: this.$t('common.terms'),
           to: '/terms-and-conditions'
-        },
-        {
-          title: `v${version}`,
-          href: `https://github.com/MyEtherWallet/MyEtherWallet/releases/tag/v${version}`
         }
       ],
       footerContent: [
@@ -160,45 +155,20 @@ export default {
           title: this.$t('footer.discover'),
           contents: [
             {
-              text: this.$t('footer.units'),
-              to: '/convert-units'
-            },
-            // {
-            //   text: this.$t('footer.advanced'),
-            //   to: '/advanced-tools'
-            // },
-            {
-              text: this.$t('footer.extension'),
-              href:
-                'https://chrome.google.com/webstore/detail/myetherwallet/nlbmnnijcnlegkjjpcfjclmcfggfefdm?hl=en'
-            }
-          ]
-        },
-        {
-          class: 'e2',
-          title: this.$t('footer.affiliates'),
-          contents: [
-            {
-              text: this.$t('footer.ledger'),
-              href:
-                'https://www.ledgerwallet.com/products/?utm_source=&utm_medium=affiliate&utm_campaign=fa4b&utm_content='
+              text: this.$t('footer.smilo'),
+              href: 'https://smilo.io/'
             },
             {
-              text: this.$t('footer.digital'),
-              href: 'https://digitalbitbox.com/?ref=mew'
+              text: this.$t('footer.explorer'),
+              href: 'https://testnet-explorer.smilo.network/home'
             },
             {
-              text: this.$t('footer.ethCard'),
-              href:
-                'https://ether.cards/?utm_source=mew&utm_medium=cpm&utm_campaign=site'
+              text: this.$t('footer.wiki'),
+              href: 'https://github.com/Smilo-platform/Wiki/wiki'
             },
             {
-              text: this.$t('footer.trezor'),
-              href: 'https://trezor.io/?a=myetherwallet.com'
-            },
-            {
-              text: this.$t('footer.bity'),
-              href: 'https://bity.com/af/jshkb37v'
+              text: this.$t('footer.quake'),
+              href: 'https://quake.smilo.io/'
             }
           ]
         },
@@ -208,11 +178,7 @@ export default {
           contents: [
             {
               text: this.$t('footer.about'),
-              to: '/#about-mew'
-            },
-            {
-              text: this.$t('footer.team'),
-              to: '/team'
+              to: '/#about-sw'
             },
             {
               text: this.$t('common.faqs'),
@@ -221,41 +187,39 @@ export default {
             {
               text: this.$t('common.customerSupport'),
               href: 'mailto:info@smilo.io'
-            },
-            {
-              text: 'Help Center',
-              href: 'https://kb.myetherwallet.com'
             }
           ]
+        },
+        // Below element left empty on purpose for padding
+        {
+          class: 'e2 hide-on-mobile',
+          title: '',
+          contents: []
         }
       ],
       links: [
         {
-          to: 'https://www.facebook.com/myetherwallet',
+          to: 'https://www.facebook.com/SmiloPlatform/',
           class: 'fa-facebook'
         },
         {
-          to: 'https://www.twitter.com/@myetherwallet',
+          to: 'https://twitter.com/SmiloPlatform',
           class: 'fa-twitter'
         },
         {
-          to: 'https://www.instagram.com/myetherwallet',
-          class: 'fa-instagram'
-        },
-        {
-          to: 'https://www.linkedin.com/company/myetherwallet',
+          to: 'https://www.linkedin.com/company/smilo-platform-bv/',
           class: 'fa-linkedin'
         },
         {
-          to: 'https://www.github.com/myetherwallet',
+          to: 'https://github.com/Smilo-platform',
           class: 'fa-github'
         },
         {
-          to: 'https://www.reddit.com/r/myetherwallet',
+          to: 'https://smiloplatform.reddit.com/',
           class: 'fa-reddit-alien'
         },
         {
-          to: 'https://www.medium.com/@myetherwallet',
+          to: 'https://medium.com/smilo-platform',
           class: 'fa-medium'
         }
       ]

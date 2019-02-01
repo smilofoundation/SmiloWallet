@@ -246,6 +246,9 @@ export default {
           if (this.localTokens[i].symbol === 'sEUR') {
             this.localTokens[i].address =
               '0xaF38344300132A42F287Bf401135d49ad213d4F9';
+          } else if (this.localTokens[i].symbol === 'sUSD') {
+            this.localTokens[i].address =
+              '0xfB866708Fa764520Bc8E7235D1423239f354514E';
           }
         }
         if (

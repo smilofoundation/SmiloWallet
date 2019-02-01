@@ -13,6 +13,8 @@
     }
 
     .title {
+      flex-basis: 600px;
+
       h5 {
         line-height: 21px;
       }
@@ -29,7 +31,7 @@
 
       a {
         padding-bottom: 10px;
-        min-width: 80px;
+        min-width: 60px;
       }
 
       a:first-child > div {
@@ -38,7 +40,7 @@
 
       a > div {
         flex-direction: column;
-        margin-left: 40px;
+        margin-right: 40px;
         text-align: center;
 
         @media all and (max-width: 570px) {
@@ -57,11 +59,11 @@
         }
       }
 
-      $mobile-subtract-value: 20;
+      $mobile-subtract-value: 0;
 
       div {
         img {
-          $icon-size: 64px;
+          $icon-size: 32px;
 
           height: $icon-size;
           width: $icon-size;
