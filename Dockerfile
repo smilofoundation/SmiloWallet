@@ -1,10 +1,9 @@
-FROM node:8.14.0-alpine
+FROM nginx:alpine
 
-RUN apk add --update --no-cache git python g++ make cairo-dev jpeg-dev giflib-dev bash nasm autoconf automake libtool build-base
+## Remove default nginx website
+RUN rm -rf /usr/share/nginx/html/*
 
-WORKDIR /app
-
-COPY . ./
-RUN npm install
-
-ENTRYPOINT [ "npm", "run", "dev" ]
+## Copy website to default nginx public folder
+COPY ./dist /usr/share/nginx/html
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]

@@ -71,7 +71,15 @@ if (process.env.NODE_ENV === 'production') {
       failOnUnused: true,
       globOptions: {
         ignore: [
-          // Are we using these?
+          // Smilo temporary
+          'src/assets/images/etc/phones.png',
+          'src/assets/images/home/icon-mew-connect.svg',
+          'src/assets/images/home/icon-swap.svg',
+          'src/assets/images/icons/button-mewconnect.svg',
+          'src/assets/images/icons/mewconnect-disable.svg',
+          'src/assets/images/icons/xsm.svg',
+          'src/assets/images/networks/eth.svg',
+            // Are we using these?
           'src/components/DropDownAddressSelector/#####DropDownAddressSelector.vue',
           'src/components/DropDownAddressSelector/DropDownAddressSelector.scss',
           'src/components/DropDownAddressSelector/index.js',
@@ -146,7 +154,7 @@ if (process.env.NODE_ENV === 'production') {
   );
 }
 const pwa = {
-  name: 'MyEtherWallet',
+  name: 'SmiloWallet',
   workboxOptions: {
     importWorkboxFrom: 'local',
     skipWaiting: true,
@@ -159,5 +167,8 @@ module.exports = {
   pwa: pwa,
   lintOnSave: process.env.NODE_ENV === 'production' ? 'error' : true,
   integrity: process.env.WEBPACK_INTEGRITY === 'false' ? false : true,
-  chainWebpack: config => { }
+  chainWebpack: config => { },
+  devServer: {
+      disableHostCheck: true
+  }
 };

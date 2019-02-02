@@ -16,7 +16,7 @@
             <a
               rel="noopener noreferrer"
               target="_blank"
-              href="https://kb.myetherwallet.com"
+              href="https://www.smilowallet.io"
             >
               {{ $t('gettingStarted.congratulationsLink') }}
             </a>

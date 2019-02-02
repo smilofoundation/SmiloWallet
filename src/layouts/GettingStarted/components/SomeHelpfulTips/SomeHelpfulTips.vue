@@ -66,7 +66,7 @@ export default {
           desc: this.$t('gettingStarted.tip3Desc'),
           linkText: this.$t('gettingStarted.tip3DescLink'),
           linkUrl:
-            'https://chrome.google.com/webstore/detail/myetherwallet/nlbmnnijcnlegkjjpcfjclmcfggfefdm?hl=en',
+            'https://chrome.google.com/webstore/detail/SmiloWallet/?hl=en',
           descCont: this.$t('gettingStarted.tip3DescCont')
         },
         {
