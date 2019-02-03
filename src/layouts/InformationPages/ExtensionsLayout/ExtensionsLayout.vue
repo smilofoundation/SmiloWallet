@@ -30,7 +30,7 @@
 <script>
 import TitleTextContentsLayout from '../Components/TitleTextContentsLayout';
 import mewLogo from '@/assets/images/logo-small.png';
-import metamask from '@/assets/images/icons/button-metamask-fox.svg';
+import metamask from '@/assets/images/icons/button-smilowallet.svg';
 import ethereum from '@/assets/images/icons/ethereum-icon.png';
 
 export default {
@@ -57,7 +57,7 @@ export default {
         },
         {
           image: metamask,
-          title: 'MetaMask Chrome',
+          title: 'SmiloWallet Chrome',
           description: 'Use MEW without internet',
           linkName: 'Download',
           linkURL: 'https://google.com'

@@ -10,7 +10,7 @@
       <div class="modal-multi-icons">
         <img
           class="icon"
-          src="~@/assets/images/icons/button-metamask-fox.svg"
+          src="~@/assets/images/icons/button-smilowallet.svg"
         />
         <img class="icon" src="~@/assets/images/icons/clip.svg" />
         <img class="icon logo-small" src="~@/assets/images/logo-small.png" />
@@ -56,7 +56,7 @@
       <div class="modal-multi-icons">
         <img
           class="icon"
-          src="~@/assets/images/icons/button-metamask-fox.svg"
+          src="~@/assets/images/icons/button-smilowallet.svg"
         />
       </div>
       <div class="d-block content-container text-center">

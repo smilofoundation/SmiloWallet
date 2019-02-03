@@ -99,11 +99,11 @@ import WalletPasswordModal from '@/components/WalletPasswordModal';
 import EnterPinNumberModal from '@/components/EnterPinNumberModal';
 
 import hardwareImg from '@/assets/images/icons/button-hardware.svg';
-import metamaskImg from '@/assets/images/icons/button-metamask.svg';
+import metamaskImg from '@/assets/images/icons/smilowallet-extension-sw.svg';
 import softwareImg from '@/assets/images/icons/button-software.svg';
 
 import hardwareDisabledImg from '@/assets/images/icons/hardware-disable.svg';
-import metamaskDisabledImg from '@/assets/images/icons/metamask-disable.svg';
+import metamaskDisabledImg from '@/assets/images/icons/smilowallet-disable.svg';
 
 import { mapGetters } from 'vuex';
 
