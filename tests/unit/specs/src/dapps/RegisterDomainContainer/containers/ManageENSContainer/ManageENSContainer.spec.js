@@ -22,7 +22,7 @@ describe('ManageENSContainer.vue', () => {
     store = baseSetup.store;
     Vue.config.warnHandler = () => {};
 
-    const network = nodeList['ETH'][3];
+    const network = nodeList['XSMT'][0];
     const hostUrl = url.parse(network.url);
 
     const newWeb3 = new Web3(

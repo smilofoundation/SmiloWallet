@@ -95,7 +95,7 @@ const reorderNetworks = () => {
   return Object.assign(
     {},
     {
-      XSM: nodeList['XSM'],
+      XSM: nodeList['XSMT'],
       ...oldObject
     }
   );

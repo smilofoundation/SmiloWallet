@@ -31,7 +31,7 @@ describe('InterfaceNetwork.vue', () => {
     i18n = baseSetup.i18n;
     store = baseSetup.store;
 
-    const network = nodeList['ETH'][3];
+    const network = nodeList['XSMT'][0];
     const hostUrl = url.parse(network.url);
 
     const wallet = {

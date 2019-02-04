@@ -26,7 +26,7 @@ describe('GenerateInfo.vue', () => {
   });
 
   beforeEach(() => {
-    const network = nodeList['ETH'][3];
+    const network = nodeList['XSMT'][0];
     const hostUrl = url.parse(network.url);
     const newWeb3 = new Web3(
       `${hostUrl.protocol}//${hostUrl.hostname}:${network.port}${

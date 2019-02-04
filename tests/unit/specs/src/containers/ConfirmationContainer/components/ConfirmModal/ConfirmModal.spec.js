@@ -32,7 +32,7 @@ describe('ConfirmModal.vue', () => {
     i18n = baseSetup.i18n;
     store = baseSetup.store;
     Vue.config.errorHandler = () => {};
-    const network = nodeList['ETH'][3];
+    const network = nodeList['XSMT'][0];
     const hostUrl = url.parse(network.url);
     const newWeb3 = new Web3(
       `${hostUrl.protocol}//${hostUrl.hostname}:${network.port}${
@@ -105,7 +105,7 @@ describe('ConfirmModal.vue', () => {
         .querySelectorAll('.grid-block')[3]
         .querySelectorAll('p')[1]
         .textContent.trim()
-    ).toEqual(wrapper.props().fee + ' ETH');
+    ).toEqual(wrapper.props().fee + ' XSMT');
   });
 
   it('should render correct nonce props', () => {

@@ -42,7 +42,7 @@ describe('NetworkAndAddressModal.vue', () => {
       decryptWallet: jest.fn()
     };
 
-    const network = nodeList['ETH'][3];
+    const network = nodeList['XSMT'][0];
 
     const getters = {
       customPaths: () => {},

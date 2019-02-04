@@ -33,7 +33,7 @@ describe('RegisterDomain.vue', () => {
     Vue.config.warnHandler = () => {};
     Vue.config.errorHandler = () => {};
 
-    const network = nodeList['ETH'][3];
+    const network = nodeList['XSMT'][0];
     const hostUrl = url.parse(network.url);
 
     const newWeb3 = new Web3(

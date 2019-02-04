@@ -27,7 +27,7 @@ describe('InterfaceLayout.vue', () => {
       }
     };
 
-    const network = nodeList['ETH'][3];
+    const network = nodeList['XSMT'][0];
     const hostUrl = url.parse(network.url);
 
     getters = {

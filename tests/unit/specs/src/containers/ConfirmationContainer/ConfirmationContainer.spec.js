@@ -36,7 +36,7 @@ xdescribe('[Failing] ConfirmationContainer.vue', () => {
     i18n = baseSetup.i18n;
     store = baseSetup.store;
 
-    const network = nodeList['ETH'][3];
+    const network = nodeList['XSMT'][0];
     const hostUrl = url.parse(network.url);
 
     newWeb3 = new Web3(
