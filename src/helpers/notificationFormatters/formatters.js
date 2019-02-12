@@ -64,6 +64,7 @@ const formatTransactionHash = (val, network) => {
       : val[txIndexes.response],
     network: network,
     body: {
+      token: val[txIndexes.txDetails].token,
       error: false,
       errorMessage: '',
       hash: val[txIndexes.response],
@@ -80,6 +81,7 @@ const formatTransactionHash = (val, network) => {
 const formatTransactionReciept = (entry, val) => {
   entry.status = updateStatusBasedOnReciept(val[txIndexes.response].status);
   entry.body.error = !val[txIndexes.response].status;
+  entry.body.refreshBalance = true;
   entry.body.errorMessage = parseStatus(val[txIndexes.response].status)
     ? ''
     : INVESTIGATE_FAILURE_KEY;
@@ -113,6 +115,7 @@ const formatTransactionError = (val, network) => {
       : undefined,
     network: network,
     body: {
+      token: val[txIndexes.txDetails].token,
       error: true,
       errorMessage: extractErrorMessage(val[txIndexes.response]),
       hash: val[txIndexes.txDetails].hasOwnProperty('hash')
@@ -130,6 +133,7 @@ const formatTransactionError = (val, network) => {
 
 const formatTransactionErrorUpdate = (entry, val) => {
   entry.body.error = true;
+  entry.body.token = val[txIndexes.txDetails].token;
   entry.type = notificationType.ERROR;
   entry.status = notificationStatuses.FAILED;
   entry.swapStatus = notificationStatuses.FAILED;

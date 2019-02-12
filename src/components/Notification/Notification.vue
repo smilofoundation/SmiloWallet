@@ -227,7 +227,6 @@ export default {
         } else {
           updatedNotif.expanded = false;
         }
-
         this.$store.dispatch('updateNotification', [
           this.wallet.getChecksumAddressString(),
           idx,

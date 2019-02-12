@@ -128,11 +128,17 @@ export default {
     ...mapGetters({
       gasPrice: 'gasPrice',
       wallet: 'wallet',
+      selectedCurrency: 'selectedCurrency',
       web3: 'web3'
     }),
     fromAddress() {
       if (this.wallet) {
         return this.wallet.getChecksumAddressString();
+      }
+    },
+    selectedCurrency() {
+      if (this.selectedCurrency) {
+        return this.selectedCurrency;
       }
     }
   },

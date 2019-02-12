@@ -66,6 +66,7 @@
           <div class="mobile-hide">
             <interface-network :block-number="blockNumber" />
           </div>
+          <!-- SendCurrencyContainer?  -->
           <router-view
             :tokens-with-balance="tokensWithBalance"
             :get-balance="getBalance"
@@ -107,7 +108,6 @@ import * as networkTypes from '@/networks/types';
 import { BigNumber } from 'bignumber.js';
 import * as request from 'request';
 import store from 'store';
-import TokenBalance from '@myetherwallet/eth-token-balance';
 import sortByBalance from '@/helpers/sortByBalance.js';
 import {
   LedgerWallet,
@@ -146,6 +146,7 @@ export default {
       smilopayBalance: '0',
       blockNumber: 0,
       tokens: [],
+      srcTwentyTokens: [],
       receivedTokens: false,
       tokensWithBalance: [],
       pollNetwork: () => {},
@@ -282,22 +283,23 @@ export default {
     async fetchTokens() {
       this.receivedTokens = true;
       let tokens = [];
-      if (this.network.type.chainID === 1 || this.network.type.chainID === 3) {
-        const tb = new TokenBalance(this.web3.currentProvider);
-        try {
-          tokens = await tb.getBalance(this.wallet.getChecksumAddressString());
-        } catch (e) {
-          tokens = this.network.type.tokens.map(token => {
-            token.balance = 'Load';
+      try {
+        tokens = await Promise.all(
+          this.network.type.tokens.map(async token => {
+            token.balance = await this.getTokenBalance(token);
+            token.balance = new BigNumber(token.balance).shiftedBy(
+              token.decimals
+            );
             return token;
-          });
-        }
-      } else {
+          })
+        );
+      } catch (e) {
         tokens = this.network.type.tokens.map(token => {
           token.balance = 'Load';
           return token;
         });
       }
+      this.srcTwentyTokens = tokens;
       return tokens;
     },
     async setNonce() {
@@ -308,6 +310,13 @@ export default {
         nonce: nonce,
         timestamp: +new Date()
       });
+    },
+    getSrcTwentyTokenBalance(symbol) {
+      const token = this.srcTwentyTokens.find(token => token.symbol == symbol);
+      if (token) {
+        return token.balance;
+      }
+      return 0;
     },
     async getTokenBalance(token) {
       const web3 = this.web3;
@@ -339,9 +348,8 @@ export default {
             const denominator = web3.utils
               .toBN(10)
               .pow(web3.utils.toBN(token.decimals));
-            tokenBalance = web3.utils
-              .toBN(res)
-              .div(denominator)
+            tokenBalance = new BigNumber(res)
+              .dividedBy(denominator)
               .toString(10);
           }
           return tokenBalance;
@@ -366,7 +374,6 @@ export default {
           return 0;
         })
         .map(token => {
-          token.address = token.addr;
           const balanceCheck = new BigNumber(token.balance);
           const balance = balanceCheck.isNaN()
             ? token.balance

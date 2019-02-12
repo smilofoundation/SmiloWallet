@@ -15,7 +15,7 @@
     "test": "jest --clearCache && npm run test:unit",
     "lint": "npm run lint:styles && npm run lint:code && npm run lint:md",
     "codecov": "npm run test:unit && codecov",
-    "dev": "vue-cli-service serve --host 0.0.0.0 --public",
+    "dev": "vue-cli-service serve --host 0.0.0.0 --public localhost:8080",
     "lint:code": "vue-cli-service lint",
     "lint:md": "remark . -o -f",
     "lint:styles": "prettier --write 'src/**/*.{scss,css}' && stylelint 'src/**/*.{scss,css}' --fix",

@@ -23,7 +23,9 @@
     display: flex;
     justify-content: center;
     .icon {
-      height: 45px !important;
+      height: 33px !important;
+      margin-left: -3px;
+      margin-bottom: 3px;
     }
   }
 }
