@@ -167,7 +167,7 @@ module.exports = {
   pwa: pwa,
   lintOnSave: process.env.NODE_ENV === 'production' ? 'error' : true,
   integrity: process.env.WEBPACK_INTEGRITY === 'false' ? false : true,
-  chainWebpack: config => {  }, // config.resolve.symlinks(false)
+  chainWebpack: config => {  },
   devServer: {
       disableHostCheck: true
   }
