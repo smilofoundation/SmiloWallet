@@ -1,9 +1,9 @@
 import url from 'url';
-import web3 from 'web3';
+import web3 from '@smilo-platform/web3';
 import MEWProvider from '@/wallets/web3-provider';
 import { MEW_CONNECT } from '@/wallets/bip44/walletTypes';
 import * as unit from 'ethjs-unit';
-import { formatters } from 'web3-core-helpers';
+import { formatters } from '@smilo-platform/web3-core-helpers';
 
 import {
   txIndexes,

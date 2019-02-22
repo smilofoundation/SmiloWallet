@@ -89,7 +89,7 @@
 <script>
 import CustomerSupport from '@/components/CustomerSupport';
 import { Web3Wallet } from '@/wallets/software';
-import Web3 from 'web3';
+import Web3 from '@smilo-platform/web3';
 import { mapGetters } from 'vuex';
 
 export default {

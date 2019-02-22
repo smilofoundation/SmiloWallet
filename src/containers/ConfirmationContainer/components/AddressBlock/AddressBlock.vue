@@ -24,7 +24,8 @@
 
 <script>
 import { isAddress, toChecksumAddress } from '@/helpers/addressUtils';
-import web3 from 'web3';
+import web3 from '@smilo-platform/web3';
+import BigNumber from 'bignumber.js';
 import { mapGetters } from 'vuex';
 export default {
   props: {
@@ -77,7 +78,7 @@ export default {
   },
   methods: {
     converter(num) {
-      return web3.utils.fromWei(num.toString(), 'ether');
+      return web3.utils.fromWei(new BigNumber(num).toFixed(), 'ether');
     }
   }
 };

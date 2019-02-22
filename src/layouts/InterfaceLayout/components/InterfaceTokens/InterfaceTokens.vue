@@ -101,7 +101,7 @@ import store from 'store';
 import { mapGetters } from 'vuex';
 import InterfaceTokensModal from '../InterfaceTokensModal';
 import sortByBalance from '@/helpers/sortByBalance.js';
-import utils from 'web3-utils';
+import utils from '@smilo-platform/web3-utils';
 
 export default {
   components: {

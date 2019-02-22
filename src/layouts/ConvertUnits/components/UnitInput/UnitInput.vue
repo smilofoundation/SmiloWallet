@@ -42,7 +42,7 @@
 import { BigNumber } from 'bignumber.js';
 import { mapGetters } from 'vuex';
 import DropDownUnitSelector from '../DropDownUnitSelector';
-import utils from 'web3-utils';
+import utils from '@smilo-platform/web3-utils';
 
 export default {
   components: {

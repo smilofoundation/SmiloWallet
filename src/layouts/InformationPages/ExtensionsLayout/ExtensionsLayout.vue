@@ -49,23 +49,9 @@ export default {
     return {
       extensions: [
         {
-          image: mewLogo,
-          title: 'MyEtherWallet Chrome',
-          description: 'Use MEW without internet',
-          linkName: 'Download',
-          linkURL: 'https://google.com'
-        },
-        {
           image: metamask,
           title: 'SmiloWallet Chrome',
-          description: 'Use MEW without internet',
-          linkName: 'Download',
-          linkURL: 'https://google.com'
-        },
-        {
-          image: ethereum,
-          title: 'EtherAddressLookup',
-          description: 'Use MEW without internet',
+          description: 'Use SmiloWallet without internet',
           linkName: 'Download',
           linkURL: 'https://google.com'
         }

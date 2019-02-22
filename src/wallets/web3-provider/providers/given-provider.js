@@ -1,4 +1,4 @@
-import { Manager as Web3RequestManager } from 'web3-core-requestmanager';
+import { Manager as Web3RequestManager } from '@smilo-platform/web3-core-requestmanager';
 import MiddleWare from '../middleware';
 import {
   ethSendTransaction,

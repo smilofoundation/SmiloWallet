@@ -4,7 +4,7 @@
 //   toChecksumAddress as toRSKChecksumAddress
 // } from 'rskjs-util';
 // import { RSK, RSKTEST } from '@/networks/types';
-import web3 from 'web3';
+import web3 from '@smilo-platform/web3';
 const isAddress = address => {
   if (!/^(0x)?[0-9a-f]{40}$/i.test(address)) {
     return false;

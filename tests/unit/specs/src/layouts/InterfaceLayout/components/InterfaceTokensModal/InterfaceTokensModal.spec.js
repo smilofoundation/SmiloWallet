@@ -1,7 +1,7 @@
 import Vuex from 'vuex';
 import nodeList from '@/networks';
 import url from 'url';
-import Web3 from 'web3';
+import Web3 from '@smilo-platform/web3';
 import { shallowMount } from '@vue/test-utils';
 import InterfaceTokensModal from '@/layouts/InterfaceLayout/components/InterfaceTokensModal/InterfaceTokensModal.vue';
 import sinon from 'sinon';

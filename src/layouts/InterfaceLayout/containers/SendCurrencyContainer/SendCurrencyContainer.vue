@@ -173,7 +173,7 @@ import EthTx from 'ethereumjs-tx';
 import { Misc } from '@/helpers';
 import BigNumber from 'bignumber.js';
 import ethUnit from 'ethjs-unit';
-import utils from 'web3-utils';
+import utils from '@smilo-platform/web3-utils';
 
 export default {
   components: {

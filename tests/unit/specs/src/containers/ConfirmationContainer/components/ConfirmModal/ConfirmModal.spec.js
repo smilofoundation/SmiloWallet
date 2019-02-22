@@ -5,7 +5,7 @@ import ConfirmModal from '@/containers/ConfirmationContainer/components/ConfirmM
 import VueQrcode from '@xkeshi/vue-qrcode';
 import nodeList from '@/networks';
 import url from 'url';
-import Web3 from 'web3';
+import Web3 from '@smilo-platform/web3';
 import { Tooling } from '@@/helpers';
 
 const AddressBlockStub = {

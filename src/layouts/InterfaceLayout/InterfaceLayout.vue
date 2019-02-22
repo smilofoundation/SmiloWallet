@@ -90,7 +90,7 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import ENS from 'ethereum-ens';
+import ENS from '@smilo-platform/ethereum-ens';
 import WalletPasswordModal from '@/components/WalletPasswordModal';
 import EnterPinNumberModal from '@/components/EnterPinNumberModal';
 import NetworkAndAddressModal from '@/layouts/AccessWalletLayout/components/NetworkAndAddressModal';
@@ -106,7 +106,6 @@ import PrintModal from './components/PrintModal';
 import { Web3Wallet } from '@/wallets/software';
 import * as networkTypes from '@/networks/types';
 import { BigNumber } from 'bignumber.js';
-import * as request from 'request';
 import store from 'store';
 import sortByBalance from '@/helpers/sortByBalance.js';
 import {
@@ -433,26 +432,19 @@ export default {
     },
     getSmiloPayBalance() {
       const web3 = this.web3;
-      request.post(
-        'https://testnet-wallet.smilo.network/api',
-        {
-          json: true,
-          body: {
-            jsonrpc: '2.0',
-            id: 0,
-            method: 'eth_getSmiloPay',
-            params: [this.address.toLowerCase(), 'latest']
-          }
-        },
-        (error, res, body) => {
-          const smiloPayBalance = web3.utils.fromWei(
-            body.result.toString(),
+      web3.eth
+        .getSmiloPay(this.address.toLowerCase())
+        .then(res => {
+          this.smilopayBalance = web3.utils.fromWei(
+            new BigNumber(res).toFixed(),
             'ether'
           );
-          this.smilopayBalance = smiloPayBalance;
-          this.$store.dispatch('setSmiloPayBalance', smiloPayBalance);
-        }
-      );
+          this.$store.dispatch('setSmiloPayBalance', res);
+        })
+        .catch(err => {
+          // eslint-disable-next-line no-console
+          console.error(err);
+        });
     },
     checkWeb3WalletAddrChange() {
       this.pollAddress = setInterval(() => {

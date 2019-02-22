@@ -5,7 +5,7 @@ import EnsBidContainer from '@/dapps/RegisterDomain/containers/EnsBidContainer/E
 import JsonStringModal from '@/dapps/RegisterDomain/components/JsonStringModal/JsonStringModal.vue';
 import nodeList from '@/networks';
 import url from 'url';
-import Web3 from 'web3';
+import Web3 from '@smilo-platform/web3';
 import sinon from 'sinon';
 import { Misc } from '@/helpers';
 

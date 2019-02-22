@@ -5,7 +5,7 @@ import BackButton from '@/layouts/InterfaceLayout/components/BackButton/BackButt
 import Vuex from 'vuex';
 import nodeList from '@/networks';
 import url from 'url';
-import Web3 from 'web3';
+import Web3 from '@smilo-platform/web3';
 
 import { Tooling } from '@@/helpers';
 

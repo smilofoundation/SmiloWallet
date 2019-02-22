@@ -6,7 +6,7 @@ import TxSpeedInput from '@/layouts/InterfaceLayout/containers/SendOfflineContai
 import PopOver from '@/components/PopOver/PopOver.vue';
 import nodeList from '@/networks';
 import url from 'url';
-import Web3 from 'web3';
+import Web3 from '@smilo-platform/web3';
 import { Tooling } from '@@/helpers';
 
 describe('GenerateInfo.vue', () => {

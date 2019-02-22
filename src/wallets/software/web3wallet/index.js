@@ -1,6 +1,6 @@
 import { WEB3_WALLET as web3WalletType } from '../../bip44/walletTypes';
 import WalletInterface from '@/wallets/WalletInterface';
-import Web3 from 'web3';
+import Web3 from '@smilo-platform/web3';
 import { getBufferFromHex } from '../../utils';
 
 class Web3Wallet extends WalletInterface {
