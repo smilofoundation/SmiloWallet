@@ -322,11 +322,7 @@ export default {
         to: this.txTo,
         data: this.txData
       };
-      try {
-        this.gasLimit = await this.web3.eth.estimateGas(params);
-      } catch (error) {
-        console.error('web3.eth.estimateGas error:', error);
-      }
+      this.gasLimit = await this.web3.eth.estimateGas(params);
     },
     async submitTransaction() {
       window.scrollTo(0, 0);

@@ -23,18 +23,17 @@
     "start": "npm run update && npm run dev",
     "test:unit": "vue-cli-service test:unit",
     "update:packages": "node package-test.js",
-    "update:lists": "node fetchEthListData.js",
-    "update": "npm run update:packages && npm run update:lists"
+    "update": "npm run update:packages"
   },
   "gitHooks": {
     "pre-commit": "npm run lint && npm run test"
   },
   "dependencies": {
-    "@vue/babel-helper-vue-jsx-merge-props": "^0.1.0",
-    "ajv": "^6.0.0",
+    "@vue/babel-helper-vue-jsx-merge-props": "0.1.0",
+    "ajv": "6.0.0",
     "html2canvas": "1.0.0-alpha.12",
     "idna-uts46": "1.1.0",
-    "jquery": "^1.9.1",
+    "jquery": "1.9.1",
     "print-js": "1.0.54",
     "register-service-worker": "1.5.2",
     "vee-validate": "2.1.5",
@@ -68,7 +67,7 @@
     "canvas": "1.6.13",
     "codecov": "3.1.0",
     "copy-webpack-plugin": "4.6.0",
-    "eslint": "^5.13.0",
+    "eslint": "5.13.0",
     "eslint-plugin-security": "1.4.0",
     "eth-ens-namehash": "2.0.8",
     "@smilo-platform/ethereum-ens": "0.7.4",
