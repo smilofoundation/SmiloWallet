@@ -21,7 +21,7 @@ describe('InterfaceBalance.vue', () => {
   let localVue, i18n, wrapper, store;
   const balance = '100';
 
-  const network = nodeList['ETH'][3];
+  const network = nodeList['XSMT'][0];
 
   beforeAll(() => {
     const baseSetup = Tooling.createLocalVueInstance();

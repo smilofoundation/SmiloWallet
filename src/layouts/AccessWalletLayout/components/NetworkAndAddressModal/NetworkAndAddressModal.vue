@@ -214,7 +214,7 @@
 import CustomerSupport from '@/components/CustomerSupport';
 import { mapGetters } from 'vuex';
 import Misc from '@/helpers/misc';
-import web3utils from 'web3-utils';
+import web3utils from '@smilo-platform/web3-utils';
 import BigNumber from 'bignumber.js';
 import ethIcon from '@/assets/images/icons/ethereum-icon.png';
 

@@ -1,5 +1,5 @@
 {
-  "title": "Welcome to MEW",
+  "title": "Welcome to SmiloWallet",
   "yourPw": "Your Password",
   "doNotForget": "DO NOT FORGET",
   "doNotForgetDesc": "to save your password. You will need this",
@@ -30,7 +30,7 @@
   "scanToDownload": "Scan to Download",
   "iosVersions": "iOS 9.0 or up",
   "androidVersions": "Android 8.0 or up",
-  "tutorialModalHeader": "Welcome to MEW",
+  "tutorialModalHeader": "Welcome to SmiloWallet",
   "tutorialModalDesc": "Please take a moment to read through this short introduction. It’s very important for your own security that you understand these warnings. Ignoring this step will highly increase the chances of your funds being lost or stolen, in which case we won’t be able to help you. {0} at your own risk.",
   "tutorialModalSkip": "Skip",
   "notARecommendedWay": "This is NOT a recommended way of creating a wallet. This information is sensitive, and these options should only be used in offline settings by experienced crypto users."

@@ -7,7 +7,7 @@ import { Tooling } from '@@/helpers';
 
 import nodeList from '@/networks';
 import url from 'url';
-import Web3 from 'web3';
+import Web3 from '@smilo-platform/web3';
 
 const showModal = sinon.stub();
 
@@ -41,7 +41,7 @@ describe('AlreadyOwnedENSContainer.vue', () => {
         return '0xDECAF9CD2367cdbb726E904cD6397eDFcAe6068D';
       }
     };
-    const network = nodeList['ETH'][3];
+    const network = nodeList['XSMT'][0];
     const hostUrl = url.parse(network.url);
 
     const newWeb3 = new Web3(

@@ -1,3 +1,7 @@
+const smilo = {
+  path: "m/44'/62'/0'/0",
+  label: 'Smilo'
+};
 const ethereum = {
   path: "m/44'/60'/0'/0",
   label: 'Ethereum'
@@ -116,6 +120,7 @@ const keepkeyEthereumClassic = {
   label: 'Ethereum Classic'
 };
 export {
+  smilo,
   ethereum,
   ethereumClassic,
   ledgerEthereum,

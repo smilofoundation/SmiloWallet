@@ -50,7 +50,7 @@ export default {
         */
         {
           img: facebook,
-          to: 'https://www.facebook.com/SmiloPlatform/',
+          to: 'https://www.facebook.com/SmiloPlatform',
           name: 'Facebook'
         },
         {
@@ -65,12 +65,12 @@ export default {
         },
         {
           img: reddit,
-          to: 'https://smiloplatform.reddit.com/',
+          to: 'https://smiloplatform.reddit.com',
           name: 'reddit'
         },
         {
           img: linkedin,
-          to: 'https://www.linkedin.com/company/smilo-platform-bv/',
+          to: 'https://www.linkedin.com/company/smilo-platform-bv',
           name: 'linkedin'
         },
         {

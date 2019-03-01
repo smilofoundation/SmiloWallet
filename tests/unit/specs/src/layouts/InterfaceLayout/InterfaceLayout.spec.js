@@ -7,7 +7,7 @@ import InterfaceNetwork from '@/layouts/InterfaceLayout/components/InterfaceNetw
 import InterfaceAddress from '@/layouts/InterfaceLayout/components/InterfaceAddress/InterfaceAddress.vue';
 import nodeList from '@/networks';
 import url from 'url';
-import Web3 from 'web3';
+import Web3 from '@smilo-platform/web3';
 import { Tooling } from '@@/helpers';
 
 describe('InterfaceLayout.vue', () => {
@@ -27,7 +27,7 @@ describe('InterfaceLayout.vue', () => {
       }
     };
 
-    const network = nodeList['ETH'][3];
+    const network = nodeList['XSMT'][0];
     const hostUrl = url.parse(network.url);
 
     getters = {

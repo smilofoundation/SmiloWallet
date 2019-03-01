@@ -11,6 +11,7 @@
             </div>
             <currency-picker
               :currency="tokensWithBalance"
+              :get-src-twenty-tokens="getSrcTwentyTokens"
               :page="'sendEgasAmountthAndTokens'"
               :token="true"
               @selectedCurrency="selectedCurrency = $event"
@@ -172,7 +173,7 @@ import EthTx from 'ethereumjs-tx';
 import { Misc } from '@/helpers';
 import BigNumber from 'bignumber.js';
 import ethUnit from 'ethjs-unit';
-import utils from 'web3-utils';
+import utils from '@smilo-platform/web3-utils';
 
 export default {
   components: {
@@ -195,6 +196,10 @@ export default {
     highestGas: {
       type: Number,
       default: 0
+    },
+    getSrcTwentyTokens: {
+      type: Function,
+      default: function() {}
     }
   },
   data() {
@@ -217,8 +222,13 @@ export default {
       network: 'network'
     }),
     isValidAmount() {
-      if (this.isToken)
-        return new BigNumber(this.value).lte(this.selectedCurrency.balance);
+      if (this.isToken && this.selectedCurrency.decimals) {
+        const inputValue = new BigNumber(this.value).shiftedBy(
+          this.selectedCurrency.decimals
+        );
+        const tokenValue = this.selectedCurrency.balance;
+        return inputValue.lte(tokenValue);
+      }
       return new BigNumber(this.value).lte(this.balanceDefault);
     },
     balanceDefault() {
@@ -308,6 +318,7 @@ export default {
       const coinbase = await this.web3.eth.getCoinbase();
       const params = {
         from: coinbase,
+        value: this.txValue,
         to: this.txTo,
         data: this.txData
       };
@@ -331,6 +342,11 @@ export default {
         });
         const json = _tx.toJSON(true);
         json.from = coinbase;
+        const sendSymbol = this.network.selectedCurrency.symbol;
+        json.token = {
+          tokenSymbol: sendSymbol,
+          amount: this.value
+        };
         this.web3.eth.sendTransaction(json);
       } catch (e) {
         throw e;
@@ -339,6 +355,9 @@ export default {
     copyToClipboard(ref) {
       this.$refs[ref].select();
       document.execCommand('copy');
+    },
+    getSrcTwentyTokenBalance(symbol) {
+      return this.$parent.getSrcTwentyTokenBalance(symbol);
     }
   }
 };

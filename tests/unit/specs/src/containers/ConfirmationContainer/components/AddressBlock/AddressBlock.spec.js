@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import { shallowMount } from '@vue/test-utils';
 import AddressBlock from '@/containers/ConfirmationContainer/components/AddressBlock/AddressBlock.vue';
-import web3 from 'web3';
+import web3 from '@smilo-platform/web3';
 import { Tooling } from '@@/helpers';
 
 function capitalize(value) {

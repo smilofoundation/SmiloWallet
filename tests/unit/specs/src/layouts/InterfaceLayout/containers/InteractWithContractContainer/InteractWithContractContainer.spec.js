@@ -8,7 +8,7 @@ import CurrencyPicker from '@/layouts/InterfaceLayout/components/CurrencyPicker/
 import PopOver from '@/components/PopOver/PopOver.vue';
 import nodeList from '@/networks';
 import url from 'url';
-import Web3 from 'web3';
+import Web3 from '@smilo-platform/web3';
 
 import { Tooling } from '@@/helpers';
 
@@ -20,8 +20,8 @@ describe('InteractWithContractContainer.vue', () => {
     localVue = baseSetup.localVue;
     i18n = baseSetup.i18n;
     store = baseSetup.store;
-
-    const network = nodeList['ETH'][3];
+    
+    const network = nodeList['XSMT'][0];
     const hostUrl = url.parse(network.url);
 
     const newWeb3 = new Web3(

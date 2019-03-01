@@ -105,6 +105,11 @@ export default {
       this.fetchingBalance = false;
     }
   },
+  mounted() {
+    this.$root.$on('refresh_main_balance', () => {
+      this.getBalance();
+    });
+  },
   methods: {
     balanceModalOpen() {
       this.$refs.balance.$refs.balance.show();

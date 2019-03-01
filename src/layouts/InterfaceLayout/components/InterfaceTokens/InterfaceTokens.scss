@@ -59,6 +59,10 @@
     }
   }
 
+  .src-20-token-td img {
+    height: 25px;
+  }
+
   .token-table-container {
     background-color: $background-color-white;
     height: auto;
@@ -77,14 +81,22 @@
 
       tr {
         td {
-          padding: 6px 0;
+          padding-top: 8px;
         }
 
         .load-token {
           cursor: pointer;
         }
 
+        td:nth-child(1) {
+          width: 25px;
+        }
+
         td:nth-child(2) {
+          padding-left: 16px;
+        }
+
+        td:nth-child(3) {
           text-align: right;
         }
       }

@@ -68,7 +68,7 @@ import SuccessModal from './components/SuccessModal';
 import ErrorModal from './components/ErrorModal';
 import ConfirmSignModal from './components/ConfirmSignModal';
 import { mapGetters } from 'vuex';
-import Web3PromiEvent from 'web3-core-promievent';
+import Web3PromiEvent from '@smilo-platform/web3-core-promievent';
 import { type as noticeTypes } from '@/helpers/notificationFormatters';
 import { WEB3_WALLET, KEEPKEY } from '@/wallets/bip44/walletTypes';
 export default {
@@ -128,11 +128,17 @@ export default {
     ...mapGetters({
       gasPrice: 'gasPrice',
       wallet: 'wallet',
+      selectedCurrency: 'selectedCurrency',
       web3: 'web3'
     }),
     fromAddress() {
       if (this.wallet) {
         return this.wallet.getChecksumAddressString();
+      }
+    },
+    selectedCurrency() {
+      if (this.selectedCurrency) {
+        return this.selectedCurrency;
       }
     }
   },

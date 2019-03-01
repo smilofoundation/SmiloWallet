@@ -9,7 +9,6 @@
   color: $text-white;
   display: flex;
   height: 100%;
-  //min-width: 360px;
   padding: 25px;
   position: relative;
   align-items: center;
@@ -32,11 +31,17 @@
     font-weight: 300;
   }
 
+  .balance-text-container {
+    p {
+      overflow: hidden;
+    }
+  }
+
   p {
     color: $text-white;
     font-weight: 300;
-    overflow: hidden;
     word-wrap: break-word;
+    white-space: nowrap;
   }
 
   .block-image {
@@ -88,5 +93,11 @@
     background: none;
     border: 0;
     padding: 0;
+  }
+}
+
+.address {
+  p {
+    white-space: inherit;
   }
 }

@@ -4,7 +4,7 @@
     <div class="info-block network">
       <div class="block-image network-type">
         <div class="icon-block">
-          <img :src="network.type.icon" class="icon" />
+          <img :src="network.type.icon_network" class="icon" />
         </div>
       </div>
       <div class="block-content">

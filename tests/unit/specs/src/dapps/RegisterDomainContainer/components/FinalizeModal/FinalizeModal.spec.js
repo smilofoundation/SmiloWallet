@@ -5,7 +5,7 @@ import { Tooling } from '@@/helpers';
 
 import nodeList from '@/networks';
 import url from 'url';
-import Web3 from 'web3';
+import Web3 from '@smilo-platform/web3';
 import sinon from 'sinon';
 
 const hideModal = sinon.stub();
@@ -27,7 +27,7 @@ describe('FinalizeModal.vue', () => {
     localVue = baseSetup.localVue;
     i18n = baseSetup.i18n;
     store = baseSetup.store;
-    const network = nodeList['ETH'][3];
+    const network = nodeList['XSMT'][0];
     const hostUrl = url.parse(network.url);
 
     const newWeb3 = new Web3(

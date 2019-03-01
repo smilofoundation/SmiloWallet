@@ -10,10 +10,10 @@ module.exports = {
   moduleFileExtensions: ['js', 'jsx', 'json', 'vue', 'node', 'svg'],
   reporters: ['default', 'jest-skipped-reporter'],
   transform: {
-    '^.+\\.vue$': 'vue-jest',
+    '^.+\\.vue$': '<rootDir>/node_modules/vue-jest',
     '.+\\.(css|styl|less|sass|scss|svg|png|jpg|ttf|woff|woff2)$':
       'jest-transform-stub',
-    '^.+\\.jsx?$': 'babel-jest'
+    '^.+\\.jsx?$': '<rootDir>/node_modules/babel-jest'
   },
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/src/$1',

@@ -16,7 +16,7 @@
         </li>
         <li>
           <p>{{ $t('header.amount') }}:</p>
-          <p>{{ convertToEth(details.amount) }} XSM</p>
+          <p>{{ details.token.amount }} {{ details.token.tokenSymbol }}</p>
         </li>
         <li>
           <p>{{ $t('common.toAddress') }}:</p>
@@ -36,19 +36,11 @@
         </li>
         <li v-if="notice.body.gasUsed">
           <p>{{ $t('common.txFee') }}:</p>
-          <p>
-            {{ convertToEth(details.gasPrice * details.gasUsed) }} XSP (${{
-              getFiatValue(details.gasPrice * details.gasUsed)
-            }})
-          </p>
+          <p>{{ convertToEth(details.gasPrice * details.gasUsed) }} XSP</p>
         </li>
         <li>
           <p>{{ $t('header.maxTxFee') }}:</p>
-          <p>
-            {{ convertToEth(details.gasPrice * details.gasLimit) }} XSP (${{
-              getFiatValue(details.gasPrice * details.gasLimit)
-            }})
-          </p>
+          <p>{{ convertToEth(details.gasPrice * details.gasLimit) }} XSP</p>
         </li>
         <li>
           <p>{{ $t('header.nonce') }}:</p>

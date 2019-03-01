@@ -2,7 +2,7 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import nodeList from '@/networks';
 import url from 'url';
-import Web3 from 'web3';
+import Web3 from '@smilo-platform/web3';
 import { shallowMount } from '@vue/test-utils';
 import InterfaceNetwork from '@/layouts/InterfaceLayout/components/InterfaceNetwork/InterfaceNetwork.vue';
 import InterfaceNetworkModal from '@/layouts/InterfaceLayout/components/InterfaceNetworkModal/InterfaceNetworkModal.vue';
@@ -31,7 +31,7 @@ describe('InterfaceNetwork.vue', () => {
     i18n = baseSetup.i18n;
     store = baseSetup.store;
 
-    const network = nodeList['ETH'][3];
+    const network = nodeList['XSMT'][0];
     const hostUrl = url.parse(network.url);
 
     const wallet = {

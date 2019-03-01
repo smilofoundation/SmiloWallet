@@ -29,7 +29,7 @@
   "whatIsMewConnectTitle": "What is SMILOconnect?",
   "whatIsMewConnectDesc": "SMILOconnect is our companion mobile app for SmiloWallet. We call it a hardware wallet without all the hardware. Now available for all Android and iOS smartphones!",
   "workingWOtherWalletsTitle": "Can SmiloWallet work with other wallets?",
-  "workingWOtherWalletsDesc": "SmiloWallet supports many different wallet types including hardware wallets, such as the Ledger Nano S or Trezor, and third-party wallets like MetaMask. We are also open for anyone to use their Smilo wallets with the appropriate information.",
+  "workingWOtherWalletsDesc": "SmiloWallet supports many different wallet types including hardware wallets, such as the Ledger Nano S or Trezor, and wallets like SmiloWallet-extension. We are also open for anyone to use their Smilo wallets with the appropriate information.",
   "howToSendTxTitle": "How can I send a transaction?",
   "howToSendTxDesc": "SmiloWallet lets anyone with a balance of XSM send a transaction, without additional charges.",
   "forgotPasswordPrivKeyTitle": "I forgot my password/private key! What can I do?",

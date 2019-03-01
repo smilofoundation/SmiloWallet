@@ -1,6 +1,6 @@
 import debugLogger from 'debug';
 import BigNumber from 'bignumber.js';
-import ENS from 'ethereum-ens';
+import ENS from '@smilo-platform/ethereum-ens';
 import { utils } from '../helpers';
 import { networkSymbols } from '../partnersConfig';
 import kyberApi from './kyber-api';

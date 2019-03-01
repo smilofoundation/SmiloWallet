@@ -199,7 +199,7 @@ export default {
       ],
       links: [
         {
-          to: 'https://www.facebook.com/SmiloPlatform/',
+          to: 'https://www.facebook.com/SmiloPlatform',
           class: 'fa-facebook'
         },
         {
@@ -207,7 +207,7 @@ export default {
           class: 'fa-twitter'
         },
         {
-          to: 'https://www.linkedin.com/company/smilo-platform-bv/',
+          to: 'https://www.linkedin.com/company/smilo-platform-bv',
           class: 'fa-linkedin'
         },
         {

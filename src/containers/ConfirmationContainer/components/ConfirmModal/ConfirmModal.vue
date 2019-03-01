@@ -12,6 +12,7 @@
           <address-block
             :address="from"
             :value="value"
+            :currency="currency"
             :token-transfer-val="tokenTransferVal"
             :token-symbol="tokenSymbol"
             direction="from"
@@ -61,7 +62,7 @@
               </div>
               <div class="grid-block">
                 <p>{{ $t('common.txFee') }}</p>
-                <p>{{ fee }} {{ network.type.name }}</p>
+                <p>{{ fee }} XSP</p>
               </div>
               <div class="grid-block">
                 <p>Nonce</p>
@@ -147,6 +148,10 @@ export default {
     nonce: {
       type: Number,
       default: 0
+    },
+    currency: {
+      type: String,
+      default: ''
     },
     to: {
       type: String,

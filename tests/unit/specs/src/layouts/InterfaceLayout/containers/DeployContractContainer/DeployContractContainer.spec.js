@@ -11,7 +11,7 @@ import PopOver from '@/components/PopOver/PopOver.vue';
 import BackButton from '@/layouts/InterfaceLayout/components/BackButton/BackButton.vue';
 import nodeList from '@/networks';
 import url from 'url';
-import Web3 from 'web3';
+import Web3 from '@smilo-platform/web3';
 // import sinon from 'sinon';
 
 import { Tooling } from '@@/helpers';
@@ -32,7 +32,7 @@ describe('[Needs Cleaned Up 1-16-19] InteractWithContractContainer.vue', () => {
       setGasPrice: jest.fn()
     };
 
-    const network = nodeList['ETH'][3];
+    const network = nodeList['XSMT'][0];
     const hostUrl = url.parse(network.url);
 
     const newWeb3 = new Web3(

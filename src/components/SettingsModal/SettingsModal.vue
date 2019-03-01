@@ -136,7 +136,7 @@
 <script>
 import FullWidthDropdownMenu from '@/components/FullWidthDropdownMenu';
 import BigNumber from 'bignumber.js';
-import utils from 'web3-utils';
+import utils from '@smilo-platform/web3-utils';
 import store from 'store';
 
 export default {

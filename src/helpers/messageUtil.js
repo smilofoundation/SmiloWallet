@@ -1,4 +1,4 @@
-import web3 from 'web3';
+import web3 from '@smilo-platform/web3';
 const secp256k1 = require('secp256k1');
 const assert = require('assert');
 const createKeccakHash = require('keccak');

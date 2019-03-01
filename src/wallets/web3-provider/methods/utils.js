@@ -1,4 +1,4 @@
-import { formatters } from 'web3-core-helpers';
+import { formatters } from '@smilo-platform/web3-core-helpers';
 const getSanitizedTx = tx => {
   return new Promise((resolve, reject) => {
     if (!tx.gas && !tx.gasLimit && !tx.chainId)

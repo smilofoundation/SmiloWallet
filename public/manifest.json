@@ -1,6 +1,6 @@
 {
-  "name": "MyEtherWallet",
-  "short_name": "MEW WEB",
+  "name": "SmiloWallet",
+  "short_name": "Smilo",
   "icons": [
     {
       "src": "./img/icons/android-chrome-192x192.png",
