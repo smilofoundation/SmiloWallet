@@ -2,7 +2,8 @@
   <div ref="identicon" class="address-identicon" />
 </template>
 <script>
-import { Blockies } from '@/helpers';
+// import { Blockies } from '@/helpers';
+import * as SmiloDenticon from '@smilo-platform/smiloicon';
 export default {
   props: {
     address: {
@@ -24,6 +25,10 @@ export default {
     scale: {
       type: Number,
       default: 16
+    },
+    diameter: {
+      type: Number,
+      default: 80
     }
   },
   data() {
@@ -51,14 +56,19 @@ export default {
   },
   methods: {
     setBlockie() {
-      const data = Blockies({
-        seed: this.address.toLowerCase(),
-        size: this.size,
-        scale: this.scale
-      }).toDataURL();
+      const data = SmiloDenticon(
+        this.diameter,
+        this.jsNumberForAddress(this.address.toLowerCase())
+      );
       this.$refs.identicon.style.width = this.width;
       this.$refs.identicon.style.height = this.height;
-      this.$refs.identicon.style.backgroundImage = `url('${data}')`;
+      this.$refs.identicon.innerHTML = '';
+      this.$refs.identicon.appendChild(data);
+    },
+    jsNumberForAddress(address) {
+      const addr = address.slice(2, 10);
+      const seed = parseInt(addr, 16);
+      return seed;
     }
   }
 };

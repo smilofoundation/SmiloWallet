@@ -38,7 +38,7 @@
                     </label>
                   </div>
                   <p>
-                    {{ gasPriceInputs[key].eth }} ETH
+                    {{ gasPriceInputs[key].eth }} XSM
                     <span v-if="ethPrice !== 0"
                       >($
                       {{ convert(gasPriceInputs[key].eth) | concatAddr }})</span
@@ -64,7 +64,7 @@
                     <p class="gwei">Gwei</p>
                   </div>
                   <p>
-                    {{ customGasEth }} ETH
+                    {{ customGasEth }} XSM
                     <span v-if="ethPrice !== 0 && customGasEth !== 0"
                       >($ {{ convert(customGasEth) | concatAddr }})</span
                     >

@@ -212,6 +212,7 @@
                     <div class="settings-container">
                       <blockie
                         :address="wallet.getAddressString()"
+                        :diameter="35"
                         width="35px"
                         height="35px"
                       />

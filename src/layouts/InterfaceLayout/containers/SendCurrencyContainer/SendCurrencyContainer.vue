@@ -61,6 +61,7 @@
                 :address="hexAddress"
                 :size="8"
                 :scale="16"
+                :diameter="32"
                 width="32px"
                 height="32px"
                 class="blockie-image"

@@ -30,11 +30,7 @@
         </li>
         <li>
           <p>{{ $t('common.txFee') }}:</p>
-          <p>
-            {{ details.gasLimit }} WEI (${{
-              getFiatValue(details.gasPrice * details.gasUsed)
-            }})
-          </p>
+          <p>{{ details.gasLimit }} WEI</p>
         </li>
         <li v-if="notice.hash">
           <p>{{ $t('header.transactionHash') }}:</p>

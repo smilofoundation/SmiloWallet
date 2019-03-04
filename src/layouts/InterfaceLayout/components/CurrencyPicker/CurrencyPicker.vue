@@ -94,7 +94,8 @@ export default {
       return {
         name: this.network.type.name_long,
         symbol: this.network.type.name,
-        isToken: false
+        isToken: false,
+        decimals: 18
       };
     }
   },
@@ -125,6 +126,7 @@ export default {
     }
   },
   mounted() {
+    this.localCurrency = [];
     this.localCurrency =
       this.token === true
         ? [this.networkToken]
@@ -142,9 +144,6 @@ export default {
         isToken: true,
         decimals: this.network.type.tokens[i].decimals
       });
-    }
-    if (this.currency) {
-      this.currency.forEach(curr => this.localCurrency.push(curr));
     }
     this.chooseCurrency(0);
   },

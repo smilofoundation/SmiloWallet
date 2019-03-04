@@ -129,7 +129,8 @@ export default {
       gasPrice: 'gasPrice',
       wallet: 'wallet',
       selectedCurrency: 'selectedCurrency',
-      web3: 'web3'
+      web3: 'web3',
+      network: 'network'
     }),
     fromAddress() {
       if (this.wallet) {
@@ -179,13 +180,14 @@ export default {
       this.isHardwareWallet = this.wallet.isHardware;
       this.responseFunction = resolve;
       this.successMessage = 'Sending Transaction';
+
       this.signedTxObject = {
         rawTransaction: tx,
         tx: {
           to: `0x${newTx.to.toString('hex')}`,
           from: `0x${newTx.from.toString('hex')}`,
           value: `0x${newTx.value.toString('hex')}`,
-          gas: `0x${newTx.gasPrice.toString('hex')}`,
+          gas: `0x${newTx.gasLimit.toString('hex')}`,
           gasLimit: `0x${newTx.gasLimit.toString('hex')}`,
           data: `0x${newTx.data.toString('hex')}`,
           nonce: `0x${newTx.nonce.toString('hex')}`,
@@ -319,6 +321,9 @@ export default {
       this.gasLimit = new BigNumber(tx.gas).toNumber();
       this.toAddress = tx.to;
       this.amount = tx.value === '0x' ? 0 : new BigNumber(tx.value).toNumber();
+      if (!tx.gasPrice) {
+        tx.gasPrice = '0x98bca5a00';
+      }
       this.transactionFee = Number(
         unit.fromWei(
           new BigNumber(tx.gas).times(tx.gasPrice).toString(),
@@ -418,6 +423,18 @@ export default {
     },
     sendTx() {
       this.dismissed = false;
+      const sendSymbol = this.network.selectedCurrency.symbol;
+      let inputValue = 0;
+      if (this.signedTxObject.tx.value !== '0x') {
+        const parsedValue = parseInt(this.signedTxObject.tx.value, 16);
+        inputValue = new BigNumber(parsedValue)
+          .shiftedBy(-this.network.selectedCurrency.decimals)
+          .toFixed();
+      }
+      this.signedTxObject.tx.token = {
+        tokenSymbol: sendSymbol,
+        amount: inputValue
+      };
       this.responseFunction(this.signedTxObject);
       this.$refs.confirmModal.$refs.confirmation.hide();
       if (this.raw.generateOnly) return;

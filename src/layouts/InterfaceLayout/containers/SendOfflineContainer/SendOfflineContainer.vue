@@ -99,6 +99,9 @@ export default {
     },
     processChange(name) {
       this.$router.push({ name: name });
+    },
+    getSrcTwentyTokenBalance(symbol) {
+      return this.$parent.getSrcTwentyTokenBalance(symbol);
     }
   }
 };

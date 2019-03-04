@@ -17,6 +17,7 @@
               <div class="from-address">
                 <blockie
                   :address="wallet.getChecksumAddressString()"
+                  :diameter="30"
                   width="30px"
                   height="30px"
                 />

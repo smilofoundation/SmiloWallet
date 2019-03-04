@@ -23,7 +23,12 @@
         />
         <div v-if="!validAddress" class="blockie-place-holder-image" />
         <div v-if="validAddress" class="selected-address-blockie">
-          <blockie :address="selectedAddress" width="30px" height="30px" />
+          <blockie
+            :address="selectedAddress"
+            :diameter="30"
+            width="30px"
+            height="30px"
+          />
           <img class="currency-icon" src="@/assets/images/currency/eth.svg" />
         </div>
         <div class="dropdown-open-button" @click="dropdownOpen = !dropdownOpen">
@@ -43,7 +48,12 @@
             @click="listedAddressClick(addr.address)"
           >
             <div class="list-blockie">
-              <blockie :address="addr.address" width="30px" height="30px" />
+              <blockie
+                :address="addr.address"
+                :diameter="30"
+                width="30px"
+                height="30px"
+              />
               <img
                 class="currency-icon"
                 src="@/assets/images/currency/eth.svg"
