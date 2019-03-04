@@ -15,6 +15,7 @@
               <div>
                 <blockie
                   :address="address"
+                  :diameter="50"
                   class="blockie"
                   width="50px"
                   height="50px"
@@ -88,7 +89,12 @@
         </div>
         <div class="bottom-container">
           <div class="header-container">
-            <blockie :address="address" width="55px" height="55px" />
+            <blockie
+              :address="address"
+              :diameter="55"
+              width="55px"
+              height="55px"
+            />
             <div class="header-content">
               <h3>{{ myAddress }}</h3>
               <p>{{ subheader }}</p>

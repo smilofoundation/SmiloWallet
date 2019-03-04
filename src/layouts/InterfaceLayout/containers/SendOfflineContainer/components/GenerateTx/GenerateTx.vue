@@ -10,6 +10,7 @@
               </div>
               <currency-picker
                 :currency="tokens"
+                :get-src-twenty-tokens="getSrcTwentyTokens"
                 :token="true"
                 page="sendOfflineGenTx"
                 @selectedCurrency="setSelectedCurrency"
@@ -36,6 +37,7 @@
               <blockie
                 v-show="address !== '' && validAddress"
                 :address="address"
+                :diameter="32"
                 class="blockie-image-icon"
                 width="32px"
                 height="32px"
@@ -192,6 +194,10 @@ export default {
     highestGas: {
       type: Number,
       default: 0
+    },
+    getSrcTwentyTokens: {
+      type: Function,
+      default: function() {}
     }
   },
   data() {
@@ -334,6 +340,9 @@ export default {
     },
     setSelectedCurrency(e) {
       this.selectedCoinType = e;
+    },
+    getSrcTwentyTokenBalance(symbol) {
+      return this.$parent.getSrcTwentyTokenBalance(symbol);
     }
   }
 };

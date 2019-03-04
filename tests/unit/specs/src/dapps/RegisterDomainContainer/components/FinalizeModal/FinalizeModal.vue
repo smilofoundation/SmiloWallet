@@ -48,7 +48,6 @@ export default {
   },
   methods: {
     close() {
-      //console.log(this.refs);
       //this.refs.finalize.hide();
     }
   }

@@ -6,6 +6,7 @@
           :address="address"
           :size="8"
           :scale="16"
+          :diameter="52"
           width="64px"
           height="64px"
           class="blockie-image"

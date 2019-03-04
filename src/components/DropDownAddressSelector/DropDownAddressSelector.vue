@@ -34,6 +34,7 @@
           :address="selectedAddress"
           :size="8"
           :scale="16"
+          :diameter="30"
           width="30px"
           height="30px"
         />
