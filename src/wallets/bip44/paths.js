@@ -1,5 +1,5 @@
 const smilo = {
-  path: "m/44'/1991'/0'/0",
+  path: "m/44'/20080914'/0'/0",
   label: 'Smilo'
 };
 const ethereum = {
