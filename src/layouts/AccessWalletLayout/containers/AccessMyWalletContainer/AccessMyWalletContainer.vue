@@ -5,7 +5,7 @@
       :network-and-address-open="networkAndAddressOpen"
     />
 
-    <hardware-modal
+    <!-- <hardware-modal
       ref="hardwareModal"
       :network-and-address-open="networkAndAddressOpen"
       @hardwareRequiresPassword="hardwarePasswordModalOpen"
@@ -17,7 +17,7 @@
       :wallet-constructor="walletConstructor"
       :hardware-brand="hardwareBrand"
       @hardwareWalletOpen="hardwareWalletOpen"
-    />
+    /> -->
 
     <network-and-address-modal
       ref="networkandaddressModal"
@@ -98,11 +98,11 @@ import MnemonicModal from '../../components/MnemonicModal';
 import WalletPasswordModal from '@/components/WalletPasswordModal';
 import EnterPinNumberModal from '@/components/EnterPinNumberModal';
 
-import hardwareImg from '@/assets/images/icons/button-hardware.svg';
+// import hardwareImg from '@/assets/images/icons/button-hardware.svg';
 import metamaskImg from '@/assets/images/icons/smilowallet-extension-sw.svg';
 import softwareImg from '@/assets/images/icons/button-software.svg';
 
-import hardwareDisabledImg from '@/assets/images/icons/hardware-disable.svg';
+// import hardwareDisabledImg from '@/assets/images/icons/hardware-disable.svg';
 import metamaskDisabledImg from '@/assets/images/icons/smilowallet-disable.svg';
 
 import { mapGetters } from 'vuex';
@@ -142,16 +142,16 @@ export default {
         //   disabled: !this.online,
         //   classname: 'button-mewconnect'
         // },
-        {
-          func: this.hardwareModalOpen,
-          title: this.$t('common.hardware'),
-          desc: 'Ledger wallet, Trezor, Digital bitbox, Secalot, Keepkey',
-          recommend: '',
-          tooltip: this.$t('common.toolTip3'),
-          img: !this.online ? hardwareImg : hardwareDisabledImg,
-          disabled: !this.online,
-          classname: 'button-hardware'
-        },
+        // {
+        //   func: this.hardwareModalOpen,
+        //   title: this.$t('common.hardware'),
+        //   desc: 'Ledger wallet, Trezor, Digital bitbox, Secalot, Keepkey',
+        //   recommend: '',
+        //   tooltip: this.$t('common.toolTip3'),
+        //   img: !this.online ? hardwareImg : hardwareDisabledImg,
+        //   disabled: !this.online,
+        //   classname: 'button-hardware'
+        // },
         {
           func: this.metamaskModalOpen,
           title: 'Smilo Wallet Extension',
