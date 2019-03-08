@@ -65,9 +65,10 @@
         </label>
       </div>
       <div class="button-container">
+        <p v-show="!refreshPage && isChrome">Coming soon...</p>
         <a
-          v-show="!refreshPage"
-          href="https://metamask.io/"
+          v-show="!refreshPage && !isChrome"
+          href="https://addons.mozilla.org/en-US/firefox/addon/smilo-browser-extension/"
           target="_blank"
           rel="noopener noreferrer"
           class="mid-round-button-green-filled close-button"
@@ -113,7 +114,13 @@ export default {
   computed: {
     ...mapGetters({
       path: 'path'
-    })
+    }),
+    isChrome: function() {
+      return (
+        /Chrome/.test(navigator.userAgent) &&
+        /Google Inc/.test(navigator.vendor)
+      );
+    }
   },
   mounted() {
     this.web3WalletExists = this.checkWeb3();
