@@ -9,7 +9,7 @@ export default {
   homePage: 'https://smilo.io',
   blockExplorerTX: 'https://explorer.smilo.network/tx/[[txHash]]',
   blockExplorerAddr: 'https://explorer.smilo.network/addr/[[address]]',
-  chainID: 10,
+  chainID: 20080914,
   tokens: tokens,
   contracts: contracts,
   ensResolver: '0x314159265dd8dbb310642f98f50c066173c1259b',
