@@ -13,10 +13,13 @@
             <span>{{ $t('interface.network') }}</span>
             {{ network.type.name }} by {{ network.service }}
           </p>
-          <div><div class="line" /></div>
+          <div>
+            <div class="line" />
+          </div>
           <p>
-            <span>{{ $t('confirmation.txTotal') }}:</span> {{ txTotal }}
-            {{ network.type.name }}
+            <span>{{ $t('confirmation.txTotal') }}:</span>
+            {{ txTotal }}
+            {{ network.type.currencyName }}
           </p>
         </div>
         <div class="modal-content-body">
@@ -27,19 +30,17 @@
           >
             <div v-b-toggle.prevent="`accordion${idx}`" class="header">
               <div class="header-item">
-                <img
-                  :src="
-                    require(`@/assets/images/currency/${network.type.name.toLowerCase()}.svg`)
-                  "
-                />
+                <img :src="network.type.icon ? network.type.icon : ''" />
                 <div>
                   <p>
                     - {{ web3.utils.hexToNumberString(item.value) }}
-                    <span>{{ network.type.name }}</span>
+                    <span>
+                      {{ network.type.currencyName }}
+                    </span>
                   </p>
                   <div>
                     <span>{{ $t('common.from') }}</span>
-                    {{ wallet.getChecksumAddressString() | concatAddr }}
+                    {{ account.address | concatAddr }}
                   </div>
                 </div>
               </div>
@@ -50,15 +51,13 @@
                 <img src="~@/assets/images/icons/right-arrow.svg" />
               </div>
               <div class="header-item">
-                <img
-                  :src="
-                    require(`@/assets/images/currency/${network.type.name.toLowerCase()}.svg`)
-                  "
-                />
+                <img :src="network.type.icon ? network.type.icon : ''" />
                 <div>
                   <p>
                     + {{ web3.utils.hexToNumberString(item.value) }}
-                    <span>{{ network.type.name }}</span>
+                    <span>
+                      {{ network.type.currencyName }}
+                    </span>
                   </p>
                   <div>
                     <span>{{ $t('common.to') }}</span>
@@ -79,11 +78,7 @@
               <div class="body-item">
                 <span class="item-title">{{ $t('common.gasPrice') }}</span>
                 <span>
-                  {{
-                    web3.utils.hexToNumberString(
-                      web3.utils.fromWei(item.gasPrice, 'gwei')
-                    )
-                  }}
+                  {{ web3.utils.fromWei(item.gasPrice, 'gwei') }}
                   Gwei
                 </span>
               </div>
@@ -148,7 +143,7 @@
 </template>
 <script>
 import AddressBlock from '../AddressBlock';
-import { mapGetters } from 'vuex';
+import { mapState } from 'vuex';
 
 export default {
   components: {
@@ -177,11 +172,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters({
-      web3: 'web3',
-      network: 'network',
-      wallet: 'wallet'
-    }),
+    ...mapState(['web3', 'network', 'account']),
     buttonText() {
       if (!this.allSigned && this.isHardwareWallet) {
         return this.$t('confirmation.approveOnDevice');

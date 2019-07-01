@@ -155,7 +155,11 @@
                   US information systems and infrastructure.
                 </p>
                 <div class="link-block">
-                  <a href="https:/www.smilowallet.io" target="_blank">
+                  <a
+                    rel="noopener noreferrer"
+                    href="https:/kb.smilowallet.io"
+                    target="_blank"
+                  >
                     >Learn more</a
                   >
                 </div>

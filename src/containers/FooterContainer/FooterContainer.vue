@@ -27,15 +27,26 @@
                   :key="content.text + index"
                   class="content"
                 >
-                  <router-link v-if="content.to !== undefined" :to="content.to"
-                    ><p>{{ content.text }}</p></router-link
+                  <div v-if="content.text === $t('common.customerSupport')">
+                    <customer-support :no-icon="true" />
+                  </div>
+                  <router-link
+                    v-else-if="content.to !== undefined"
+                    :to="content.to"
                   >
+                    <p>{{ content.text }}</p>
+                  </router-link>
                   <a
-                    v-if="content.to === undefined"
+                    v-else-if="content.to === undefined"
                     :href="content.href"
                     target="_blank"
-                    ><p>{{ content.text }}</p></a
+                    rel="noopener noreferrer"
                   >
+                    <p v-if="item.class === 'e2'">
+                      {{ $t(`${content.text}`) }}
+                    </p>
+                    <p v-else>{{ content.text }}</p>
+                  </a>
                 </div>
               </div>
             </div>
@@ -98,10 +109,10 @@
             <p>
               {{ $t('footer.pricingP') }}
               <a
-                href="https://coinmarketcap.com/"
+                href="https://coingecko.com/"
                 target="_blank"
                 rel="noopener noreferrer"
-                >CoinMarketCap</a
+                >CoinGecko</a
               >
               <br />
             </p>
@@ -124,13 +135,16 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapState } from 'vuex';
 import FeedbackModal from '@/components/FeedbackModal';
+import CustomerSupport from '@/components/CustomerSupport';
+import affiliates from './affiliates.js';
 const version = VERSION;
 
 export default {
   components: {
-    'feedback-modal': FeedbackModal
+    'feedback-modal': FeedbackModal,
+    'customer-support': CustomerSupport
   },
   data() {
     return {
@@ -185,6 +199,10 @@ export default {
               to: '/#faqs'
             },
             {
+              text: this.$t('common.vintage'),
+              href: 'https://vintage.myetherwallet.com'
+            },
+            {
               text: this.$t('common.customerSupport'),
               href: 'mailto:info@smilo.io'
             }
@@ -226,9 +244,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters({
-      ethDonationAddress: 'ethDonationAddress'
-    })
+    ...mapState(['ethDonationAddress'])
   },
   methods: {
     openFeedbackModal() {

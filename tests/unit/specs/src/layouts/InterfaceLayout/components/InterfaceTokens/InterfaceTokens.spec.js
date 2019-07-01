@@ -1,5 +1,4 @@
 import Vue from 'vue';
-import VueX from 'vuex';
 import sinon from 'sinon';
 import { shallowMount } from '@vue/test-utils';
 import InterfaceTokens from '@/layouts/InterfaceLayout/components/InterfaceTokens/InterfaceTokens.vue';
@@ -39,15 +38,8 @@ describe('InterfaceTokens.vue', () => {
     i18n = baseSetup.i18n;
     store = baseSetup.store;
 
-    const getters = {
-      network: () => []
-    };
-
-    store = new VueX.Store({
-      getters
-    });
-
     Vue.config.warnHandler = () => {};
+    Vue.config.errorHandler = () => {};
   });
 
   beforeEach(() => {

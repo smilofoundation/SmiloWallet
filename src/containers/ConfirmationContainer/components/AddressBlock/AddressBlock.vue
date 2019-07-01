@@ -1,32 +1,33 @@
 <template lang="html">
   <div class="address-container">
     <div class="currency-container">
-      <img
-        v-if="lowerCaseSelectedCurrency"
-        :src="
-          require(`@/assets/images/currency/${lowerCaseSelectedCurrency}.svg`)
-        "
-      />
+      <div class="icon-matcher">
+        <img :src="iconFetcher" />
+      </div>
       <p>
         <span class="currency-amt">
           {{ direction === 'from' ? '-' : '+' }}
           {{ tokenTransferVal !== '' ? tokenTransferVal : converter(value) }}
         </span>
-        <span class="currency-type">{{ selectedCurrency }}</span>
+        <span class="currency-type"
+          >{{ tokenSymbol !== '' ? tokenSymbol : currency.toUpperCase() }}
+        </span>
       </p>
     </div>
     <div class="identicon-container">
       <p>{{ direction | capitalize }} Address</p>
     </div>
     <div class="address">{{ checksumAddress }}</div>
+    <div v-if="tokenSymbol !== '' && direction === 'to'">
+      <p>Via contract</p>
+      <div class="address">{{ tokenChecksumAddress }}</div>
+    </div>
   </div>
 </template>
 
 <script>
 import { isAddress, toChecksumAddress } from '@/helpers/addressUtils';
-import web3 from '@smilo-platform/web3';
-import BigNumber from 'bignumber.js';
-import { mapGetters } from 'vuex';
+import web3 from 'web3';
 export default {
   props: {
     address: {
@@ -38,8 +39,12 @@ export default {
       default: ''
     },
     value: {
-      type: Number,
-      default: 0
+      type: String,
+      default: ''
+    },
+    currency: {
+      type: String,
+      default: 'eth'
     },
     tokenTransferTo: {
       type: String,
@@ -48,37 +53,44 @@ export default {
     tokenTransferVal: {
       type: String,
       default: ''
+    },
+    tokenSymbol: {
+      type: String,
+      default: ''
+    },
+    icon: {
+      type: String,
+      default: ''
     }
   },
-  data() {
-    return {
-      selectedCurrency: []
-    };
-  },
   computed: {
-    ...mapGetters({
-      network: 'network'
-    }),
-    lowerCaseSelectedCurrency() {
-      if (typeof this.selectedCurrency == 'string') {
-        return this.selectedCurrency.toLowerCase();
+    iconFetcher() {
+      let icon;
+      try {
+        // eslint-disable-next-line
+        icon = require(`@/assets/images/currency/${lowerCaseCurrency}.svg`);
+      } catch (e) {
+        icon = this.icon;
       }
+      return icon;
+    },
+    lowerCaseCurrency() {
+      return this.tokenSymbol.toLowerCase();
     },
     checksumAddress() {
-      if (isAddress(this.tokenTransferTo))
-        return toChecksumAddress(this.tokenTransferTo);
+      if (isAddress(this.tokenTransferTo.toLowerCase()))
+        return toChecksumAddress(this.tokenTransferTo.toLowerCase());
+      if (isAddress(this.address)) return toChecksumAddress(this.address);
+      return '';
+    },
+    tokenChecksumAddress() {
       if (isAddress(this.address)) return toChecksumAddress(this.address);
       return '';
     }
   },
-  mounted() {
-    this.$root.$on('selected_currency_changed', selectedCurrency => {
-      this.selectedCurrency = selectedCurrency;
-    });
-  },
   methods: {
     converter(num) {
-      return web3.utils.fromWei(new BigNumber(num).toFixed(), 'ether');
+      return web3.utils.fromWei(num.toString(), 'ether');
     }
   }
 };

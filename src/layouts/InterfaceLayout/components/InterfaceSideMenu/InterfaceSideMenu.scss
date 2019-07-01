@@ -2,6 +2,7 @@
 
 .side-menu {
   padding: 40px 20px;
+  background-color: $white;
 
   @media all and (max-width: $mobile-width) {
     width: 100vw;
@@ -94,4 +95,19 @@
 
 .show-child {
   display: block;
+}
+
+.disabled-item {
+  cursor: none !important;
+  pointer-events: none !important;
+  position: relative !important;
+
+  .dash {
+    border-top: 2px solid $light-grey-7;
+    border-radius: 5px;
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    z-index: 1;
+  }
 }

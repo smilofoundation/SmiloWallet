@@ -1,10 +1,7 @@
-import Vue from 'vue';
 import Router from 'vue-router';
 import store from '@/store';
-
 import { getMode, getRoutes } from '@/builds/configs';
-
-Vue.use(Router);
+import xss from 'xss';
 
 const router = new Router({
   mode: getMode(),
@@ -27,6 +24,15 @@ router.beforeResolve((to, ___, next) => {
   ) {
     next();
   } else {
+    const queryKeys = Object.keys(to.query);
+    if (queryKeys.length > 0) {
+      const blankObj = {};
+      for (const key in to.query) {
+        blankObj[key] = xss(to.query[key]);
+      }
+
+      store.dispatch('saveQueryVal', blankObj);
+    }
     if (store.state.wallet === null) {
       store.dispatch('setLastPath', to.path);
       next({ name: 'AccessWalletLayout' });

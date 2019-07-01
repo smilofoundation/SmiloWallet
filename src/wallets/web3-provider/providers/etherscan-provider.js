@@ -8,7 +8,9 @@ import {
   ethAccounts,
   ethCoinbase,
   netVersion,
-  ethGetTransactionReceipt
+  ethGetBlockByNumber,
+  ethGetTransactionReceipt,
+  ethGetBlockNumber
 } from '../methods';
 import EtherscanProxy from '../etherscan-proxy';
 class EtherscanProvider {
@@ -19,8 +21,32 @@ class EtherscanProvider {
     this.eventHub = eventHub;
     this.proxy = new EtherscanProxy(this.host, this.apikey);
     this.requestManager_ = new EtherScanRequestManger(host, options);
+    this.requestThrottler = {
+      requests: [],
+      remaining: 5,
+      timer: setInterval(() => {
+        if (
+          this.requestThrottler.requests.length &&
+          this.requestThrottler.remaining
+        ) {
+          for (let i = 0; i < this.requestThrottler.remaining; i++) {
+            if (this.requestThrottler.requests.length) {
+              const req = this.requestThrottler.requests.shift();
+              this.requestThrottler.remaining--;
+              this.send_(req.payload, req.callback);
+            }
+          }
+        }
+      }, 400),
+      reset: setInterval(() => {
+        this.requestThrottler.remaining = 5;
+      }, 5500)
+    };
   }
   send(payload, callback) {
+    this.requestThrottler.requests.push({ payload, callback });
+  }
+  send_(payload, callback) {
     const req = {
       payload,
       store: this.store,
@@ -35,6 +61,8 @@ class EtherscanProvider {
     middleware.use(ethAccounts);
     middleware.use(ethGetTransactionCount);
     middleware.use(ethCoinbase);
+    middleware.use(ethGetBlockByNumber);
+    middleware.use(ethGetBlockNumber);
     middleware.use(netVersion);
     middleware.use(async ({ payload }, res) => {
       this.proxy

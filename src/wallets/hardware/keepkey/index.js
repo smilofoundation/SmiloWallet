@@ -1,17 +1,25 @@
-import { WebUSBDevice, Messages, KeepKey } from '@keepkey/keepkey.js';
+import {
+  WebUSBDevice,
+  Messages,
+  KeepKey,
+  bip32ToAddressNList
+} from '@keepkey/keepkey.js';
 import { KEEPKEY as keepkeyType } from '../../bip44/walletTypes';
 import bip44Paths from '../../bip44';
 import HDWalletInterface from '@/wallets/HDWalletInterface';
-import { nodeVector, getUint8Tx } from './utils';
+import { getUint8Tx } from './utils';
 import {
   getBufferFromHex,
   sanitizeHex,
   getSignTransactionObject,
   calculateChainIdFromV
 } from '../../utils';
-import * as HDKey from 'hdkey';
-import ethUtil from 'ethereumjs-util';
-import ethTx from 'ethereumjs-tx';
+import HDKey from 'hdkey';
+import { toBuffer } from 'ethereumjs-util';
+import { Transaction } from 'ethereumjs-tx';
+import errorHandler from './errorHandler';
+import store from '@/store';
+import commonGenerator from '@/helpers/commonGenerator';
 
 const { MessageType } = Messages;
 const {
@@ -40,7 +48,7 @@ class KeepkeyWallet {
         'showHardwarePinMatrix',
         { name: this.identifier },
         pin => {
-          this.keepkey.acknowledgeWithPin(pin);
+          this.keepkey.acknowledgeWithPin(pin).catch(errorHandler);
         }
       );
     });
@@ -49,7 +57,9 @@ class KeepkeyWallet {
         'showHardwarePassword',
         { name: this.identifier },
         passPhrase => {
-          this.keepkey.acknowledgeWithPassphrase(passPhrase);
+          this.keepkey
+            .acknowledgeWithPassphrase(passPhrase)
+            .catch(errorHandler);
         }
       );
     });
@@ -80,10 +90,12 @@ class KeepkeyWallet {
       accountPath = this.basePath + '/' + idx;
     }
     const txSigner = async tx => {
-      tx = new ethTx(tx);
+      tx = new Transaction(tx, {
+        common: commonGenerator(store.state.network)
+      });
       const hexTx = getUint8Tx(tx);
-      const networkId = tx._chainId;
-      hexTx.addressNList = nodeVector(accountPath);
+      const networkId = tx.getChainId();
+      hexTx.addressNList = bip32ToAddressNList(accountPath);
       const result = await this.keepkey.ethereumSignTx(
         hexTx,
         null,
@@ -107,21 +119,29 @@ class KeepkeyWallet {
     };
     const msgSigner = async msg => {
       const signMessage = new Messages.EthereumSignMessage();
-      signMessage.setAddressNList(nodeVector(accountPath));
-      signMessage.setMessage(new Uint8Array(ethUtil.toBuffer(msg)));
+      signMessage.setAddressNList(bip32ToAddressNList(accountPath));
+      signMessage.setMessage(new Uint8Array(toBuffer(msg)));
       const [, response] = await this.keepkey.device.exchange(
         Messages.MessageType.MESSAGETYPE_ETHEREUMSIGNMESSAGE,
         signMessage
       );
       return Buffer.from(response.toObject().signature, 'base64');
     };
+    const displayAddress = async () => {
+      await this.keepkey.ethereumGetAddress({
+        addressNList: bip32ToAddressNList(accountPath),
+        showDisplay: true
+      });
+    };
     return new HDWalletInterface(
       accountPath,
       derivedKey.publicKey,
       this.isHardware,
       this.identifier,
+      errorHandler,
       txSigner,
-      msgSigner
+      msgSigner,
+      displayAddress
     );
   }
   getCurrentPath() {
@@ -136,9 +156,12 @@ const createWallet = async (basePath, eventHub) => {
   await _keepkeyWallet.init(basePath);
   return _keepkeyWallet;
 };
+
+createWallet.errorHandler = errorHandler;
+
 const getRootPubKey = async (_keepkey, _path) => {
   const pubObj = await _keepkey.getPublicKey({
-    addressNList: nodeVector(_path),
+    addressNList: bip32ToAddressNList(_path),
     showDisplay: false
   });
   const hdkey = HDKey.fromExtendedKey(pubObj[1]);

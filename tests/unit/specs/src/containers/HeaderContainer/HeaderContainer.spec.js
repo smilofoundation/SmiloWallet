@@ -1,5 +1,4 @@
 import Vue from 'vue';
-import Vuex from 'vuex';
 import { shallowMount } from '@vue/test-utils';
 import HeaderContainer from '@/containers/HeaderContainer/HeaderContainer.vue';
 import Blockie from '@/components/Blockie';
@@ -35,7 +34,7 @@ const mockRoute = {
 
 //xdescribe
 describe('HeaderContainer.vue', () => {
-  let localVue, i18n, wrapper, store, getters, push, dispatch;
+  let localVue, i18n, wrapper, store, push, dispatch;
 
   beforeAll(() => {
     const baseSetup = Tooling.createLocalVueInstance();

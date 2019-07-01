@@ -3,15 +3,21 @@
     <interface-balance-modal ref="balance" :balance="balance" />
     <div class="info-block balance">
       <div class="block-image">
-        <img class="icon" src="~@/assets/images/icons/balance.svg" />
+        <div class="icon-border">
+          <img class="icon" src="~@/assets/images/icons/wallet.svg" />
+        </div>
       </div>
       <div class="block-content">
         <div class="information-container">
           <h2>{{ $t('common.balance') }}</h2>
           <div class="balance-text-container">
             <div v-show="balance !== undefined" class="balance-text">
-              <p>{{ balance }}</p>
-              <p>&nbsp; {{ network.type.name }}</p>
+              <p>
+                {{ balance }}
+                <span>
+                  {{ network.type.currencyName }}
+                </span>
+              </p>
             </div>
             <div
               v-show="
@@ -60,14 +66,16 @@
             title
           />
         </div>
+        <!-- .icon-container -->
       </div>
+      <!-- .block-content -->
     </div>
   </div>
 </template>
 
 <script>
 import InterfaceBalanceModal from '../InterfaceBalanceModal';
-import { mapGetters } from 'vuex';
+import { mapState } from 'vuex';
 export default {
   components: {
     'interface-balance-modal': InterfaceBalanceModal
@@ -96,9 +104,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters({
-      network: 'network'
-    })
+    ...mapState(['network'])
   },
   watch: {
     balance() {

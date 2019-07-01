@@ -33,5 +33,11 @@
   "howToSendTxTitle": "How can I send a transaction?",
   "howToSendTxDesc": "SmiloWallet lets anyone with a balance of XSM send a transaction, without additional charges.",
   "forgotPasswordPrivKeyTitle": "I forgot my password/private key! What can I do?",
-  "forgotPasswordPrivKeyDesc": "SmiloWallet does not offer support to recover or reset passwords/private keys. We always suggest writing down private keys and passwords on physical paper/notebooks for safekeeping. Maybe you saved it on your computer!"
+  "forgotPasswordPrivKeyDesc": "SmiloWallet does not offer support to recover or reset passwords/private keys. We always suggest writing down private keys and passwords on physical paper/notebooks for safekeeping. Maybe you saved it on your computer! For ideas on what to look for, read more",
+  "welcomeTov5": "Welcome to SmiloWallet V5",
+  "welcomeToV5Desc1": "Welcome to the brand new SmiloWallet! If this is your first time visiting, check out our {0}.",
+  "welcomeToV5Desc2": "Vintage SmiloWallet can still be accessed {0}, or at the bottom of the page.",
+  "welcomeToLink1": "Medium article on what's new",
+  "welcomeToLink2": "here",
+  "onwards": "Onwards"
 }

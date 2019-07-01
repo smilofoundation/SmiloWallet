@@ -37,6 +37,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
 import BigNumber from 'bignumber.js';
 export default {
   props: {
@@ -50,35 +51,33 @@ export default {
       equivalentValues: [
         {
           name: 'BTC',
-          value: '100'
+          value: ''
         },
         {
-          name: 'ETH',
-          value: '100'
+          name: 'REP',
+          value: ''
         },
-        // {
-        //   name: 'REP',
-        //   value: '5656.22'
-        // },
-        // {
-        //   name: 'CHF',
-        //   value: '12410004.22453'
-        // },
+        {
+          name: 'CHF',
+          value: ''
+        },
         {
           name: 'USD',
-          value: '0.29'
+          value: ''
         },
         {
           name: 'EUR',
-          value: '0.25'
+          value: ''
+        },
+        {
+          name: 'GBP',
+          value: ''
         }
-        // ,
-        // {
-        //   name: 'GBP',
-        //   value: '687867.53'
-        // }
       ]
     };
+  },
+  computed: {
+    ...mapState(['network', 'online'])
   },
   watch: {
     balance() {
@@ -88,37 +87,33 @@ export default {
   mounted() {
     this.fetchBalanceData();
   },
+
   methods: {
     async fetchBalanceData() {
-      const newArr = [];
-      const url = 'https://cryptorates.mewapi.io/convert/EURS';
-      const fetchValues = await fetch(url);
-      const values = await fetchValues.json();
-      delete values['lastCalled'];
-      Object.keys(values).forEach(item => {
-        if (
-          this.equivalentValues.find(curr => {
-            return curr.name === item;
-          })
-        ) {
-          const objectRes = {
-            name: item,
-            value: new BigNumber(this.balance * 0.25)
-              .multipliedBy(new BigNumber(values[item]))
-              .decimalPlaces(18)
-              .toFixed()
-          };
-          newArr.push(objectRes);
-        }
-      });
-      const usdValue = this.equivalentValues.find(x => x.name == 'USD');
-      usdValue.value = usdValue.value * this.balance;
-      newArr.push(usdValue);
-
-      const eurValue = this.equivalentValues.find(x => x.name == 'EUR');
-      eurValue.value = eurValue.value * this.balance;
-      newArr.push(eurValue);
-      this.equivalentValues = newArr;
+      if (this.online) {
+        const newArr = [];
+        const url = 'https://cryptorates.mewapi.io/convert/ETH';
+        const fetchValues = await fetch(url);
+        const values = await fetchValues.json();
+        delete values['lastCalled'];
+        Object.keys(values).forEach(item => {
+          if (
+            this.equivalentValues.find(curr => {
+              return curr.name === item;
+            })
+          ) {
+            const objectRes = {
+              name: item,
+              value: new BigNumber(this.balance)
+                .multipliedBy(new BigNumber(values[item]))
+                .decimalPlaces(18)
+                .toFixed()
+            };
+            newArr.push(objectRes);
+          }
+        });
+        this.equivalentValues = newArr;
+      }
     }
   }
 };

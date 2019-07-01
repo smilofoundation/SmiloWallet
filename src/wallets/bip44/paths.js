@@ -6,6 +6,10 @@ const ethereum = {
   path: "m/44'/60'/0'/0",
   label: 'Ethereum'
 };
+const poaNetwork = {
+  path: "m/44'/60'/0'/0",
+  label: 'POA network'
+};
 const ethereumClassic = {
   path: "m/44'/61'/0'/0",
   label: 'Ethereum Classic'
@@ -96,7 +100,7 @@ const ledgerLiveEthereum = {
   label: 'Ethereum - Ledger Live'
 };
 const ledgerEthereumClassic = {
-  path: "m/44'/60'/160720'/0",
+  path: "m/44'/60'/160720'/0'",
   label: 'Ethereum Classic'
 };
 const ledgerLiveEthereumClassic = {
@@ -118,6 +122,26 @@ const keepkeyEthereum = {
 const keepkeyEthereumClassic = {
   path: "m/44'/61'",
   label: 'Ethereum Classic'
+};
+const thundercore = {
+  path: "m/44'/1001'/0'/0",
+  label: 'ThunderCore'
+};
+const solidum = {
+  path: "m/44'/997'/0'/0",
+  label: 'Solidum'
+};
+const metadium = {
+  path: "m/44'/916'/0'/0",
+  label: 'Metadium'
+};
+const reoscChain = {
+  path: "m/44'/2894'/0'/0",
+  label: 'REOSC'
+};
+const dexon = {
+  path: "m/44'/237'/0'/0",
+  label: 'DEXON Network'
 };
 export {
   smilo,
@@ -149,5 +173,11 @@ export {
   rskMainnet,
   rskTestnet,
   keepkeyEthereum,
-  keepkeyEthereumClassic
+  keepkeyEthereumClassic,
+  thundercore,
+  solidum,
+  metadium,
+  poaNetwork,
+  reoscChain,
+  dexon
 };

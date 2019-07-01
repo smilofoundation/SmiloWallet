@@ -50,7 +50,7 @@
           <textarea ref="abi" v-model="abi" class="custom-textarea-1" />
           <i
             :class="[
-              isValidAbi && isValidAbi !== '' ? '' : 'not-good',
+              isValidAbi && abi !== '' ? '' : 'not-good',
               'fa fa-check-circle good-button'
             ]"
             aria-hidden="true"
@@ -122,6 +122,24 @@
         </div>
       </div>
 
+      <div
+        v-if="abiConstructor !== null && abiConstructor.payable"
+        class="send-form"
+      >
+        <div class="title-container">
+          <div class="title">
+            <h4>Value in ETH:</h4>
+          </div>
+        </div>
+        <div class="the-form contract-name">
+          <input
+            ref="value"
+            v-model="value"
+            step="any"
+            placeholder="Value in ETH"
+          />
+        </div>
+      </div>
       <div class="send-form">
         <div class="title-container">
           <div class="title">
@@ -158,12 +176,13 @@
 <script>
 import InterfaceBottomText from '@/components/InterfaceBottomText';
 import InterfaceContainerTitle from '../../components/InterfaceContainerTitle';
-import { Misc } from '@/helpers';
-import { isAddress } from '@/helpers/addressUtils';
+import { Misc, Toast } from '@/helpers';
 import ethUnit from 'ethjs-unit';
-import EthTx from 'ethereumjs-tx';
+import { Transaction } from 'ethereumjs-tx';
 import BigNumber from 'bignumber.js';
-import { mapGetters } from 'vuex';
+import store from 'store';
+import { generateAddress, bufferToHex } from 'ethereumjs-util';
+import { mapState } from 'vuex';
 
 export default {
   name: 'DeployContract',
@@ -178,15 +197,12 @@ export default {
       inputs: {},
       contractName: '',
       gasLimit: 21000,
-      data: ''
+      data: '',
+      value: 0
     };
   },
   computed: {
-    ...mapGetters({
-      gasPrice: 'gasPrice',
-      web3: 'web3',
-      network: 'network'
-    }),
+    ...mapState(['gasPrice', 'web3', 'network']),
     isValidAbi() {
       return Misc.isJson(this.abi);
     },
@@ -225,7 +241,15 @@ export default {
       const _deployArgs = [];
       if (this.abiConstructor) {
         this.abiConstructor.inputs.forEach(item => {
-          _deployArgs.push(this.inputs[item.name]);
+          if (item.type.includes('[') && item.type.includes(']')) {
+            const inputs = this.inputs.hasOwnProperty(item.name)
+              ? this.inputs[item.name].replace(/\s/g, '')
+              : '';
+            const arr = inputs.split(',');
+            _deployArgs.push(arr);
+          } else {
+            _deployArgs.push(this.inputs[item.name]);
+          }
         });
       }
       return _deployArgs;
@@ -238,10 +262,10 @@ export default {
     allValid() {
       let _allvalid = true;
       if (this.abiConstructor) {
-        this.abiConstructor.inputs.forEach(item => {
+        this.abiConstructor.inputs.forEach((item, idx) => {
           if (
             !this.isValidInput(
-              this.inputs[item.name],
+              this.deployArgs[idx],
               this.getType(item.type).solidityType
             )
           )
@@ -251,40 +275,16 @@ export default {
       return _allvalid && this.isValidAbi && this.isValidByte;
     }
   },
-  mounted() {},
   methods: {
-    isValidInput(value, solidityType) {
-      if (!value) value = '';
-      if (solidityType === 'uint') return value != '' && !isNaN(value);
-      if (solidityType === 'address') return isAddress(value);
-      if (solidityType === 'string') return true;
-      if (solidityType === 'bytes')
-        return value.substr(0, 2) == '0x' && Misc.validateHexString(value);
-      if (solidityType === 'bool')
-        return typeof value == typeof true || value === '';
-      return false;
-    },
-    getType(inputType) {
-      if (!inputType) inputType = '';
-      if (inputType.includes('uint'))
-        return { type: 'number', solidityType: 'uint' };
-      if (inputType.includes('address'))
-        return { type: 'text', solidityType: 'address' };
-      if (inputType.includes('string'))
-        return { type: 'text', solidityType: 'string' };
-      if (inputType.includes('bytes'))
-        return { type: 'text', solidityType: 'bytes' };
-      if (inputType.includes('bool'))
-        return { type: 'radio', solidityType: 'bool' };
-      return { type: 'text', solidityType: 'string' };
-    },
+    isValidInput: Misc.isContractArgValid,
+    getType: Misc.solidityType,
     async sendTransaction() {
       try {
         await this.estimateGas();
         const web3 = this.web3;
         const coinbase = await web3.eth.getCoinbase();
         const nonce = await web3.eth.getTransactionCount(coinbase);
-        const _tx = new EthTx({
+        const _tx = new Transaction({
           nonce: nonce,
           gasPrice: Misc.sanitizeHex(
             ethUnit.toWei(this.gasPrice, 'gwei').toString(16)
@@ -295,11 +295,37 @@ export default {
         const json = _tx.toJSON(true);
         delete json.to;
         json.from = coinbase;
-        this.web3.eth.sendTransaction(json);
+        this.web3.eth.sendTransaction(json).catch(err => {
+          Toast.responseHandler(err, Toast.WARN);
+        });
+        const contractAddr = bufferToHex(generateAddress(coinbase, nonce));
+        this.pushContractToStore(contractAddr);
       } catch (e) {
-        // eslint-disable-next-line
-        console.error(e);
+        Toast.responseHandler(e, false);
       }
+    },
+    pushContractToStore(addr) {
+      const localStoredContract = store.get('customContracts') || [];
+      const itemIndex = localStoredContract.findIndex(item => {
+        return item.name.toLowerCase() === this.contractName.toLowerCase();
+      });
+      if (itemIndex === -1) {
+        const storableObj = {
+          abi: JSON.parse(this.abi),
+          address: addr,
+          comment: '',
+          name: this.contractName
+        };
+        localStoredContract.push(storableObj);
+      } else {
+        localStoredContract[itemIndex] = {
+          abi: JSON.parse(this.abi),
+          address: addr,
+          comment: '',
+          name: this.contractName
+        };
+      }
+      store.set('customContracts', localStoredContract);
     },
     confirmationModalOpen() {
       this.sendTransaction();
@@ -311,7 +337,9 @@ export default {
         from: coinbase,
         data: this.txData
       };
-      this.gasLimit = await this.web3.eth.estimateGas(params);
+      this.gasLimit = await this.web3.eth.estimateGas(params).catch(err => {
+        Toast.responseHandler(err, Toast.WARN);
+      });
     },
     copyToClipboard(ref) {
       this.$refs[ref].select();

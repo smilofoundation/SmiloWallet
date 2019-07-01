@@ -1,7 +1,9 @@
 <template>
   <div class="home">
     <top-banner />
-    <about /> <faqs /> <social />
+    <about />
+    <faqs />
+    <social />
   </div>
 </template>
 
@@ -10,7 +12,7 @@ import AboutContainer from '@/containers/AboutContainer';
 import FaqsContainer from '@/containers/FaqsContainer';
 import Social from './components/Social';
 import TopBanner from './components/TopBanner';
-import { mapGetters } from 'vuex';
+import { mapState } from 'vuex';
 
 export default {
   name: 'HomeContainer',
@@ -27,9 +29,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters({
-      online: 'online'
-    })
+    ...mapState(['online'])
   }
 };
 </script>

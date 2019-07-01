@@ -1,7 +1,10 @@
 <template>
   <form class="user-input">
     <!-- === MEW custom form ======================================== -->
-    <div class="mew-custom-form mew-custom-form__password">
+    <div
+      :class="fullWidth ? 'full-width' : ''"
+      class="mew-custom-form mew-custom-form__password "
+    >
       <div class="user-input-field">
         <input
           v-validate="param === 'Json' ? 'required|min:9' : ''"
@@ -39,11 +42,11 @@
     </div>
     <!-- === MEW custom form ======================================== -->
     <button
+      v-if="showButton"
       :class="[
-        param === 'Json' &&
-        (errors.has('password') ||
-          value.length === 0 ||
-          strengthClass !== 'strong')
+        errors.has('password') ||
+        value.length === 0 ||
+        strengthClass !== 'strong'
           ? 'disabled'
           : '',
         'large-round-button-green-filled next-button'
@@ -72,6 +75,14 @@ export default {
     param: {
       type: String,
       default: ''
+    },
+    showButton: {
+      type: Boolean,
+      default: true
+    },
+    fullWidth: {
+      type: Boolean,
+      default: false
     }
   },
   data() {

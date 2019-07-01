@@ -23,13 +23,21 @@
         />
         <div v-if="!validAddress" class="blockie-place-holder-image" />
         <div v-if="validAddress" class="selected-address-blockie">
-          <blockie
-            :address="selectedAddress"
-            :diameter="30"
-            width="30px"
-            height="30px"
-          />
-          <img class="currency-icon" src="@/assets/images/currency/eth.svg" />
+          <blockie :address="selectedAddress" width="30px" height="30px" />
+          <div v-if="isToken(currency)">
+            <img class="currency-icon" src="@/assets/images/currency/eth.svg" />
+          </div>
+          <div v-else>
+            <i
+              :class="[
+                'currency-icon',
+                'as-font',
+                'cc',
+                getIcon(currency),
+                'cc-icon'
+              ]"
+            />
+          </div>
         </div>
         <div class="dropdown-open-button" @click="dropdownOpen = !dropdownOpen">
           <i
@@ -48,12 +56,7 @@
             @click="listedAddressClick(addr.address)"
           >
             <div class="list-blockie">
-              <blockie
-                :address="addr.address"
-                :diameter="30"
-                width="30px"
-                height="30px"
-              />
+              <blockie :address="addr.address" width="30px" height="30px" />
               <img
                 class="currency-icon"
                 src="@/assets/images/currency/eth.svg"
@@ -88,10 +91,14 @@
 </template>
 
 <script>
+import '@/assets/images/currency/coins/asFont/cryptocoins.css';
+import '@/assets/images/currency/coins/asFont/cryptocoins-colors.css';
 import debugLogger from 'debug';
 import WAValidator from 'wallet-address-validator';
+import MAValidator from 'multicoin-address-validator';
 import Blockie from '@/components/Blockie';
-import { EthereumTokens, BASE_CURRENCY } from '@/partners';
+import { EthereumTokens, BASE_CURRENCY, hasIcon } from '@/partners';
+import { canValidate } from '@/partners/helpers';
 
 const errorLogger = debugLogger('v5:error');
 
@@ -111,13 +118,23 @@ export default {
     currency: {
       type: String,
       default: 'ETH'
+    },
+    preFill: {
+      type: Boolean,
+      default: false
+    },
+    preFillAddress: {
+      type: String,
+      default: ''
     }
   },
   data() {
     return {
+      EthereumTokens: EthereumTokens,
       selectedAddress: '',
       validAddress: false,
       dropdownOpen: false,
+      unableToValidate: false,
       addresses: [],
       toAddressCheckMark: false
     };
@@ -141,10 +158,22 @@ export default {
       this.validateAddress(this.selectedAddress);
     }
   },
+  mounted() {
+    if (this.preFill) {
+      this.selectedAddress =
+        this.preFillAddress !== '' ? this.preFillAddress : '';
+    }
+  },
   methods: {
+    getIcon(currency) {
+      return hasIcon(currency);
+    },
     copyToClipboard(ref) {
       ref.select();
       document.execCommand('copy');
+    },
+    isToken(symbol) {
+      return typeof EthereumTokens[symbol] !== 'undefined';
     },
     listedAddressClick(address) {
       this.toAddressCheckMark = true;
@@ -163,17 +192,35 @@ export default {
               this.currency
             );
           } catch (e) {
-            errorLogger(e);
-            this.validAddress = false;
+            if (canValidate(this.currency)) {
+              try {
+                this.validAddress = MAValidator.validate(
+                  checkAddress,
+                  this.currency
+                );
+              } catch (e) {
+                errorLogger(e);
+                this.validAddress = false;
+              }
+            } else {
+              this.validAddress = true;
+              this.unableToValidate = true;
+            }
           }
         }
 
         if (this.validAddress) {
+          if (this.unableToValidate) {
+            this.$emit('unableToValidate', true);
+          } else {
+            this.$emit('unableToValidate', false);
+          }
           this.$emit('toAddress', checkAddress);
           this.$emit('validAddress', true);
         } else {
           this.$emit('toAddress', '');
           this.$emit('validAddress', false);
+          this.$emit('unableToValidate', false);
         }
       }
     }

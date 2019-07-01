@@ -3,72 +3,69 @@
     ref="software"
     :title="$t('accessWallet.accessBySoftware')"
     hide-footer
-    class="bootstrap-modal padding-25-20 modal-software"
+    class="bootstrap-modal nopadding modal-software"
     centered
   >
-    <div class="d-block content-container text-center">
-      <ul class="button-options">
-        <li
-          v-for="(item, idx) in items"
-          :key="item.name + idx"
-          :class="selected === item.name ? 'selected' : ''"
-          @click="select(item.name)"
-        >
-          <div>
-            <img
-              :src="selected === item.name ? item.imgHoverPath : item.imgPath"
-              class="icon"
-            />
-            <img :src="item.imgHoverPath" class="hover-icon" />
-            <span>{{ item.text }}</span>
-          </div>
-          <i
-            :class="[
-              selected === item.name ? '' : 'not-good',
-              'fa fa-check-circle good-button'
-            ]"
-            aria-hidden="true"
+    <div class="warning">
+      <warning-message />
+    </div>
+    <div class="content-block">
+      <div class="d-block content-container text-center">
+        <div class="button-options">
+          <wallet-option
+            v-for="(item, idx) in items"
+            :key="item.name + idx"
+            :selected="selected === item.name"
+            :hover-icon="item.imgHoverPath"
+            :text="item.text"
+            :name="item.name"
+            @updateSelected="updateSelected"
           />
-        </li>
-      </ul>
-      <input
-        ref="jsonInput"
-        type="file"
-        name="file"
-        style="display: none"
-        @change="uploadFile"
-      />
+        </div>
+        <div class="hardware-link">
+          <p>
+            {{ $t('accessWallet.buyHardwareWallet') }}
+          </p>
+          <router-link to="/hardware-wallet-affiliates">{{
+            $t('accessWallet.buyHardwareWalletLink')
+          }}</router-link>
+        </div>
+        <input
+          ref="jsonInput"
+          type="file"
+          name="file"
+          style="display: none"
+          @change="uploadFile"
+        />
+      </div>
+      <div class="button-container-block">
+        <standard-button
+          :button-disabled="selected !== '' ? false : true"
+          :options="continueButtonOptions"
+          @click.native="continueAccess"
+        />
+      </div>
+      <customer-support />
     </div>
-    <div class="not-recommended">
-      {{ $t('accessWallet.notARecommendedWay') }}
-    </div>
-    <div class="button-container">
-      <b-btn
-        :class="[
-          selected !== '' ? 'enabled' : 'disabled',
-          'mid-round-button-green-filled'
-        ]"
-        @click="continueAccess"
-      >
-        {{ $t('common.continue') }}
-      </b-btn>
-    </div>
-    <customer-support />
   </b-modal>
 </template>
 
 <script>
 import CustomerSupport from '@/components/CustomerSupport';
+import WarningMessage from '@/components/WarningMessage';
 import byJsonImgHov from '@/assets/images/icons/button-json-hover.svg';
-import byJsonImg from '@/assets/images/icons/button-json.svg';
 import byMnemImgHov from '@/assets/images/icons/button-mnemonic-hover.svg';
-import byMnemImg from '@/assets/images/icons/button-mnemonic.svg';
 import privKeyImgHov from '@/assets/images/icons/button-key-hover.svg';
-import privKeyImg from '@/assets/images/icons/button-key.svg';
+import WalletOption from '../WalletOption';
+import StandardButton from '@/components/Buttons/StandardButton';
+import { Toast } from '@/helpers';
 
 export default {
   components: {
-    'customer-support': CustomerSupport
+    'customer-support': CustomerSupport,
+    'wallet-option': WalletOption,
+    'warning-message': WarningMessage,
+    'standard-button': StandardButton
   },
   props: {
     value: {
@@ -90,24 +87,27 @@ export default {
   },
   data() {
     return {
+      continueButtonOptions: {
+        title: this.$t('common.continue'),
+        buttonStyle: 'green',
+        noMinWidth: true,
+        fullWidth: true
+      },
       file: '',
       selected: '',
       items: [
         {
           name: 'byJson',
-          imgPath: byJsonImg,
           imgHoverPath: byJsonImgHov,
           text: this.$t('common.jsonF')
         },
         {
           name: 'byMnem',
-          imgPath: byMnemImg,
           imgHoverPath: byMnemImgHov,
           text: this.$t('common.mnemonicP')
         },
         {
           name: 'byPriv',
-          imgPath: privKeyImg,
           imgHoverPath: privKeyImgHov,
           text: this.$t('common.privKey')
         }
@@ -129,15 +129,30 @@ export default {
         this.openMnemonicPhraseInput();
       }
     },
+    updateSelected(ref) {
+      if (this.selected !== ref) {
+        this.selected = ref;
+      } else {
+        this.selected = '';
+      }
+    },
     select(ref) {
-      this.selected = ref;
+      if (this.selected !== ref) {
+        this.selected = ref;
+      } else {
+        this.selected = '';
+      }
     },
     uploadFile(e) {
       const self = this;
       const reader = new FileReader();
       reader.onloadend = function(evt) {
-        self.$emit('file', JSON.parse(evt.target.result));
-        self.file = JSON.parse(evt.target.result);
+        try {
+          self.$emit('file', JSON.parse(evt.target.result));
+          self.file = JSON.parse(evt.target.result);
+        } catch (e) {
+          Toast.responseHandler(e, Toast.ERROR);
+        }
       };
       reader.readAsBinaryString(e.target.files[0]);
     }

@@ -11,7 +11,7 @@ describe('InterfaceTokensModal.vue', () => {
   let localVue, i18n, wrapper, store;
   const tokenDecimal = '100';
   const tokenAddress = '0xDECAF9CD2367cdbb726E904cD6397eDFcAe6068D';
-  const tokenSymbol = 'tokenSymbol';
+  const tokenSymbol = 'tokenSy';
   const addToken = sinon.stub();
   beforeAll(() => {
     const baseSetup = Tooling.createLocalVueInstance();
@@ -67,7 +67,7 @@ describe('InterfaceTokensModal.vue', () => {
     const inputElements = wrapper.vm.$el.querySelectorAll(
       '.tokens-modal-body input'
     );
-    expect(inputElements[0].value).toEqual(tokenAddress);
+    expect(inputElements[0].value).toEqual(tokenAddress.toLowerCase().trim());
   });
 
   it('should render correct tokenSymbol', () => {

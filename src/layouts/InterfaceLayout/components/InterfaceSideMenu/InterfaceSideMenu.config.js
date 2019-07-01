@@ -2,7 +2,7 @@ export default {
   tabs: [
     {
       name: 'send-transaction',
-      disabled: false,
+      onlineOnly: false,
       routes: [
         '/interface/send-transaction',
         '/interface',
@@ -44,7 +44,7 @@ export default {
     },
     {
       name: 'swap',
-      disabled: true,
+      onlineOnly: true,
       routes: ['/interface/swap'],
       icons: {
         active: require('@/assets/images/sidemenu/swap-active.svg'),
@@ -55,17 +55,27 @@ export default {
     },
     {
       name: 'dapps',
-      disabled: true,
+      onlineOnly: true,
       routes: [
         '/interface/dapps',
-        '/interface/dapps/register-domain',
-        '/interface/dapps/register-domain/bid',
-        '/interface/dapps/register-domain/reveal',
-        '/interface/dapps/register-domain/owned',
-        '/interface/dapps/register-domain/forbidden',
-        '/interface/dapps/register-domain/auction',
-        '/interface/dapps/register-domain/confirm',
-        '/interface/dapps/domain-sale'
+        '/interface/dapps/manage-ens',
+        '/interface/dapps/manage-ens/auction',
+        '/interface/dapps/manage-ens/bid',
+        '/interface/dapps/manage-ens/owned',
+        '/interface/dapps/manage-ens/reveal',
+        '/interface/dapps/manage-ens/forbidden',
+        '/interface/dapps/manage-ens/finalize',
+        '/interface/dapps/manage-ens/manage',
+        '/interface/dapps/manage-ens/fifs',
+        '/interface/dapps/manage-ens/claim',
+        '/interface/dapps/manage-ens/dns-error',
+        '/interface/dapps/manage-ens/no-txt-setup',
+        '/interface/dapps/manage-ens/transfer-registrar',
+        '/interface/dapps/manage-ens/create-commitment',
+        '/interface/dapps/manage-ens/permanent-registration',
+        '/interface/dapps/domain-sale',
+        '/interface/dapps/schedule-transaction',
+        '/interface/dapps/maker-dai'
       ],
       icons: {
         active: require('@/assets/images/sidemenu/dapps-active.svg'),
@@ -76,7 +86,7 @@ export default {
     },
     {
       name: 'contracts',
-      disabled: false,
+      onlineOnly: true,
       routes: [
         '/interface/interact-with-contract',
         '/interface/deploy-contract'
@@ -109,7 +119,7 @@ export default {
     },
     {
       name: 'messages',
-      disabled: false,
+      onlineOnly: false,
       routes: ['/interface/sign-message', '/interface/verify-message'],
       icons: {
         active: require('@/assets/images/sidemenu/message-active.svg'),

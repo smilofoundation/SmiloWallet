@@ -8,38 +8,56 @@
       title="Add Custom Token"
       @hidden="resetCompState"
     >
-      <form class="tokens-modal-body">
+      <form class="tokens-modal-body" @keydown.enter.prevent>
         <div>
           <input
+            v-validate="'required'"
             v-model="tokenAddress"
+            :class="[
+              'custom-input-text-1',
+              tokenAddress !== '' && !validAddress ? 'invalid-address' : ''
+            ]"
+            name="Address"
             type="text"
             placeholder="Token Contract Address"
-            class="custom-input-text-1"
           />
+          <span
+            v-show="tokenAddress !== '' && !validAddress"
+            class="error-message"
+          >
+            Invalid address given.
+          </span>
           <input
+            v-validate="'required'"
             v-model="tokenSymbol"
+            name="Symbol"
             type="text"
             placeholder="Token Symbol"
             class="custom-input-text-1"
           />
           <input
+            v-validate="'required|numeric'"
             v-model="tokenDecimal"
+            name="Decimal"
             type="number"
             min="0"
             max="18"
             placeholder="Decimals"
             class="custom-input-text-1"
           />
+          <span
+            v-show="tokenDecimal < 0 || tokenDecimal > 18"
+            class="error-message"
+          >
+            Invalid Decimal. Decimal can only be between 0 and 18.
+          </span>
         </div>
         <div>
           <button
             :class="[
-              validAddress && tokenSymbol !== '' && tokenDecimal !== ''
-                ? ''
-                : 'disabled',
+              allFieldsValid ? '' : 'disabled',
               'save-button large-round-button-green-filled clickable'
             ]"
-            type="submit"
             @click.prevent="addToken(tokenAddress, tokenSymbol, tokenDecimal)"
           >
             {{ $t('interface.save') }}
@@ -53,7 +71,7 @@
 
 <script>
 import InterfaceBottomText from '@/components/InterfaceBottomText';
-import { mapGetters } from 'vuex';
+import { mapState } from 'vuex';
 import { isAddress } from '@/helpers/addressUtils';
 
 export default {
@@ -75,18 +93,36 @@ export default {
     };
   },
   computed: {
-    ...mapGetters({
-      web3: 'web3'
-    })
+    ...mapState(['web3']),
+    allFieldsValid() {
+      if (!this.validAddress) return false;
+      if (this.tokenSymbol === '') return false;
+      if (
+        this.tokenDecimal < 0 ||
+        this.tokenDecimal > 18 ||
+        this.tokenDecimal === ''
+      )
+        return false;
+      if (
+        this.errors.has('address') ||
+        this.errors.has('symbol') ||
+        this.errors.has('decimal')
+      )
+        return false;
+      return true;
+    }
   },
   watch: {
     tokenAddress(newVal) {
-      if (newVal !== '' && newVal.length !== 0 && isAddress(newVal)) {
-        this.validAddress = true;
-      } else {
-        this.validAddress = false;
-      }
-      this.toAddress = newVal;
+      const strippedWhitespace = newVal.toLowerCase().trim();
+      const regTest = new RegExp(/[a-zA-Z0-9]/g);
+      this.validAddress =
+        regTest.test(strippedWhitespace) && isAddress(strippedWhitespace);
+      this.toAddress = strippedWhitespace;
+      this.tokenAddress = strippedWhitespace;
+    },
+    tokenSymbol(newVal) {
+      this.tokenSymbol = newVal.substr(0, 7);
     }
   },
   methods: {

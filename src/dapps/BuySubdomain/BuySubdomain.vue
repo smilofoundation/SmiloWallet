@@ -22,8 +22,8 @@
           </div>
           <div class="results-container">
             <div
-              v-for="item in sortedResults"
-              :key="domainName + item.domain"
+              v-for="(item, index) in sortedResults"
+              :key="domainName + item.domain + index"
               :class="[item.active ? '' : 'disabled', 'result-item']"
             >
               <span class="domain-name"
@@ -34,15 +34,23 @@
                   >{{ web3.utils.fromWei(item.price, 'ether') }} XSM</span
                 >
                 <button @click="buyDomain(item)">
-                  <span v-if="item.active"> {{ $t('dapps.buy') }} </span>
-                  <span v-else> <i class="fa fa-times" /> </span>
+                  <span v-if="item.active">{{ $t('dapps.buy') }}</span>
+                  <span v-else>
+                    <i class="fa fa-times" />
+                  </span>
                 </button>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <div><interface-bottom-text /></div>
+      <div>
+        <interface-bottom-text
+          :link-text="$t('interface.helpCenter')"
+          :question="$t('interface.haveIssues')"
+          link="https://kb.smilowallet.io"
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -57,6 +65,7 @@ import BigNumber from 'bignumber.js';
 import web3 from '@smilo-platform/web3';
 import { mapGetters } from 'vuex';
 import StandardButton from '@/components/Buttons/StandardButton';
+import { Toast } from '@/helpers';
 
 export default {
   components: {
@@ -74,12 +83,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters({
-      ethDonationAddress: 'ethDonationAddress',
-      ens: 'ens',
-      wallet: 'wallet',
-      web3: 'web3'
-    }),
+    ...mapState(['ethDonationAddress', 'ens', 'account', 'web3']),
     sortedResults() {
       const newArr = this.results;
       newArr.sort((a, b) => {
@@ -141,7 +145,7 @@ export default {
     async buyDomain(item) {
       const domain = this.web3.utils.sha3(item.domain);
       const subdomain = this.domainName;
-      const ownerAddress = this.wallet.getAddressString();
+      const ownerAddress = this.account.address;
       const referrerAddress = this.ethDonationAddress;
       const resolverAddress = await this.ens.resolver('resolver.eth').addr();
       const itemContract = this.knownRegistrarInstances[item.domain];
@@ -172,7 +176,9 @@ export default {
         value: item.price
       };
 
-      this.web3.eth.sendTransaction(raw);
+      this.web3.eth.sendTransaction(raw).catch(err => {
+        Toast.responseHandler(err, false);
+      });
     }
   }
 };

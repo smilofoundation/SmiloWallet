@@ -16,8 +16,7 @@
               </p>
               <div class="from-address">
                 <blockie
-                  :address="wallet.getChecksumAddressString()"
-                  :diameter="30"
+                  :address="account.address"
                   width="30px"
                   height="30px"
                 />
@@ -25,10 +24,18 @@
               </div>
             </div>
           </div>
-          <div class="tx-data tx-to">
+          <div v-if="hexToUtf8(messageToSign)" class="tx-data tx-to">
             <div class="address-info">
               <p class="title address-title">
                 {{ $t('interface.txSideMenuMessage') }}
+              </p>
+              <p class="message-to-sign">{{ hexToUtf8(messageToSign) }}</p>
+            </div>
+          </div>
+          <div class="tx-data tx-to">
+            <div class="address-info">
+              <p class="title address-title">
+                {{ $t('confirmation.messageInHex') }}
               </p>
               <p class="message-to-sign">{{ messageToSign }}</p>
             </div>
@@ -49,6 +56,15 @@
               </div>
             </div>
           </div>
+          <p class="learn-more">
+            Have any issues?
+            <a
+              href="https:/kb.smilowallet.io"
+              target="_blank"
+              rel="noopener noreferrer"
+              >Learn more</a
+            >
+          </p>
         </div>
       </div>
     </b-modal>
@@ -57,7 +73,8 @@
 
 <script>
 import Blockie from '@/components/Blockie';
-import { mapGetters } from 'vuex';
+import utils from 'web3-utils';
+import { mapState } from 'vuex';
 
 export default {
   components: {
@@ -92,9 +109,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters({
-      wallet: 'wallet'
-    }),
+    ...mapState(['account']),
     signedMessageSignature() {
       if (this.signedMessage) {
         return this.signedMessage;
@@ -108,6 +123,13 @@ export default {
     signMessage() {
       if (this.signedMessage !== '') {
         this.confirmSignMessage();
+      }
+    },
+    hexToUtf8(hex) {
+      try {
+        return utils.hexToUtf8(hex);
+      } catch (e) {
+        return false;
       }
     }
   }
