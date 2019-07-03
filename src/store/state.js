@@ -5,13 +5,18 @@ if (store.get('notifications') === undefined) store.set('notifications', {});
 
 const gettingStartedDone =
   store.get('skipTutorial') !== undefined ? store.get('skipTutorial') : false;
-const storedNetwork = store.get('network');
-let network = nodeList['XSMT'][0];
 
-if (storedNetwork !== undefined) {
-  network = storedNetwork;
-  network.type = nodeList[storedNetwork.type.name][0].type;
-}
+const network = store.get('network')
+  ? store.get('network')
+  : nodeList['XSMT'][0];
+
+// const storedNetwork = store.get('network');
+// let network = nodeList['XSMT'][0];
+
+// if (storedNetwork !== undefined) {
+//   network = storedNetwork;
+network.type = nodeList[network.type.name][0].type;
+// }
 
 const notifications =
   store.get('notifications') !== undefined ? store.get('notifications') : {};

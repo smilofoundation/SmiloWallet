@@ -37,7 +37,7 @@ export default {
     async getRates() {
       this.tokens = [];
       const tokenNames = [
-        'XSM'
+        'XSM',
         'BTC',
         'ETH',
         'REP',

@@ -25,9 +25,7 @@ describe('ManageENSContainer.vue', () => {
     const hostUrl = url.parse(network.url);
 
     const newWeb3 = new Web3(
-      `${hostUrl.protocol}//${hostUrl.hostname}:${network.port}${
-        hostUrl.pathname
-      }`
+      `${hostUrl.protocol}//${hostUrl.hostname}:${network.port}${hostUrl.pathname}`
     );
 
     const getters = {

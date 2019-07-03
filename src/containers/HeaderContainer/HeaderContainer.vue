@@ -49,12 +49,6 @@
         ]"
         class="fixed-header"
       >
-        <div v-if="$route.fullPath === '/'" class="vintage-header">
-          Missing the vintage MEW?
-          <a rel="noopener noreferrer" href="https://vintage.myetherwallet.com"
-            >Click here to go back!</a
-          >
-        </div>
         <div
           :class="[
             (isMobileMenuOpen || !isPageOnTop) && 'mobile-menu-boxshadow',
@@ -177,7 +171,7 @@
                   <template slot="button-content">
                     <div class="settings-container">
                       <blockie
-                        :address="wallet.getAddressString()"
+                        :address="address"
                         :diameter="35"
                         width="35px"
                         height="35px"
@@ -277,7 +271,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(['network', 'web3', 'account', 'gettingStartedDone']),
+    ...mapState(['wallet', 'network', 'web3', 'account', 'gettingStartedDone']),
     showButtons() {
       if (
         this.address === null &&

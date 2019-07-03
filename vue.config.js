@@ -210,8 +210,8 @@ const exportObj = {
       .rule('replace')
       .test(/\.js$/)
       .include.add(
-      path.resolve(__dirname, 'node_modules/@ensdomains/dnsprovejs')
-    )
+        path.resolve(__dirname, 'node_modules/@ensdomains/dnsprovejs')
+      )
       .end()
       .use('string-replace-loader')
       .loader('string-replace-loader')

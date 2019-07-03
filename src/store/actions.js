@@ -4,6 +4,7 @@ import MEWProvider from '@/wallets/web3-provider';
 import { MEW_CONNECT } from '@/wallets/bip44/walletTypes';
 import * as unit from 'ethjs-unit';
 import { formatters } from '@smilo-platform/web3-core-helpers';
+import Vue from 'vue';
 
 import {
   txIndexes,
@@ -80,6 +81,7 @@ const clearWallet = function({ commit, state }) {
   if (state.wallet.identifier === MEW_CONNECT) {
     state.wallet.mewConnect().disconnectRTC();
   }
+  // push redirect to localhost
   Vue.router.push('/');
   commit('CLEAR_WALLET');
 };

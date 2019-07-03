@@ -10,7 +10,7 @@
               <a
                 target="_blank"
                 rel="noopener noreferrer"
-                href="https://kb.smilowallet.uio/"
+                href="https://kb.smilowallet.io/"
               >
                 {{ $t('home.faqsSeeMore') }}
               </a>

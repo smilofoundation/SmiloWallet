@@ -40,6 +40,8 @@
   "dependencies": {
     "@sentry/browser": "5.4.3",
     "@sentry/integrations": "5.4.2",
+    "@smilo-platform/ethereum-ens": "0.7.4",
+    "@smilo-platform/smiloicon": "2.0.0",
     "html2canvas": "1.0.0-rc.3",
     "idna-uts46": "1.1.0",
     "js-sha1": "0.6.0",
@@ -90,7 +92,7 @@
     "detectrtc": "1.3.9",
     "eslint-plugin-security": "1.4.0",
     "eth-ens-namehash": "2.0.8",
-    "@smilo-platform/ethereum-ens": "0.7.4",
+    "ethereum-ens": "git+https://github.com/ensdomains/ensjs.git",
     "ethereumjs-tx": "2.0.0",
     "ethereumjs-common": "1.3.0",
     "ethereumjs-util": "6.1.0",

@@ -115,15 +115,8 @@
 import CustomerSupport from '@/components/CustomerSupport';
 import { Web3Wallet } from '@/wallets/software';
 import Web3 from '@smilo-platform/web3';
-import { mapGetters } from 'vuex';
-import { Toast } from '@/helpers';
-import platform from 'platform';
-import brave from '@/assets/images/browser/brave.png';
-import chrome from '@/assets/images/browser/chrome.png';
-import firefox from '@/assets/images/browser/firefox.png';
-import opera from '@/assets/images/browser/opera.png';
-
 import { mapState } from 'vuex';
+import { Toast } from '@/helpers';
 import platform from 'platform';
 import brave from '@/assets/images/browser/brave.png';
 import chrome from '@/assets/images/browser/chrome.png';
@@ -172,9 +165,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters({
-      path: 'path'
-    })
+    ...mapState(['path'])
   },
   mounted() {
     this.isSafari = platform.name.toLowerCase() === 'safari';

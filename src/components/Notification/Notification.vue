@@ -277,6 +277,7 @@ export default {
         } else {
           updatedNotif.expanded = false;
         }
+
         this.$store.dispatch('updateNotification', [
           this.account.address,
           idx,

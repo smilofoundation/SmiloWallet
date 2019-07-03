@@ -8,4 +8,5 @@ Changelog.md
 Makefile
 docker-compose.yml
 docs
+dist
 release

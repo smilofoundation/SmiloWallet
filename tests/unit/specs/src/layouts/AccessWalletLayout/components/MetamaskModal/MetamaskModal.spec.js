@@ -46,9 +46,7 @@ describe('MetamaskModal.vue', () => {
     };
 
     newWeb3 = new Web3(
-      `${hostUrl.protocol}//${hostUrl.hostname}:${network.port}${
-        hostUrl.pathname
-      }`
+      `${hostUrl.protocol}//${hostUrl.hostname}:${network.port}${hostUrl.pathname}`
     );
 
     store = new Vuex.Store({

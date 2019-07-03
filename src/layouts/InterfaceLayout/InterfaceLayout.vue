@@ -99,8 +99,6 @@
 
 <script>
 import { mapState } from 'vuex';
-import ENS from 'ethereum-ens';
-import { mapGetters } from 'vuex';
 import ENS from '@smilo-platform/ethereum-ens';
 import WalletPasswordModal from '@/components/WalletPasswordModal';
 import EnterPinNumberModal from '@/components/EnterPinNumberModal';
@@ -122,6 +120,7 @@ import { toChecksumAddress } from '@/helpers/addressUtils';
 import * as networkTypes from '@/networks/types';
 import { BigNumber } from 'bignumber.js';
 import store from 'store';
+import TokenBalance from '@myetherwallet/eth-token-balance';
 import sortByBalance from '@/helpers/sortByBalance.js';
 import AddressQrcodeModal from '@/components/AddressQrcodeModal';
 import web3Utils from 'web3-utils';
@@ -296,19 +295,26 @@ export default {
         const tb = new TokenBalance(this.web3.currentProvider);
         try {
           tokens = await tb.getBalance(this.account.address);
-          tokens = tokens.map(token => {
-            token.address = token.addr;
-            delete token.addr;
-            return token;
-          });
+          tokens = tokens ? tokens : [];
+          tokens =
+            tokens &&
+            tokens.map(token => {
+              token.address = token.addr;
+              delete token.addr;
+              return token;
+            });
         } catch (e) {
-          tokens = this.network.type.tokens.map(token => {
+          const type = this.network.type;
+          tokens = type.tokens ? type.tokens : [];
+          tokens = tokens.map(token => {
             token.balance = 'Load';
             return token;
           });
         }
       } else {
-        tokens = this.network.type.tokens.map(token => {
+        const type = this.network.type;
+        tokens = type.tokens ? type.tokens : [];
+        tokens = tokens.map(token => {
           token.balance = 'Load';
           return token;
         });
@@ -387,6 +393,8 @@ export default {
     async setTokens() {
       this.tokens = [];
       let tokens = await this.fetchTokens();
+      tokens = tokens ? tokens : [];
+
       tokens = tokens
         .sort((a, b) => {
           if (a.name.toUpperCase() < b.name.toUpperCase()) {
@@ -412,6 +420,8 @@ export default {
           };
           return convertedToken;
         });
+
+      tokens = tokens ? tokens : [];
 
       this.tokens = tokens.sort(sortByBalance);
       this.setTokensWithBalance();

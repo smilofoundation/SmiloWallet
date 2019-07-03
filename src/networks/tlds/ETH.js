@@ -1,1 +1,1 @@
-export default ['eth', 'xyz'];
+export default ['xsm', 'xsmt'];

@@ -14,7 +14,6 @@
             :icon="network.type.icon"
             :address="from"
             :value="value"
-            :currency="currency"
             :token-transfer-val="tokenTransferVal"
             :token-symbol="tokenSymbol"
             direction="from"

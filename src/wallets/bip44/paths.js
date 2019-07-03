@@ -2,6 +2,10 @@ const smilo = {
   path: "m/44'/20080914'/0'/0",
   label: 'Smilo'
 };
+const smiloTestnet = {
+  path: "m/44'/10'/0'/0",
+  label: 'Smilo'
+};
 const ethereum = {
   path: "m/44'/60'/0'/0",
   label: 'Ethereum'
@@ -145,6 +149,7 @@ const dexon = {
 };
 export {
   smilo,
+  smiloTestnet,
   ethereum,
   ethereumClassic,
   ledgerEthereum,

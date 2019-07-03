@@ -38,9 +38,7 @@ describe('[Needs Cleaned Up 1-16-19] InteractWithContractContainer.vue', () => {
     const hostUrl = url.parse(network.url);
 
     const newWeb3 = new Web3(
-      `${hostUrl.protocol}//${hostUrl.hostname}:${network.port}${
-        hostUrl.pathname
-      }`
+      `${hostUrl.protocol}//${hostUrl.hostname}:${network.port}${hostUrl.pathname}`
     );
 
     const wallet = {

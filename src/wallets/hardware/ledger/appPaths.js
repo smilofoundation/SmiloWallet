@@ -1,4 +1,6 @@
 import {
+  XSM,
+  XSMT,
   AKA,
   ATH,
   CLO,
@@ -23,6 +25,8 @@ import {
   TT
 } from '@/networks/types';
 import {
+  smilo,
+  smiloTestnet,
   ledgerEthereum,
   ledgerLiveEthereum,
   ledgerEthereumClassic,
@@ -49,6 +53,16 @@ import {
   thundercore
 } from '../../bip44/paths';
 const appList = [
+  {
+    network: XSM,
+    prefixes: ["m/44'/60'"],
+    paths: [smilo]
+  },
+  {
+    network: XSMT,
+    prefixes: ["m/44'/60'"],
+    paths: [smiloTestnet]
+  },
   {
     network: ETH,
     prefixes: ["m/44'/60'"],

@@ -33,12 +33,7 @@ const names = Object.keys(ALL_PACKAGES);
 let updatesFound = false;
 const looper = () => {
   if (!names.length) {
-    if (updatesFound) {
-        console.error(
-            'ERROR: Updates found! Update packages first!!'
-        );
-        process.exit(0);
-    }
+    if (updatesFound) process.exit(1);
     else process.exit(0);
   }
   const _name = names.shift();
