@@ -100,7 +100,7 @@ describe('InterfaceNetworkModal.vue', () => {
   });
 
   it('should render correct blockExplorerTX data', () => {
-    const blockExplorerTX = "123";
+    const blockExplorerTX = '123';
     wrapper.setData({ blockExplorerTX });
     expect(
       wrapper.vm.$el.querySelectorAll(
@@ -120,7 +120,7 @@ describe('InterfaceNetworkModal.vue', () => {
   });
 
   it('should render correct blockExplorerAddr data', () => {
-    const blockExplorerAddr = "423432";
+    const blockExplorerAddr = '423432';
     wrapper.setData({ blockExplorerAddr });
     expect(
       wrapper.vm.$el.querySelectorAll(

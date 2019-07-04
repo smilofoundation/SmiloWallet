@@ -121,10 +121,6 @@ const reorderNetworks = () => {
       ...oldObject
     }
   );
-  for (const net in newObject) {
-    if (newObject[net].length === 0) delete newObject[net];
-  }
-  return newObject;
 };
 
 const solidityType = inputType => {

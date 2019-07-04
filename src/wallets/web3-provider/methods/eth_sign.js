@@ -1,6 +1,5 @@
 import EventNames from '../events';
 import { toPayload } from './jsonrpc';
-import utils from '@smilo-platform/web3-utils';
 export default async ({ payload, eventHub }, res, next) => {
   if (payload.method !== 'eth_sign') return next();
   const msg = payload.params[1];

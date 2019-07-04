@@ -138,7 +138,7 @@
 import { mapState } from 'vuex';
 import FeedbackModal from '@/components/FeedbackModal';
 import CustomerSupport from '@/components/CustomerSupport';
-import affiliates from './affiliates.js';
+
 const version = VERSION;
 
 export default {
