@@ -2,11 +2,6 @@ import Vue from 'vue';
 import { shallowMount } from '@vue/test-utils';
 import ManageENS from '@/dapps/ManageENS/ManageENS.vue';
 import BackButton from '@/layouts/InterfaceLayout/components/BackButton/BackButton.vue';
-import Vuex from 'vuex';
-import nodeList from '@/networks';
-import url from 'url';
-import Web3 from '@smilo-platform/web3';
-
 import { Tooling } from '@@/helpers';
 
 describe('ManageENS.vue', () => {
@@ -31,31 +26,6 @@ describe('ManageENS.vue', () => {
     i18n = baseSetup.i18n;
     store = baseSetup.store;
     Vue.config.warnHandler = () => {};
-    Vue.config.errorHandler = () => {};
-
-    const network = nodeList['XSMT'][0];
-    const hostUrl = url.parse(network.url);
-
-    const newWeb3 = new Web3(
-      `${hostUrl.protocol}//${hostUrl.hostname}:${network.port}${hostUrl.pathname}`
-    );
-
-    const getters = {
-      Networks: () => {
-        return nodeList;
-      },
-      network: () => {
-        return network;
-      },
-      web3: () => {
-        return newWeb3;
-      },
-      ens: () => {}
-    };
-
-    store = new Vuex.Store({
-      getters
-    });
   });
 
   beforeEach(() => {

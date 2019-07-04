@@ -2,8 +2,8 @@
   <div ref="identicon" class="address-identicon" />
 </template>
 <script>
-// import { Blockies } from '@/helpers';
-import * as SmiloDenticon from '@smilo-platform/smiloicon';
+import {default as SmiloDenticon} from '@smilo-platform/smiloicon';
+
 export default {
   props: {
     address: {
@@ -56,6 +56,7 @@ export default {
   },
   methods: {
     setBlockie() {
+
       const data = SmiloDenticon(
         this.diameter,
         this.jsNumberForAddress(this.address.toLowerCase())

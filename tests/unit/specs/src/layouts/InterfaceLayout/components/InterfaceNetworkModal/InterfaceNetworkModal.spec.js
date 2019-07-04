@@ -16,38 +16,6 @@ describe('InterfaceNetworkModal.vue', () => {
     store = baseSetup.store;
 
     Vue.config.warnHandler = () => {};
-
-    const network = nodeList['XSMT'][0];
-    // const hostUrl = url.parse(network.url);
-
-    // const newWeb3 = new Web3(
-    //   `${hostUrl.protocol}//${hostUrl.hostname}:${network.port}${
-    //     hostUrl.pathname
-    //   }`
-    // );
-
-    const getters = {
-      notifications: () => [],
-      Networks: () => {
-        return nodeList;
-      },
-      network: () => {
-        return network;
-      }
-    };
-
-    const actions = {
-      switchNetwork: jest.fn(),
-      setWeb3Instance: jest.fn()
-    };
-
-    store = new Vuex.Store({
-      getters,
-
-      actions
-    });
-
-    Vue.config.errorHandler = () => {};
   });
 
   beforeEach(() => {
@@ -117,7 +85,7 @@ describe('InterfaceNetworkModal.vue', () => {
     expect(
       wrapper.vm.$el.querySelectorAll(
         '.content-block .input-block-container input'
-      )[1].value
+      )[2].value
     ).toEqual(url);
   });
 
@@ -127,17 +95,17 @@ describe('InterfaceNetworkModal.vue', () => {
     expect(
       wrapper.vm.$el.querySelectorAll(
         '.content-block .input-block-container input'
-      )[2].value
+      )[3].value
     ).toEqual(String(port));
   });
 
   it('should render correct blockExplorerTX data', () => {
-    const blockExplorerTX = 123;
+    const blockExplorerTX = "123";
     wrapper.setData({ blockExplorerTX });
     expect(
       wrapper.vm.$el.querySelectorAll(
         '.content-block .input-block-container input'
-      )[3].value
+      )[4].value
     ).toEqual(String(blockExplorerTX));
   });
 
@@ -147,17 +115,17 @@ describe('InterfaceNetworkModal.vue', () => {
     expect(
       wrapper.vm.$el.querySelectorAll(
         '.content-block .input-block-container input'
-      )[4].value
+      )[5].value
     ).toEqual(String(chainID));
   });
 
   it('should render correct blockExplorerAddr data', () => {
-    const blockExplorerAddr = 423432;
+    const blockExplorerAddr = "423432";
     wrapper.setData({ blockExplorerAddr });
     expect(
       wrapper.vm.$el.querySelectorAll(
         '.content-block .input-block-container input'
-      )[5].value
+      )[6].value
     ).toEqual(String(blockExplorerAddr));
   });
 

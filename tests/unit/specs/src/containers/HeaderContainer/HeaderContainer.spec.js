@@ -5,10 +5,6 @@ import Blockie from '@/components/Blockie';
 import Notification from '@/components/Notification';
 import ScrollUpButton from '@/components/ScrollUpButton';
 import SettingsModal from '@/components/SettingsModal';
-
-import nodeList from '@/networks';
-import url from 'url';
-import Web3 from '@smilo-platform/web3';
 import sinon from 'sinon';
 import { Tooling } from '@@/helpers';
 
@@ -43,51 +39,6 @@ describe('HeaderContainer.vue', () => {
     store = baseSetup.store;
 
     Vue.config.warnHandler = () => {};
-    Vue.config.errorHandler = () => {};
-
-    const wallet = {
-      getChecksumAddressString: jest.fn(() => 0),
-      getAddressString: function() {
-        return '0xDECAF9CD2367cdbb726E904cD6397eDFcAe6068D';
-      }
-    };
-
-    const network = nodeList['XSMT'][0];
-    const hostUrl = url.parse(network.url);
-
-    getters = {
-      notifications: () => [],
-      network: () => {
-        return network;
-      },
-      wallet: () => {
-        return wallet;
-      },
-      online: () => {
-        return false;
-      }
-    };
-
-    const actions = {
-      clearWallet: jest.fn()
-    };
-
-    const newWeb3 = new Web3(
-      `${hostUrl.protocol}//${hostUrl.hostname}:${network.port}${hostUrl.pathname}`
-    );
-
-    store = new Vuex.Store({
-      actions,
-      getters,
-      state: {
-        web3: newWeb3,
-        network: network,
-
-        wallet: {
-          getAddressString: jest.fn(() => 0)
-        }
-      }
-    });
 
     dispatch = sinon.stub();
     store.dispatch = dispatch;

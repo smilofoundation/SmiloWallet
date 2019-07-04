@@ -39,11 +39,12 @@
                 ? curr.name + idx + curr.symbol + page
                 : curr.name + page + idx
             "
-            @click="selectCurrency(idx)"
+            @click="selectCurrency(curr)"
           >
             <p v-show="token">
               {{ curr.symbol }}<span class="subname"> - {{ curr.name }}</span>
             </p>
+            <p />
             <p v-show="!token">{{ curr.name }}</p>
           </div>
         </div>

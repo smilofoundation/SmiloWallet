@@ -30,32 +30,6 @@ describe('NetworkAndAddressModal.vue', () => {
     i18n = baseSetup.i18n;
     store = baseSetup.store;
 
-    const actions = {
-      decryptWallet: jest.fn()
-    };
-
-    const network = nodeList['XSMT'][0];
-
-    const getters = {
-      customPaths: () => {},
-      network: () => {
-        return network;
-      },
-      Networks: () => {
-        return nodeList;
-      },
-      path: () => {}
-    };
-
-    store = new Vuex.Store({
-      actions,
-      getters,
-      state: {
-        network: network
-      }
-    });
-
-    Vue.config.errorHandler = () => {};
     Vue.config.warnHandler = () => {};
   });
 

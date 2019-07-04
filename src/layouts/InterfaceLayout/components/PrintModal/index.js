@@ -1,1 +1,1 @@
-export { default } from './PrintModal';
+export { default } from './PrintModal.vue';

@@ -129,7 +129,7 @@ describe('CustomerSupport.vue', () => {
         ${description}
       `;
     expect(wrapper.vm.issueLinkOut).toEqual(
-      `mailto:support@myetherwallet.com?subject=${encodeURIComponent(
+      `mailto:info@smilo.io?subject=${encodeURIComponent(
         subject
       )}&body=${encodeURIComponent(body)}`
     );

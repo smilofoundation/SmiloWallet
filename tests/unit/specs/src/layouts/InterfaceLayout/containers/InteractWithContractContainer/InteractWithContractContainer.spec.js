@@ -5,10 +5,6 @@ import InterfaceContainerTitle from '@/layouts/InterfaceLayout/components/Interf
 import InterfaceBottomText from '@/components/InterfaceBottomText/InterfaceBottomText.vue';
 import CurrencyPicker from '@/layouts/InterfaceLayout/components/CurrencyPicker/CurrencyPicker.vue';
 import PopOver from '@/components/PopOver/PopOver.vue';
-import nodeList from '@/networks';
-import url from 'url';
-import Web3 from '@smilo-platform/web3';
-
 import { Tooling } from '@@/helpers';
 
 describe('InteractWithContractContainer.vue', () => {
@@ -20,35 +16,7 @@ describe('InteractWithContractContainer.vue', () => {
     i18n = baseSetup.i18n;
     store = baseSetup.store;
 
-    const network = nodeList['XSMT'][0];
-    const hostUrl = url.parse(network.url);
-
-    const newWeb3 = new Web3(
-      `${hostUrl.protocol}//${hostUrl.hostname}:${network.port}${hostUrl.pathname}`
-    );
-
-    getters = {
-      network: () => {
-        return network;
-      },
-      web3: () => {
-        return newWeb3;
-      }
-    };
-
-    store = new VueX.Store({
-      getters,
-      state: {
-        gasPrice: '',
-        web3: newWeb3,
-        Networks: nodeList,
-        wallet: {
-          getAddressString: jest.fn(() => 0)
-        }
-      }
-    });
-
-    Vue.config.errorHandler = () => {};
+    Vue.config.warnHandler = () => {};
   });
 
   beforeEach(() => {

@@ -63,7 +63,7 @@ import domains from './domains.json';
 import normalise from '@/helpers/normalise';
 import BigNumber from 'bignumber.js';
 import web3 from '@smilo-platform/web3';
-import { mapGetters } from 'vuex';
+import { mapState } from 'vuex';
 import StandardButton from '@/components/Buttons/StandardButton';
 import { Toast } from '@/helpers';
 

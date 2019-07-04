@@ -1,4 +1,5 @@
 import Vue from 'vue';
+import Vuex from 'vuex';
 import { shallowMount } from '@vue/test-utils';
 import sinon from 'sinon';
 import ManageENSContainer from '@/dapps/ManageENS/containers/ManageENSContainer/ManageENSContainer.vue';

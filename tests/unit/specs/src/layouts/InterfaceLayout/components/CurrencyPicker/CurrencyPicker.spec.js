@@ -1,8 +1,5 @@
 import { shallowMount } from '@vue/test-utils';
 import CurrencyPicker from '@/layouts/InterfaceLayout/components/CurrencyPicker/CurrencyPicker.vue';
-import nodeList from '@/networks';
-import url from 'url';
-import Web3 from '@smilo-platform/web3';
 import { Tooling } from '@@/helpers';
 
 const currency = [
@@ -18,26 +15,6 @@ describe('CurrencyPicker.vue', () => {
     localVue = baseSetup.localVue;
     i18n = baseSetup.i18n;
     store = baseSetup.store;
-
-    const network = nodeList['XSMT'][0];
-    const hostUrl = url.parse(network.url);
-
-    const newWeb3 = new Web3(
-      `${hostUrl.protocol}//${hostUrl.hostname}:${network.port}${hostUrl.pathname}`
-    );
-
-    const getters = {
-      web3: () => {
-        return newWeb3;
-      },
-      network: () => {
-        return network;
-      }
-    };
-
-    store = new Vuex.Store({
-      getters
-    });
   });
 
   beforeEach(() => {

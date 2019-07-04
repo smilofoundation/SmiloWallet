@@ -1,4 +1,5 @@
 import Vue from 'vue';
+import Vuex from 'vuex';
 import { shallowMount } from '@vue/test-utils';
 import EnsBidContainer from '@/dapps/ManageENS/containers/EnsBidContainer/EnsBidContainer.vue';
 import JsonStringModal from '@/dapps/ManageENS/components/JsonStringModal/JsonStringModal.vue';

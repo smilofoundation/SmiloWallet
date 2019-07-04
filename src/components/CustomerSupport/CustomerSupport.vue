@@ -73,7 +73,7 @@ export default {
         ${this.description}
       `;
       // eslint-disable-next-line
-      return `mailto:support@smilo.io?subject=${encodeURIComponent(
+      return `mailto:info@smilo.io?subject=${encodeURIComponent(
         subject
       )}&body=${encodeURIComponent(body)}`;
     }

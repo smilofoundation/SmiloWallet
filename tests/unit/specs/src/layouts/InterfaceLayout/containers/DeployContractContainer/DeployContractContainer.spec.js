@@ -1,4 +1,6 @@
 import Vue from 'vue';
+import Vuex from 'vuex';
+
 import { shallowMount } from '@vue/test-utils';
 // import InteractWithContractContainer from '@/layouts/InterfaceLayout/containers/InteractWithContractContainer/InteractWithContractContainer.vue';
 //import InterfaceContainerTitle from '@/layouts/InterfaceLayout/components/InterfaceContainerTitle/InterfaceContainerTitle.vue';
@@ -57,7 +59,7 @@ describe('[Needs Cleaned Up 1-16-19] InteractWithContractContainer.vue', () => {
       }
     };
 
-    store = new VueX.Store({
+    store = new Vuex.Store({
       actions,
       getters,
       state: {
