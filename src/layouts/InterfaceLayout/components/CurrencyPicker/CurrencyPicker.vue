@@ -44,6 +44,7 @@
             <p v-show="token">
               {{ curr.symbol }}<span class="subname"> - {{ curr.name }}</span>
             </p>
+            <p />
             <p v-show="!token">{{ curr.name }}</p>
           </div>
         </div>
@@ -106,6 +107,24 @@ export default {
     selectedCurrency(newVal) {
       this.$emit('selectedCurrency', newVal);
     },
+    currency(newVal) {
+      if (this.token) {
+        this.localCurrency = [this.networkToken];
+      } else {
+        this.localCurrency = [{ name: 'Select an item' }];
+      }
+      // Add the tokens aswell
+      for (let i = 0; i < this.network.type.tokens.length; i++) {
+        this.localCurrency.push({
+          name: this.network.type.tokens[i].name,
+          symbol: this.network.type.tokens[i].symbol,
+          address: this.network.type.tokens[i].address,
+          isToken: true,
+          decimals: this.network.type.tokens[i].decimals
+        });
+      }
+      newVal.forEach(curr => this.localCurrency.push(curr));
+    },
     search(newVal) {
       if (newVal !== '') {
         this.localCurrency = this.localCurrency.filter(curr => {
@@ -135,16 +154,6 @@ export default {
       this.token === true
         ? this.networkToken
         : { name: 'Select an item', abi: '', address: '' };
-    // Add the tokens aswell
-    for (let i = 0; i < this.network.type.tokens.length; i++) {
-      this.localCurrency.push({
-        name: this.network.type.tokens[i].name,
-        symbol: this.network.type.tokens[i].symbol,
-        address: this.network.type.tokens[i].address,
-        isToken: true,
-        decimals: this.network.type.tokens[i].decimals
-      });
-    }
     this.chooseCurrency(0);
   },
   methods: {

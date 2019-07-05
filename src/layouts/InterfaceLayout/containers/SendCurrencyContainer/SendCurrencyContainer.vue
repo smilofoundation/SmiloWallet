@@ -229,6 +229,8 @@ export default {
         );
         const tokenValue = this.selectedCurrency.balance;
         return inputValue.lte(tokenValue);
+      } else if (this.isToken) {
+        return new BigNumber(this.value).lte(this.selectedCurrency.balance);
       }
       return new BigNumber(this.value).lte(this.balanceDefault);
     },

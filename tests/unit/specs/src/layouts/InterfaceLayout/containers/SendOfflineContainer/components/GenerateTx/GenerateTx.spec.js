@@ -98,7 +98,8 @@ describe('GenerateTx.vue', () => {
     );
     for (let i = 0; i < currencyElements.length; i++) {
       const currencyElement = currencyElements[i];
-      if (i > 0) {
+      // We have added sEUR and sUSD as currency type to send as other 'Main Currency' send types so skip the first 3 instead of the first 1
+      if (i > 2) {
         const symbol = wrapper.vm.$data.coinType[i - 1].symbol;
         const name = wrapper.vm.$data.coinType[i - 1].name;
         expect(currencyElement.querySelector('p').textContent.trim()).toEqual(

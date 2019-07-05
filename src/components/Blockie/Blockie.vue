@@ -3,7 +3,7 @@
 </template>
 <script>
 // import { Blockies } from '@/helpers';
-import * as SmiloDenticon from '@smilo-platform/smiloicon';
+import SmiloDenticon from '@smilo-platform/smiloicon';
 export default {
   props: {
     address: {

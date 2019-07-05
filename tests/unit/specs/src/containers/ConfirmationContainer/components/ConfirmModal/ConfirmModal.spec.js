@@ -105,7 +105,7 @@ describe('ConfirmModal.vue', () => {
         .querySelectorAll('.grid-block')[3]
         .querySelectorAll('p')[1]
         .textContent.trim()
-    ).toEqual(wrapper.props().fee + ' XSMT');
+    ).toEqual(wrapper.props().fee + ' XSP');
   });
 
   it('should render correct nonce props', () => {

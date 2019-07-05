@@ -14,9 +14,11 @@ describe('AddressBlock.vue', () => {
   let localVue, i18n, wrapper, store;
   const address = '0xDECAF9CD2367cdbb726E904cD6397eDFcAe6068D';
   const direction = 'from';
-  const currency = 'ETH';
+  // The default currency should be an empty array because it's variable and will be set on mount
+  const currency = '[]';
   const tokenTransferTo = 'tokenTransferTo';
-  const tokenSymbol = 'tokenSymbol';
+  // The default tokenSymbol should be an empty array because it's variable and will be set on mount
+  const tokenSymbol = '[]';
   const tokenTransferVal = '100';
   const value = '1000000000000';
   beforeAll(() => {

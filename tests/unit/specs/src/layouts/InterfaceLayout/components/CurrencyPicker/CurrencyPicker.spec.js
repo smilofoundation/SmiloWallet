@@ -168,12 +168,15 @@ describe('CurrencyPicker.vue', () => {
         const currencyElement = currencyElements.at(i);
         const localCurrency = wrapper.vm.$data.localCurrency[i];
         currencyElement.trigger('click');
-        expect(localCurrency.name).toEqual(
-          wrapper.vm.$data.selectedCurrency.name
-        );
-        expect(localCurrency.symbol).toEqual(
-          wrapper.vm.$data.selectedCurrency.symbol
-        );
+        // There is a timeout set on switching currencies, so wait an equal amount of settings for the test. Look into the switch of the currency to remove the timeout aswell.
+        setTimeout(() => {
+          expect(localCurrency.name).toEqual(
+            wrapper.vm.$data.selectedCurrency.name
+          );
+          expect(localCurrency.symbol).toEqual(
+            wrapper.vm.$data.selectedCurrency.symbol
+          );
+        }, 1000);
       }
     });
   });
