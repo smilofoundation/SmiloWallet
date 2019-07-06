@@ -421,11 +421,11 @@ export default {
       }
     },
     network(newVal) {
-      if (this.online && newVal.type.name === 'ETH') this.getEthPrice();
+      if (this.online && newVal.type.name === 'XSM') this.getEthPrice();
     }
   },
   mounted() {
-    if (this.online && this.network.type.name === 'ETH') this.getEthPrice();
+    if (this.online && this.network.type.name === 'XSM') this.getEthPrice();
   },
   methods: {
     openSettings() {
@@ -434,17 +434,14 @@ export default {
     sendEntireBalance() {
       if (this.isToken) this.value = this.selectedCurrency.balance;
       else
-        this.value =
-          this.balanceDefault > 0
-            ? this.balanceDefault.minus(
-                ethUnit.fromWei(
-                  new BigNumber(ethUnit.toWei(this.gasPrice, 'gwei'))
-                    .times(this.gasLimit)
-                    .toString(),
-                  'ether'
-                )
-              )
-            : 0;
+        this.value = this.balanceDefault.minus(
+          ethUnit.fromWei(
+            new BigNumber(ethUnit.toWei(this.gasPrice, 'gwei'))
+              .times(21000)
+              .toString(),
+            'ether'
+          )
+        );
     },
     getTokenTransferABI(amount, decimals) {
       const jsonInterface = [
@@ -475,20 +472,9 @@ export default {
         from: coinbase,
         value: this.txValue,
         to: this.txTo,
-        gasPrice: Misc.sanitizeHex(
-          ethUnit.toWei(this.gasPrice, 'gwei').toString(16)
-        ),
         data: this.txData
       };
-      this.web3.eth
-        .estimateGas(params)
-        .then(gasLimit => {
-          this.gasLimit = gasLimit;
-        })
-        .catch(err => {
-          this.gasLimit = -1;
-          Toast.responseHandler(err, Toast.ERROR);
-        });
+      this.gasLimit = await this.web3.eth.estimateGas(params);
     },
     async submitTransaction() {
       window.scrollTo(0, 0);
@@ -503,12 +489,14 @@ export default {
           gasLimit: Misc.sanitizeHex(new BigNumber(this.gasLimit).toString(16)),
           to: this.txTo,
           value: this.txValue,
-          data: this.txData
+          data: this.txData,
+          chainId: this.network.type.chainID
         };
         const _tx = new Transaction(raw);
         const json = _tx.toJSON(true);
         json.from = coinbase;
-        const sendSymbol = this.network.selectedCurrency.symbol;
+        // console.log('submitTransaction, this.network.selectedCurrency, ',this.network.selectedCurrency, 'this.network, ', this.network);
+        const sendSymbol = this.network.type.currencyName;
         json.token = {
           tokenSymbol: sendSymbol,
           amount: this.value
