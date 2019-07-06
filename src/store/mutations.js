@@ -28,7 +28,7 @@ const CHECK_IF_ONLINE = async function(state, status) {
   state.online = status;
   if (state.online) {
     const darkList = await fetch(
-      'https://raw.githubusercontent.com/MyEtherWallet/ethereum-lists/master/src/addresses/addresses-darklist.json'
+      'https://raw.githubusercontent.com/Smilo-platform/ethereum-lists/master/src/addresses/addresses-darklist.json'
     )
       .then(res => res.json())
       .catch(e => {

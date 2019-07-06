@@ -19,8 +19,8 @@ const NEED_PASSWORD = false;
 class TrezorWallet {
   constructor() {
     Trezor.manifest({
-      email: 'dev@myetherwallet.com',
-      appUrl: 'https://www.myetherwallet.com'
+      email: 'info@smilo.io',
+      appUrl: 'https://smilowallet.io'
     });
 
     this.identifier = trezorType;

@@ -17,7 +17,7 @@ const explicitStringReplacements = {
 
 class CompileSwapOptions {
   constructor() {
-    this.web3 = new web3('https://api.myetherwallet.com/eth');
+    this.web3 = new web3('https://api.smilo.network');
     this.changellyBaseOptions = {};
     this.kyberBaseOptions = {};
 

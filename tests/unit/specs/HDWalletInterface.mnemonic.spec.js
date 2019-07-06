@@ -87,7 +87,7 @@ for (let i = 0; i < 3; i++)
     )
   );
 describe('[Failing 6-17-19] (update to ethereum-tx package) HDWalletInterface Mnemonic', () => {
-  xit(' should derive correct keys', async () => {
+  it(' should derive correct keys', async () => {
     for (const i in testWallets) {
       expect(testWallets[i].getPublicKeyString()).toEqual(
         accountList[i].pubkey
