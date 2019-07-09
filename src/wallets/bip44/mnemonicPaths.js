@@ -22,7 +22,11 @@ import {
   mixBlockchain,
   iolite,
   rskMainnet,
-  rskTestnet
+  rskTestnet,
+  thundercore,
+  solidum,
+  metadium,
+  dexon
 } from './paths';
 export default [
   smilo,
@@ -48,5 +52,9 @@ export default [
   mixBlockchain,
   iolite,
   rskMainnet,
-  rskTestnet
+  rskTestnet,
+  thundercore,
+  solidum,
+  metadium,
+  dexon
 ];

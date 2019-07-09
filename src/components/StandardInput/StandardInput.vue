@@ -54,6 +54,9 @@
         :placeholder="options.placeHolder"
         :type="options.type"
         :disabled="options.inputDisabled"
+        v-model="inputvalue"
+        name=""
+        @blur="emitValue"
       />
 
       <textarea
@@ -63,6 +66,7 @@
         v-model="inputValue"
         :placeholder="options.placeHolder"
         :disabled="options.inputDisabled"
+        @blur="emitValue"
       />
 
       <p v-if="options.rightInputText" class="right-input-text">
@@ -97,6 +101,10 @@ export default {
       default: function() {
         return {};
       }
+    },
+    inputvalue: {
+      type: Number,
+      default: 0
     }
   },
   data() {
@@ -125,6 +133,9 @@ export default {
         this.$refs['inputdata'].select();
       }
       document.execCommand('copy');
+    },
+    emitValue(evt) {
+      this.$emit('changedValue', evt.srcElement.value);
     }
   }
 };

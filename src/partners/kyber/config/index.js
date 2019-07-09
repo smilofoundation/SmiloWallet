@@ -3,31 +3,43 @@ import {
   PROVIDER_NAME,
   TIME_SWAP_VALID,
   MAX_DEST_AMOUNT,
+  MIN_RATE_BUFFER,
   defaultValues,
-  kyberTokenList,
+  specialGasLimits,
+  // kyberTokenList,
   kyberTokenInfoList,
   kyberValidNetworks,
   kyberNetworkENS,
   walletDepositeAddress,
   kyberAddressFallback,
-  KyberCurrencies
+  kyberGasLimitList,
+  KyberCurrencies,
+  FEE_RATE,
+  kyberMethods
 } from './config';
 import kyberNetworkABI from './kyberNetwork.abi';
 import { ERC20 } from '../../partnersConfig';
+import GAS_LIMITS from './gasLimits';
 
 export {
   kyberBaseCurrency,
   PROVIDER_NAME,
   TIME_SWAP_VALID,
   MAX_DEST_AMOUNT,
+  MIN_RATE_BUFFER,
   defaultValues,
+  specialGasLimits,
   walletDepositeAddress,
   kyberNetworkENS,
   KyberCurrencies,
   kyberAddressFallback,
-  kyberTokenList,
+  kyberGasLimitList,
+  // kyberTokenList,
   kyberTokenInfoList,
   kyberValidNetworks,
   kyberNetworkABI,
-  ERC20
+  ERC20,
+  FEE_RATE,
+  GAS_LIMITS,
+  kyberMethods
 };

@@ -10,7 +10,8 @@
 import AccessMyWalletContainer from './containers/AccessMyWalletContainer';
 import FaqsContainer from '@/containers/FaqsContainer';
 import PriceBar from './components/PriceBar';
-import { mapGetters } from 'vuex';
+import { mapState } from 'vuex';
+import { Toast } from '@/helpers';
 
 export default {
   name: 'AccessWalletLayout',
@@ -25,9 +26,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters({
-      online: 'online'
-    })
+    ...mapState(['online'])
   },
   async mounted() {
     if (this.online) {
@@ -37,31 +36,39 @@ export default {
   methods: {
     async getRates() {
       this.tokens = [];
-      const tokenNames = ['XSM', 'BTC', 'ETH', 'ETC', 'LTC', 'NEO'];
-      const rates = await fetch(
-        'https://cryptorates.mewapi.io/ticker?filter=BTC,ETH,ETC,LTC,NEO'
+      const tokenNames = [
+        // 'XSM',
+        'BTC',
+        'ETH',
+        'ETC'
+      ];
+      return await fetch(
+        'https://cryptorates.mewapi.io/ticker?filter=' + tokenNames.join(',')
       )
         .then(res => {
           return res.json();
         })
-        .catch(err => {
-          return err;
-        });
-      return Object.keys(rates.data)
-        .map(item => Object.assign(rates.data[item]))
-        .sort((a, b) => {
-          if (a.rank < b.rank) return -1;
-          if (a.rank > b.rank) return 1;
-          return 0;
+        .then(rates => {
+          return Object.keys(rates.data)
+            .map(item => Object.assign(rates.data[item]))
+            .sort((a, b) => {
+              if (a.market_cap_rank < b.market_cap_rank) return -1;
+              if (a.market_cap_rank > b.market_cap_rank) return 1;
+              return 0;
+            })
+            .filter(item => {
+              if (
+                tokenNames.find(el => {
+                  return el === item.symbol;
+                }) !== undefined
+              ) {
+                return item;
+              }
+            });
         })
-        .filter(item => {
-          if (
-            tokenNames.find(el => {
-              return el === item.symbol;
-            }) !== undefined
-          ) {
-            return item;
-          }
+        .catch(err => {
+          Toast.responseHandler(err, Toast.ERROR);
+          return [];
         });
     }
   }

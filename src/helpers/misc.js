@@ -1,6 +1,16 @@
 import normalise from '@/helpers/normalise';
 import nodeList from '@/networks';
 import { isAddress } from './addressUtils';
+import url from 'url';
+import utils from 'web3-utils';
+import store from '@/store';
+import { uint, address, string, bytes, bool } from './solidityTypes';
+
+const capitalize = value => {
+  if (!value) return '';
+  value = value.toString();
+  return value.charAt(0).toUpperCase() + value.slice(1);
+};
 /* Accepts string, returns boolean */
 const isJson = str => {
   try {
@@ -12,11 +22,24 @@ const isJson = str => {
   return true;
 };
 
+const getService = parsableUrl => {
+  const parsedUrl = url.parse(parsableUrl).hostname;
+  const splitUrl = parsedUrl.split('.');
+  if (splitUrl.length > 2)
+    // eslint-disable-next-line
+    return capitalize(`${splitUrl[1]}.${splitUrl[2]}`);
+  return capitalize(splitUrl.join('.'));
+};
+
 const doesExist = val => val !== undefined && val !== null;
 
 const padLeftEven = hex => {
   hex = hex.length % 2 !== 0 ? '0' + hex : hex;
   return hex;
+};
+
+const isInt = num => {
+  return num % 1 === 0;
 };
 
 const formatDate = date => {
@@ -80,13 +103,12 @@ const scrollToTop = scrollDuration => {
 };
 
 const validateHexString = str => {
-  if (str == '') return true;
+  if (str === '') return true;
   str =
-    str.substring(0, 2) == '0x'
+    str.substring(0, 2) === '0x'
       ? str.substring(2).toUpperCase()
       : str.toUpperCase();
-  const re = /^[0-9A-F]+$/g;
-  return re.test(str);
+  return utils.isHex(str);
 };
 
 const reorderNetworks = () => {
@@ -101,6 +123,81 @@ const reorderNetworks = () => {
   );
 };
 
+const solidityType = inputType => {
+  if (!inputType) inputType = '';
+  if (inputType.includes('[') && inputType.includes(']')) {
+    if (inputType.includes(uint))
+      return { type: 'string', solidityType: `${uint}[]` };
+    if (inputType.includes(address))
+      return { type: 'text', solidityType: `${address}[]` };
+    if (inputType.includes(string))
+      return { type: 'text', solidityType: `${string}[]` };
+    if (inputType.includes(bytes))
+      return { type: 'text', solidityType: `${bytes}[]` };
+    if (inputType.includes(bool))
+      return { type: 'string', solidityType: `${bool}[]` };
+    return { type: 'text', solidityType: `${string}[]` };
+  }
+  if (inputType.includes(uint)) return { type: 'number', solidityType: uint };
+  if (inputType.includes(address))
+    return { type: 'text', solidityType: address };
+  if (inputType.includes(string)) return { type: 'text', solidityType: string };
+  if (inputType.includes(bytes)) return { type: 'text', solidityType: bytes };
+  if (inputType.includes(bool)) return { type: 'radio', solidityType: bool };
+  return { type: 'text', solidityType: string };
+};
+
+const isDarklisted = addr => {
+  const darklisted = store.state.darklist.data.findIndex(item => {
+    return (
+      utils.toChecksumAddress(item.address.toLowerCase()) ===
+      utils.toChecksumAddress(addr.toLowerCase())
+    );
+  });
+  const errMsg =
+    darklisted === -1 ? '' : store.state.darklist.data[darklisted].comment;
+  const errObject = {
+    error: darklisted === -1 ? false : true,
+    msg: errMsg
+  };
+  return errObject;
+};
+
+const stringToArray = str => {
+  return str.replace(/[^a-zA-Z0-9_,]+/g, '').split(',');
+};
+
+const isContractArgValid = (value, solidityType) => {
+  if (!value) value = '';
+  if (solidityType.includes('[') && solidityType.includes(']')) {
+    const parsedValue = Array.isArray(value) ? value : stringToArray(value);
+    const values = [];
+    parsedValue.forEach(item => {
+      if (solidityType.includes(uint)) {
+        values.push(item !== '' && !isNaN(item) && isInt(item));
+      } else if (solidityType.includes(address)) {
+        values.push(isAddress(item));
+      } else if (solidityType.includes(string)) {
+        values.push(item !== '');
+      } else if (solidityType.includes(bool)) {
+        values.push(typeof item === typeof true || item === '');
+      } else if (solidityType.includes(bytes)) {
+        values.push(validateHexString(item));
+      }
+    });
+    return !values.includes(false);
+  }
+  if (solidityType === 'uint')
+    return value !== '' && !isNaN(value) && isInt(value);
+  if (solidityType === 'address') return isAddress(value);
+  if (solidityType === 'string') return true;
+  if (solidityType === 'bytes')
+    return value.substr(0, 2) === '0x' && validateHexString(value);
+  if (solidityType === 'bool')
+    return typeof value === typeof true || value === '';
+  return false;
+};
+
 export default {
   isJson,
   doesExist,
@@ -112,5 +209,12 @@ export default {
   sanitizeHex,
   validateHexString,
   scrollToTop,
-  reorderNetworks
+  reorderNetworks,
+  isDarklisted,
+  solidityType,
+  isInt,
+  capitalize,
+  getService,
+  stringToArray,
+  isContractArgValid
 };

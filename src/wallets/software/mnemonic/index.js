@@ -1,12 +1,15 @@
 import * as HDKey from 'hdkey';
-import ethTx from 'ethereumjs-tx';
-import bip39 from 'bip39';
-import ethUtil from 'ethereumjs-util';
+import { Transaction } from 'ethereumjs-tx';
+import { hashPersonalMessage, toBuffer, ecsign } from 'ethereumjs-util';
 import { MNEMONIC as mnemonicType } from '../../bip44/walletTypes';
 import bip44Paths from '../../bip44';
 import HDWalletInterface from '@/wallets/HDWalletInterface';
 import { getSignTransactionObject, calculateChainIdFromV } from '../../utils';
+import errorHandler from './errorHandler';
+import store from '@/store';
+import commonGenerator from '@/helpers/commonGenerator';
 
+const bip39 = require('bip39');
 const NEED_PASSWORD = true;
 const IS_HARDWARE = false;
 
@@ -23,14 +26,16 @@ class MnemonicWallet {
   async init(basePath) {
     this.basePath = basePath ? basePath : this.supportedPaths[0].path;
     this.hdKey = HDKey.fromMasterSeed(
-      bip39.mnemonicToSeed(this.mnemonic, this.password)
+      bip39.mnemonicToSeedSync(this.mnemonic, this.password)
     );
   }
   getAccount(idx) {
     const derivedKey = this.hdKey.derive(this.basePath + '/' + idx);
     const txSigner = async tx => {
-      tx = new ethTx(tx);
-      const networkId = tx._chainId;
+      tx = new Transaction(tx, {
+        common: commonGenerator(store.state.network)
+      });
+      const networkId = tx.getChainId();
       tx.sign(derivedKey.privateKey);
       const signedChainId = calculateChainIdFromV(tx.v);
       if (signedChainId !== networkId)
@@ -44,8 +49,8 @@ class MnemonicWallet {
       return getSignTransactionObject(tx);
     };
     const msgSigner = async msg => {
-      const msgHash = ethUtil.hashPersonalMessage(ethUtil.toBuffer(msg));
-      const signed = ethUtil.ecsign(msgHash, derivedKey.privateKey);
+      const msgHash = hashPersonalMessage(toBuffer(msg));
+      const signed = ecsign(msgHash, derivedKey.privateKey);
       return Buffer.concat([
         Buffer.from(signed.r),
         Buffer.from(signed.s),
@@ -57,8 +62,10 @@ class MnemonicWallet {
       derivedKey.publicKey,
       this.isHardware,
       this.identifier,
+      errorHandler,
       txSigner,
-      msgSigner
+      msgSigner,
+      null
     );
   }
   getCurrentPath() {
@@ -73,5 +80,6 @@ const createWallet = async (mnemonic, password, basePath) => {
   await _mnemonicWallet.init(basePath);
   return _mnemonicWallet;
 };
+createWallet.errorHandler = errorHandler;
 
 export default createWallet;

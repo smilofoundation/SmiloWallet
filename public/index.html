@@ -61,8 +61,8 @@
         "url"   : "https://smilo.io",
         "contactType" : "customer service"
       }],
-      "logo" : "https://smilo.io/images/aboutLogo.png",
-      "description": "SmiloWallet is a free, open-source, client-side interface for generating Smilo wallets &amp; more. Interact with the Smilo blockchain easily &amp; securely.",
+        "logo" : "https://smilo.io/images/aboutLogo.png",
+        "description": "SmiloWallet is a free, open-source, client-side interface for generating Smilo wallets &amp; more. Interact with the Smilo blockchain easily &amp; securely.",
       "sameAs" : [
         "https://smilo.io",
         "https://www.facebook.com/SmiloPlatform",
@@ -72,10 +72,23 @@
       ]
       }
     </script>
-  </head>
+  <link href="<%= BASE_URL %>index.css" rel="stylesheet" type="text/css" />
+</head>
 
-  <body>
-    <div id="app"></div>
-    <!-- built files will be auto injected -->
-  </body>
+<body>
+  <div id="app"></div>
+  <!-- built files will be auto injected -->
+  <noscript>
+    <div class="img-container">
+      <img src="<%= BASE_URL %>img/spaceman.png" alt="Spaceman">
+    </div>
+    <div class="text-container">
+      <h1>Looks like you have Javascript disabled.</h1>
+      <p>SmiloWallet needs Javascript to work properly.</p>
+      <h3>Please enable Javascript to get the best out of SmiloWallet.</h3>
+      <p>Thank you!</p>
+    </div>
+  </noscript>
+</body>
+
 </html>

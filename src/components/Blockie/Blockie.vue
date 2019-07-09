@@ -2,8 +2,8 @@
   <div ref="identicon" class="address-identicon" />
 </template>
 <script>
-// import { Blockies } from '@/helpers';
-import * as SmiloDenticon from '@smilo-platform/smiloicon';
+import { default as SmiloDenticon } from '@smilo-platform/smiloicon';
+
 export default {
   props: {
     address: {

@@ -32,6 +32,9 @@
       a {
         padding-bottom: 10px;
         min-width: 60px;
+        &:hover {
+          text-decoration: none;
+        }
       }
 
       a:first-child > div {

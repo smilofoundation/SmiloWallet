@@ -102,12 +102,24 @@
               name="networkName"
               autocomplete="off"
             />
+            <select v-model="selectedNetworkName" class="custom-select-1">
+              <option
+                v-for="type in types"
+                :value="type.name"
+                :key="type.name + type.name_long"
+                :selected="selectedNetworkName === type.name"
+              >
+                {{ type.name | capitalize }} -
+                {{ type.name_long | capitalize }}
+              </option>
+            </select>
             <input
               v-validate="{
                 required: true,
                 url: {
                   require_protocol: true,
-                  protocols: ['http', 'https', 'ws', 'wss']
+                  protocols: ['http', 'https', 'ws', 'wss'],
+                  require_tld: false
                 }
               }"
               v-model="url"
@@ -138,7 +150,7 @@
             <input
               v-validate="'required|numeric'"
               v-show="selectedNetworkName === 'CUS'"
-              :value="chainID"
+              v-model="chainID"
               class="custom-input-text-1"
               type="number"
               name="customChain"
@@ -251,7 +263,11 @@
             >
               {{ $t('interface.save') }}
             </button>
-            <interface-bottom-text />
+            <interface-bottom-text
+              :link-text="$t('interface.helpCenter')"
+              :question="$t('interface.dontKnow')"
+              link="https://kb.smilowallet.io"
+            />
           </div>
         </div>
       </form>
@@ -266,7 +282,7 @@ import InterfaceBottomText from '@/components/InterfaceBottomText';
 import * as networkTypes from '@/networks/types';
 import Misc from '@/helpers/misc';
 
-import { mapGetters } from 'vuex';
+import { mapState } from 'vuex';
 
 export default {
   components: {
@@ -276,6 +292,7 @@ export default {
     return {
       types: networkTypes,
       selectedNetworkName: 'XSM',
+      chainID: networkTypes['XSM'].chainID,
       port: 443,
       networkName: 'XSM - Smilo',
       name: '',
@@ -288,19 +305,20 @@ export default {
     };
   },
   computed: {
-    ...mapGetters({
-      network: 'network',
-      Networks: 'Networks'
-    }),
+    ...mapState(['network', 'Networks']),
     reorderedNetworks() {
       const networks = Misc.reorderNetworks();
       return networks;
     },
-    chainID() {
-      return this.selectedNetwork.chainID;
-    },
     selectedNetwork() {
-      return this.types[this.selectedNetworkName];
+      return this.network.type;
+    }
+  },
+  watch: {
+    selectedNetworkName(val) {
+      if (val !== 'CUS') {
+        this.chainID = this.selectedNetwork.chainID;
+      }
     }
   },
   mounted() {
@@ -316,7 +334,7 @@ export default {
       chainID: networkTypes['XSM'].chainID,
       tokens: [],
       contracts: [],
-      ensResolver: ''
+      currencyName: 'CUS'
     };
     this.selectedNetworkName = this.network.type.name;
   },
@@ -363,20 +381,21 @@ export default {
           blockExplorerTX:
             this.selectedNetwork.blockExplorerTX || this.blockExplorerTX || '',
           chainID: this.chainID,
-          contracts: this.Networks[this.selectedNetwork.name][0].type.contracts,
+          contracts: [],
           homePage: '',
           name: this.selectedNetwork.name,
           name_long: this.selectedNetwork.name_long,
-          tokens: this.Networks[this.selectedNetwork.name][0].type.tokens
+          tokens: [],
+          currencyName: this.selectedNetwork.currencyName
         },
         url: this.url,
         username: this.username
       };
 
       this.customNetworks.push(customNetwork);
+      store.set('customNetworks', this.customNetworks);
       this.resetCompState();
       this.$refs.addCustomToggle.click();
-      store.set('customNetworks', this.customNetworks);
     },
     expendAuth() {
       this.$refs.authForm.classList.toggle('hidden');

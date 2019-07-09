@@ -10,6 +10,8 @@ import {
   ethCoinbase,
   ethGetTransactionCount,
   ethGetTransactionReceipt,
+  ethGetBlockByNumber,
+  ethGetBlockNumber,
   netVersion
 } from '../methods';
 class HttpProvider {
@@ -56,6 +58,8 @@ class HttpProvider {
       middleware.use(ethAccounts);
       middleware.use(ethCoinbase);
       middleware.use(netVersion);
+      middleware.use(ethGetBlockByNumber);
+      middleware.use(ethGetBlockNumber);
       middleware.run(req, callback).then(() => {
         try {
           request.send(JSON.stringify(payload));

@@ -1,16 +1,18 @@
 <template>
-  <router-link :to="param" tag="div">
-    <div :class="['dapps-button', active ? '' : 'disabled']">
-      <img :src="icon" />
+  <div :class="['dapps-button', supported ? '' : 'disabled']">
+    <router-link :to="param" tag="div">
+      <img :src="supported ? icon : iconDisabled" />
       <div>
         <h4>{{ title }}</h4>
         <p>{{ desc }}</p>
       </div>
-    </div>
-  </router-link>
+    </router-link>
+  </div>
 </template>
 
 <script>
+import { mapState } from 'vuex';
+
 export default {
   props: {
     title: {
@@ -25,13 +27,25 @@ export default {
       type: String,
       default: ''
     },
-    active: {
-      type: Boolean,
-      default: true
+    iconDisabled: {
+      type: String,
+      default: ''
     },
     param: {
       type: String,
       default: ''
+    },
+    supportedNetworks: {
+      type: Array,
+      default: () => {
+        return [];
+      }
+    }
+  },
+  computed: {
+    ...mapState(['network']),
+    supported() {
+      return this.supportedNetworks.includes(this.network.type.name);
     }
   }
 };

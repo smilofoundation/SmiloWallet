@@ -1,13 +1,11 @@
 import Vue from 'vue';
-import Vuex from 'vuex';
+
 import { shallowMount } from '@vue/test-utils';
 import InterfaceNetworkModal from '@/layouts/InterfaceLayout/components/InterfaceNetworkModal/InterfaceNetworkModal.vue';
 import InterfaceBottomText from '@/components/InterfaceBottomText/InterfaceBottomText.vue';
-import nodeList from '@/networks';
 
 import { Tooling } from '@@/helpers';
 
-//xdescribe
 describe('InterfaceNetworkModal.vue', () => {
   let localVue, i18n, wrapper, store;
 
@@ -17,40 +15,7 @@ describe('InterfaceNetworkModal.vue', () => {
     i18n = baseSetup.i18n;
     store = baseSetup.store;
 
-    Vue.config.errorHandler = () => {};
     Vue.config.warnHandler = () => {};
-
-    const network = nodeList['XSMT'][0];
-    // const hostUrl = url.parse(network.url);
-
-    // const newWeb3 = new Web3(
-    //   `${hostUrl.protocol}//${hostUrl.hostname}:${network.port}${
-    //     hostUrl.pathname
-    //   }`
-    // );
-
-    const getters = {
-      notifications: () => [],
-      Networks: () => {
-        return nodeList;
-      },
-      network: () => {
-        return network;
-      }
-    };
-
-    const actions = {
-      switchNetwork: jest.fn(),
-      setWeb3Instance: jest.fn()
-    };
-
-    store = new Vuex.Store({
-      getters,
-
-      actions
-    });
-
-    Vue.config.errorHandler = () => {};
   });
 
   beforeEach(() => {
@@ -64,7 +29,7 @@ describe('InterfaceNetworkModal.vue', () => {
     });
   });
 
-  xit('[Failing] should render correct types data', () => {
+  it('should render correct types data', () => {
     const optionElements = wrapper.vm.$el.querySelectorAll(
       '.input-block-container select option'
     );
@@ -88,8 +53,7 @@ describe('InterfaceNetworkModal.vue', () => {
     }
   });
 
-  xit('[Failing] should render correct username data', () => {
-    wrapper.setData({ selectedNetwork: wrapper.vm.network });
+  it('should render correct username data', () => {
     const username = 'username';
     wrapper.setData({ username });
     expect(
@@ -97,8 +61,7 @@ describe('InterfaceNetworkModal.vue', () => {
     ).toEqual(username);
   });
 
-  xit('[Failing] should render correct password data', () => {
-    wrapper.setData({ selectedNetwork: wrapper.vm.network });
+  it('should render correct password data', () => {
     const password = 'password';
     wrapper.setData({ password });
     expect(
@@ -106,8 +69,7 @@ describe('InterfaceNetworkModal.vue', () => {
     ).toEqual(password);
   });
 
-  xit('[Failing] should render correct name data', () => {
-    wrapper.setData({ selectedNetwork: wrapper.vm.network });
+  it('should render correct name data', () => {
     const name = 'name';
     wrapper.setData({ name });
     expect(
@@ -117,63 +79,58 @@ describe('InterfaceNetworkModal.vue', () => {
     ).toEqual(name);
   });
 
-  xit('[Failing] should render correct url data', () => {
-    wrapper.setData({ selectedNetwork: wrapper.vm.network });
+  it('should render correct url data', () => {
     const url = 'url';
     wrapper.setData({ url });
     expect(
       wrapper.vm.$el.querySelectorAll(
         '.content-block .input-block-container input'
-      )[1].value
+      )[2].value
     ).toEqual(url);
   });
 
-  xit('[Failing] should render correct port data', () => {
-    wrapper.setData({ selectedNetwork: wrapper.vm.network });
-    const port = 'port';
+  it('should render correct port data', () => {
+    const port = 80;
     wrapper.setData({ port });
     expect(
       wrapper.vm.$el.querySelectorAll(
         '.content-block .input-block-container input'
-      )[2].value
-    ).toEqual(port);
+      )[3].value
+    ).toEqual(String(port));
   });
 
-  xit('[Failing] should render correct blockExplorerTX data', () => {
-    wrapper.setData({ selectedNetwork: wrapper.vm.network });
-    const blockExplorerTX = 123;
+  it('should render correct blockExplorerTX data', () => {
+    const blockExplorerTX = '123';
     wrapper.setData({ blockExplorerTX });
     expect(
       wrapper.vm.$el.querySelectorAll(
         '.content-block .input-block-container input'
-      )[3].value
+      )[4].value
     ).toEqual(String(blockExplorerTX));
   });
 
-  xit('[Failing] should render correct chainID data', () => {
-    wrapper.setData({ selectedNetwork: wrapper.vm.network });
+  it('should render correct chainID data', () => {
     const chainID = 333221;
     wrapper.setData({ chainID });
     expect(
       wrapper.vm.$el.querySelectorAll(
         '.content-block .input-block-container input'
-      )[4].value
+      )[5].value
     ).toEqual(String(chainID));
   });
 
-  xit('[Failing] should render correct blockExplorerAddr data', () => {
-    wrapper.setData({ selectedNetwork: wrapper.vm.network });
-    const blockExplorerAddr = 423432;
+  it('should render correct blockExplorerAddr data', () => {
+    const blockExplorerAddr = '423432';
     wrapper.setData({ blockExplorerAddr });
     expect(
       wrapper.vm.$el.querySelectorAll(
         '.content-block .input-block-container input'
-      )[5].value
+      )[6].value
     ).toEqual(String(blockExplorerAddr));
   });
 
   describe('InterfaceNetworkModal.vue Methods', () => {
-    xit('[Failing] should remove  custom network when button click', () => {
+    it('should remove  custom network when button click', () => {
       for (let i = 0; i < 2; i++) wrapper.find('.save-button').trigger('click');
       const customNetworkElements = wrapper.findAll(
         '.network-list .content-block .grid-3 div.switch-network i'
@@ -185,14 +142,12 @@ describe('InterfaceNetworkModal.vue', () => {
       expect(wrapper.vm.$data.customNetworks.length).toBe(0);
     });
 
-    xit('[Failing] should reset state when button click', () => {
-      wrapper.setData({ selectedNetwork: wrapper.vm.network });
+    it('should reset state when button click', () => {
       wrapper.find('.save-button').trigger('click');
-      expect(wrapper.vm.$data.chainID).toEqual('');
       expect(wrapper.vm.$data.username).toEqual('');
       expect(wrapper.vm.$data.password).toEqual('');
       expect(wrapper.vm.$data.name).toEqual('');
-      expect(wrapper.vm.$data.port).toEqual('');
+      expect(wrapper.vm.$data.port).toEqual(443);
       expect(wrapper.vm.$data.blockExplorerAddr).toEqual('');
       expect(wrapper.vm.$data.blockExplorerTX).toEqual('');
     });

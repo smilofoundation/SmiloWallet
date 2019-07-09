@@ -4,9 +4,20 @@ import {
   sanitizeHex,
   calculateChainIdFromV
 } from './utils';
-import ethUtil from 'ethereumjs-util';
-import ethTx from 'ethereumjs-tx';
+import {
+  hashPersonalMessage,
+  publicToAddress,
+  toBuffer,
+  bufferToHex,
+  ecsign,
+  isValidPrivate,
+  isValidPublic,
+  privateToPublic
+} from 'ethereumjs-util';
+import commonGenerator from '@/helpers/commonGenerator';
+import { Transaction } from 'ethereumjs-tx';
 import { toChecksumAddress } from '@/helpers/addressUtils';
+import store from '@/store';
 class WalletInterface {
   constructor(key, isPub = false, identifier) {
     this.identifier = identifier;
@@ -14,16 +25,16 @@ class WalletInterface {
       const _privKey = Buffer.isBuffer(key)
         ? key
         : getBufferFromHex(sanitizeHex(key));
-      if (!ethUtil.isValidPrivate(_privKey))
+      if (!isValidPrivate(_privKey))
         throw new Error(
           'Private key does not satisfy the curve requirements (ie. it is invalid)'
         );
       this.privateKey = _privKey;
-      this.publicKey = ethUtil.privateToPublic(_privKey);
+      this.publicKey = privateToPublic(_privKey);
       this.isPubOnly = false;
     } else {
       const _pubKey = Buffer.isBuffer(key) ? key : getBufferFromHex(key);
-      if (_pubKey.length !== 20 && !ethUtil.isValidPublic(_pubKey, true))
+      if (_pubKey.length !== 20 && !isValidPublic(_pubKey, true))
         throw new Error('Invalid public key');
       if (_pubKey.length === 20) this.isAddress = true;
       this.publicKey = _pubKey;
@@ -37,7 +48,7 @@ class WalletInterface {
 
   getPrivateKeyString() {
     if (this.isPubOnly) throw new Error('public key only wallet');
-    return ethUtil.bufferToHex(this.getPrivateKey());
+    return bufferToHex(this.getPrivateKey());
   }
 
   getPublicKey() {
@@ -46,16 +57,16 @@ class WalletInterface {
   }
 
   getPublicKeyString() {
-    return ethUtil.bufferToHex(this.getPublicKey());
+    return bufferToHex(this.getPublicKey());
   }
 
   getAddress() {
     if (this.isAddress) return this.publicKey;
-    return ethUtil.publicToAddress(this.publicKey, true);
+    return publicToAddress(this.publicKey, true);
   }
 
   getAddressString() {
-    return ethUtil.bufferToHex(this.getAddress());
+    return bufferToHex(this.getAddress());
   }
 
   getChecksumAddressString() {
@@ -66,8 +77,10 @@ class WalletInterface {
       throw new Error('public key only wallets needs a signer');
     return new Promise((resolve, reject) => {
       if (!this.isPubOnly) {
-        const tx = new ethTx(txParams);
-        const networkId = tx._chainId;
+        const tx = new Transaction(txParams, {
+          common: commonGenerator(store.state.network)
+        });
+        const networkId = tx.getChainId();
         tx.sign(this.privateKey);
         const signedChainId = calculateChainIdFromV(tx.v);
         if (signedChainId !== networkId)
@@ -91,8 +104,8 @@ class WalletInterface {
       throw new Error('public key only wallets needs a signer');
     return new Promise((resolve, reject) => {
       if (!this.isPubOnly) {
-        const msgHash = ethUtil.hashPersonalMessage(ethUtil.toBuffer(msg));
-        const signed = ethUtil.ecsign(msgHash, this.privateKey);
+        const msgHash = hashPersonalMessage(toBuffer(msg));
+        const signed = ecsign(msgHash, this.privateKey);
         resolve(
           Buffer.concat([
             Buffer.from(signed.r),

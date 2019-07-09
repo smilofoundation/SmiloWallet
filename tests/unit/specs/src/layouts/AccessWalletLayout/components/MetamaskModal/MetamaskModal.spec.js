@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+
 import { shallowMount } from '@vue/test-utils';
 import MetamaskModal from '@/layouts/AccessWalletLayout/components/MetamaskModal/MetamaskModal.vue';
 import { Tooling } from '@@/helpers';
@@ -47,9 +48,7 @@ describe('MetamaskModal.vue', () => {
     };
 
     newWeb3 = new Web3(
-      `${hostUrl.protocol}//${hostUrl.hostname}:${network.port}${
-        hostUrl.pathname
-      }`
+      `${hostUrl.protocol}//${hostUrl.hostname}:${network.port}${hostUrl.pathname}`
     );
 
     store = new Vuex.Store({

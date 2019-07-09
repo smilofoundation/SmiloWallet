@@ -4,12 +4,13 @@ import * as nodes from './nodes';
 const nodeList = {};
 
 Object.keys(types).forEach(key => {
-  nodeList[key] = [];
+  nodeList[types[key].name] = [];
 });
 
 Object.keys(nodes).forEach(key => {
   if (nodes[key].service === nodes['xsmtestnet'].service) {
-    nodeList[nodes[key].type.name].splice(0, 0, nodes[key]);
+    const type = nodes[key].type;
+    nodeList[type.name].splice(0, 0, nodes[key]);
   } else {
     nodeList[nodes[key].type.name].push(nodes[key]);
   }

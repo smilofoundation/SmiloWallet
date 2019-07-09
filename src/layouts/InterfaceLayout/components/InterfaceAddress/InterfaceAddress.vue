@@ -24,40 +24,72 @@
           <p class="address">{{ address }}</p>
         </div>
         <div class="icon-container">
-          <b-btn id="print" class="custom-tooltip" @click="print">
+          <button
+            v-if="hasMultipleAddr"
+            id="popover-ref-switch"
+            class="change-button"
+            @click="switchAddr"
+          >
+            Switch
+          </button>
+          <b-btn id="popover-ref-qrcode" class="custom-tooltip" @click="qrcode">
+            <img src="~@/assets/images/icons/qr-code-white.svg" />
+          </b-btn>
+          <b-btn id="popover-ref-print" class="custom-tooltip" @click="print">
             <img src="~@/assets/images/icons/printer-white.svg" />
           </b-btn>
-          <b-btn id="copy" class="custom-tooltip" @click="copy">
+          <b-btn id="popover-ref-copy" class="custom-tooltip" @click="copy">
             <img src="~@/assets/images/icons/copy.svg" />
           </b-btn>
           <b-btn
-            v-if="hasMultipleAddr"
-            id="switch"
-            class="custom-tooltip"
-            @click="switchAddr"
+            v-show="displayAddr"
+            id="popover-ref-address"
+            class="custom-tooltip button-address"
+            @click="displayAddr"
           >
-            <img src="~@/assets/images/icons/change.svg" />
+            <img src="~@/assets/images/icons/Interface/Buttons/Address.svg" />
           </b-btn>
           <b-popover
-            :content="$t('popover.print')"
-            target="print"
+            content="Switch Address"
+            target="popover-ref-address"
             placement="top"
             triggers="hover"
-            title=""
+            title
+          />
+          <b-popover
+            :content="$t('popover.print')"
+            target="popover-ref-print"
+            placement="top"
+            triggers="hover"
+            title
           />
           <b-popover
             :content="$t('popover.copy')"
-            target="copy"
+            target="popover-ref-copy"
             placement="top"
             triggers="hover"
-            title=""
+            title
           />
           <b-popover
             :content="$t('popover.switchAddress')"
-            target="switch"
+            target="popover-ref-switch"
             placement="top"
             triggers="hover"
-            title=""
+            title
+          />
+          <b-popover
+            :content="$t('popover.displayAddress')"
+            target="popover-ref-address"
+            placement="top"
+            triggers="hover"
+            title
+          />
+          <b-popover
+            content="Address in Qrcode"
+            target="popover-ref-qrcode"
+            placement="top"
+            triggers="hover"
+            title
           />
         </div>
       </div>
@@ -67,7 +99,14 @@
 
 <script>
 import Blockie from '@/components/Blockie';
-import { mapGetters } from 'vuex';
+import { mapState } from 'vuex';
+import { Toast } from '@/helpers';
+import {
+  KEYSTORE,
+  PRIV_KEY,
+  MEW_CONNECT,
+  WEB3_WALLET
+} from '@/wallets/bip44/walletTypes';
 
 export default {
   components: {
@@ -78,15 +117,19 @@ export default {
       type: String,
       default: ''
     },
-    triggerAlert: {
-      type: Function,
-      default: function() {}
-    },
     print: {
       type: Function,
       default: function() {}
     },
     switchAddr: {
+      type: Function,
+      default: function() {}
+    },
+    displayAddr: {
+      type: Function,
+      default: undefined
+    },
+    qrcode: {
       type: Function,
       default: function() {}
     }
@@ -97,16 +140,15 @@ export default {
     };
   },
   computed: {
-    ...mapGetters({
-      wallet: 'wallet'
-    })
+    ...mapState(['account'])
   },
   mounted() {
-    if (this.wallet !== null) {
+    if (this.account.address !== null) {
       if (
-        this.wallet.identifier !== 'priv_key' &&
-        this.wallet.identifier !== 'keystore' &&
-        this.wallet.identifier !== 'MEWconnect'
+        this.account.identifier !== KEYSTORE &&
+        this.account.identifier !== PRIV_KEY &&
+        this.account.identifier !== MEW_CONNECT &&
+        this.account.identifier !== WEB3_WALLET
       ) {
         this.hasMultipleAddr = true;
       } else {
@@ -116,9 +158,9 @@ export default {
   },
   methods: {
     copy() {
-      this.triggerAlert('Address Copied!');
       this.$refs.copyAddress.select();
       document.execCommand('copy');
+      Toast.responseHandler('Copied!', Toast.INFO);
     }
   }
 };

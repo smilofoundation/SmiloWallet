@@ -1,7 +1,15 @@
 <template>
-  <div class="send-eth-and-tokens">
+  <div class="interface-layout">
+    <!-- Modals ******************************************************** -->
+    <!-- Modals ******************************************************** -->
+    <!-- Modals ******************************************************** -->
     <wallet-password-modal />
     <enter-pin-number-modal />
+    <ledger-app-modal
+      ref="ledgerAppModal"
+      :networks="Networks"
+      @hardwareWalletOpen="toggleNetworkAddrModal"
+    />
     <mnemonic-modal
       ref="mnemonicPhraseModal"
       :mnemonic-phrase-password-modal-open="mnemonicphrasePasswordModalOpen"
@@ -24,11 +32,23 @@
     />
     <print-modal
       ref="printModal"
-      :priv-key="wallet.privateKey"
-      :address="wallet.getChecksumAddressString()"
+      :priv-key="!wallet.isPubOnly"
+      :address="account.address"
     />
+    <address-qrcode-modal ref="addressQrcodeModal" :address="account.address" />
+    <!-- Modals ******************************************************** -->
+    <!-- Modals ******************************************************** -->
+    <!-- Modals ******************************************************** -->
+    <div class="mobile-interface-address-block">
+      <mobile-interface-address
+        :address="address"
+        :print="print"
+        :switch-addr="switchAddress"
+      />
+    </div>
+
     <div class="wrap">
-      <div>
+      <div class="sidemenu">
         <div
           :class="isSidemenuOpen && 'side-nav-open'"
           class="side-nav-background"
@@ -39,47 +59,36 @@
         </div>
       </div>
       <div class="contents">
-        <b-alert
-          :show="alert.show"
-          :variant="alert.type"
-          fade
-          @click.native="triggerAlert(null)"
-          >{{ alert.msg }}</b-alert
-        >
         <div class="tx-contents">
-          <div class="mobile-hide">
+          <div class="content-container mobile-hide">
             <interface-address
               :address="address"
-              :trigger-alert="triggerAlert"
               :print="print"
               :switch-addr="switchAddress"
+              :display-addr="wallet.displayAddress"
+              :qrcode="openAddressQrcode"
             />
           </div>
-          <div class="mobile-hide">
-            <interface-balance
-              :balance="balance"
-              :get-balance="getBalance"
-              :smilopay-balance="smilopayBalance"
-              :get-smilo-pay-balance="getSmiloPayBalance"
-            />
+          <div class="content-container mobile-hide">
+            <interface-balance :balance="balance" :get-balance="getBalance" />
           </div>
-          <div class="mobile-hide">
+          <div class="content-container mobile-hide">
             <interface-network :block-number="blockNumber" />
           </div>
-          <!-- SendCurrencyContainer?  -->
           <router-view
             :tokens-with-balance="tokensWithBalance"
             :get-balance="getBalance"
             :tokens="tokens"
             :highest-gas="highestGas"
+            :nonce="nonce"
           />
-          <div v-if="online" class="tokens">
+          <div class="tokens">
             <interface-tokens
               :fetch-tokens="setTokens"
               :get-token-balance="getTokenBalance"
               :tokens="tokens"
               :received-tokens="receivedTokens"
-              :trigger-alert="triggerAlert"
+              :reset-token-selection="setTokensWithBalance"
             />
           </div>
         </div>
@@ -89,7 +98,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapState } from 'vuex';
 import ENS from '@smilo-platform/ethereum-ens';
 import WalletPasswordModal from '@/components/WalletPasswordModal';
 import EnterPinNumberModal from '@/components/EnterPinNumberModal';
@@ -97,17 +106,24 @@ import NetworkAndAddressModal from '@/layouts/AccessWalletLayout/components/Netw
 import HardwarePasswordModal from '@/layouts/AccessWalletLayout/components/HardwarePasswordModal';
 import MnemonicPasswordModal from '@/layouts/AccessWalletLayout/components/MnemonicPasswordModal';
 import MnemonicModal from '@/layouts/AccessWalletLayout/components/MnemonicModal';
+import LedgerAppModal from '@/layouts/AccessWalletLayout/components/LedgerAppModal';
 import InterfaceAddress from './components/InterfaceAddress';
 import InterfaceBalance from './components/InterfaceBalance';
 import InterfaceNetwork from './components/InterfaceNetwork';
 import InterfaceSideMenu from './components/InterfaceSideMenu';
 import InterfaceTokens from './components/InterfaceTokens';
+import MobileInterfaceAddress from './components/MobileInterfaceAddress';
 import PrintModal from './components/PrintModal';
 import { Web3Wallet } from '@/wallets/software';
+import { Toast } from '@/helpers';
+import { toChecksumAddress } from '@/helpers/addressUtils';
 import * as networkTypes from '@/networks/types';
 import { BigNumber } from 'bignumber.js';
 import store from 'store';
+import TokenBalance from '@myetherwallet/eth-token-balance';
 import sortByBalance from '@/helpers/sortByBalance.js';
+import AddressQrcodeModal from '@/components/AddressQrcodeModal';
+import web3Utils from 'web3-utils';
 import {
   LedgerWallet,
   TrezorWallet,
@@ -125,6 +141,7 @@ import {
   MNEMONIC as MNEMONIC_TYPE
 } from '@/wallets/bip44/walletTypes';
 export default {
+  name: 'Interface',
   components: {
     'interface-side-menu': InterfaceSideMenu,
     'interface-address': InterfaceAddress,
@@ -137,7 +154,10 @@ export default {
     'hardware-password-modal': HardwarePasswordModal,
     'mnemonic-modal': MnemonicModal,
     'mnemonic-password-modal': MnemonicPasswordModal,
-    'enter-pin-number-modal': EnterPinNumberModal
+    'enter-pin-number-modal': EnterPinNumberModal,
+    'mobile-interface-address': MobileInterfaceAddress,
+    'address-qrcode-modal': AddressQrcodeModal,
+    'ledger-app-modal': LedgerAppModal
   },
   data() {
     return {
@@ -148,10 +168,10 @@ export default {
       srcTwentyTokens: [],
       receivedTokens: false,
       tokensWithBalance: [],
-      pollNetwork: () => {},
       pollBlock: () => {},
-      pollAddress: () => {},
-      highestGas: 0,
+      pollNetwork: () => {},
+      pollddress: () => {},
+      highestGas: '0',
       alert: {
         show: false,
         msg: ''
@@ -165,7 +185,8 @@ export default {
       hwInstance: {},
       walletConstructor: () => {},
       hardwareBrand: '',
-      phrase: ''
+      phrase: '',
+      nonce: '0'
     };
   },
   computed: {
@@ -174,24 +195,25 @@ export default {
     },
     address() {
       if (this.wallet !== null) {
-        return this.wallet.getChecksumAddressString();
+        return toChecksumAddress(this.account.address);
       }
     },
-    ...mapGetters({
-      network: 'network',
-      wallet: 'wallet',
-      online: 'online',
-      web3: 'web3',
-      Networks: 'Networks',
-      sidemenuOpen: 'sidemenuOpen'
-    })
+    ...mapState([
+      'network',
+      'account',
+      'online',
+      'web3',
+      'Networks',
+      'sidemenuOpen',
+      'wallet'
+    ])
   },
   watch: {
-    network() {
+    web3() {
       this.setupOnlineEnvironment();
     },
-    address() {
-      this.setupOnlineEnvironment();
+    address(val) {
+      if (val) this.setupOnlineEnvironment();
     }
   },
   mounted() {
@@ -201,6 +223,9 @@ export default {
     this.clearIntervals();
   },
   methods: {
+    openAddressQrcode() {
+      this.$refs.addressQrcodeModal.$refs.addressQrcode.show();
+    },
     mnemonicphrasePasswordModalOpen(phrase) {
       this.phrase = phrase;
       this.$refs.mnemonicPhraseModal.$refs.mnemonicPhrase.hide();
@@ -217,18 +242,20 @@ export default {
       this.hardwareBrand = brand;
       this.$refs.hardwareModal.$refs.password.show();
     },
-
+    ledgerAppModalOpen() {
+      this.$refs.ledgerAppModal.$refs.ledgerApp.show();
+    },
     switchAddress() {
-      switch (this.wallet.identifier) {
+      switch (this.account.identifier) {
         case LEDGER_TYPE:
-          LedgerWallet().then(_newWallet => {
-            this.toggleNetworkAddrModal(_newWallet);
-          });
+          this.ledgerAppModalOpen();
           break;
         case TREZOR_TYPE:
-          TrezorWallet().then(_newWallet => {
-            this.toggleNetworkAddrModal(_newWallet);
-          });
+          TrezorWallet()
+            .then(_newWallet => {
+              this.toggleNetworkAddrModal(_newWallet);
+            })
+            .catch(TrezorWallet.errorHandler);
           break;
         case BITBOX_TYPE:
           this.togglePasswordModal(BitBoxWallet, 'DigitalBitbox');
@@ -240,60 +267,54 @@ export default {
           this.$refs.mnemonicPhraseModal.$refs.mnemonicPhrase.show();
           break;
         case KEEPKEY_TYPE:
-          KeepkeyWallet(false, this.$eventHub).then(_newWallet => {
-            this.toggleNetworkAddrModal(_newWallet);
-          });
+          KeepkeyWallet(false, this.$eventHub)
+            .then(_newWallet => {
+              this.toggleNetworkAddrModal(_newWallet);
+            })
+            .catch(KeepkeyWallet.errorHandler);
           break;
         default:
-          // eslint-disable-next-line
-          console.error('something not right'); // todo remove dev item
-          break;
+          Toast.responseHandler(
+            new Error(
+              `Wallet type ${this.account.identifier} can't switch addresses`
+            ),
+            false
+          );
       }
     },
     print() {
       this.$refs.printModal.$refs.print.show();
     },
-    triggerAlert(msg, type) {
-      let timeout;
-      if (msg !== null) {
-        this.alert = {
-          show: true,
-          msg: msg,
-          type: type ? type : 'info'
-        };
-        timeout = setTimeout(() => {
-          this.alert = {
-            show: false,
-            msg: '',
-            type: type ? type : 'info'
-          };
-        }, 3000);
-      } else {
-        clearTimeout(timeout);
-        this.alert = {
-          show: false,
-          msg: ''
-        };
-      }
-    },
     toggleSideMenu() {
       this.$store.commit('TOGGLE_SIDEMENU');
     },
     async fetchTokens() {
-      this.receivedTokens = true;
+      this.receivedTokens = false;
       let tokens = [];
-      try {
-        tokens = await Promise.all(
-          this.network.type.tokens.map(async token => {
-            token.balance = await this.getTokenBalance(token);
-            token.balance = new BigNumber(token.balance).shiftedBy(
-              token.decimals
-            );
+      if (this.network.type.chainID === 1 || this.network.type.chainID === 3) {
+        const tb = new TokenBalance(this.web3.currentProvider);
+        try {
+          tokens = await tb.getBalance(this.account.address);
+          tokens = tokens ? tokens : [];
+          tokens =
+            tokens &&
+            tokens.map(token => {
+              token.address = token.addr;
+              delete token.addr;
+              return token;
+            });
+        } catch (e) {
+          const type = this.network.type;
+          tokens = type.tokens ? type.tokens : [];
+          tokens = tokens.map(token => {
+            token.balance = 'Load';
             return token;
-          })
-        );
-      } catch (e) {
-        tokens = this.network.type.tokens.map(token => {
+          });
+        }
+      } else {
+        const type = this.network.type;
+        tokens = type.tokens ? type.tokens : [];
+        tokens = tokens.map(token => {
           token.balance = 'Load';
           return token;
         });
@@ -302,13 +323,16 @@ export default {
       return tokens;
     },
     async setNonce() {
-      const nonce = await this.web3.eth.getTransactionCount(
-        this.wallet.getAddressString()
-      );
-      store.set(this.web3.utils.sha3(this.wallet.getAddressString()), {
-        nonce: nonce,
-        timestamp: +new Date()
+      store.set(this.web3.utils.sha3(this.account.address), {
+        nonce: '0x00',
+        timestamp: 0
       });
+      const fetchedNonce = await this.web3.eth
+        .getTransactionCount(this.account.address)
+        .catch(e => {
+          Toast.responseHandler(e, Toast.ERROR);
+        });
+      this.nonce = new BigNumber(fetchedNonce).toString();
     },
     getSrcTwentyTokenBalance(symbol) {
       const token = this.srcTwentyTokens.find(token => token.symbol == symbol);
@@ -318,51 +342,59 @@ export default {
       return 0;
     },
     async getTokenBalance(token) {
-      const web3 = this.web3;
-      const contractAbi = [
-        {
-          name: 'balanceOf',
-          type: 'function',
-          constant: true,
-          inputs: [{ name: 'address', type: 'address' }],
-          outputs: [{ name: 'out', type: 'uint256' }]
-        }
-      ];
-      const contract = new web3.eth.Contract(contractAbi);
-      const data = contract.methods
-        .balanceOf(this.wallet.getAddressString())
-        .encodeABI();
-      const balance = await web3.eth
-        .call({
-          to: token.address
-            ? web3.utils.toChecksumAddress(token.address)
-            : web3.utils.toChecksumAddress(token.addr),
-          data: data
-        })
-        .then(res => {
-          let tokenBalance;
-          if (Number(res) === 0 || res === '0x') {
-            tokenBalance = 0;
-          } else {
-            const denominator = web3.utils
-              .toBN(10)
-              .pow(web3.utils.toBN(token.decimals));
-            tokenBalance = new BigNumber(res)
-              .dividedBy(denominator)
-              .toString(10);
+      try {
+        const web3 = this.web3;
+        const contractAbi = [
+          {
+            name: 'balanceOf',
+            type: 'function',
+            constant: true,
+            inputs: [{ name: 'address', type: 'address' }],
+            outputs: [{ name: 'out', type: 'uint256' }]
           }
-          return tokenBalance;
-        })
-        .catch(err => {
-          // eslint-disable-next-line no-console
-          console.error(err);
-        });
-      return balance;
+        ];
+        const contract = new web3.eth.Contract(contractAbi);
+        const data = contract.methods
+          .balanceOf(this.account.address)
+          .encodeABI();
+        const balance = await web3.eth
+          .call({
+            to: token.address,
+            data: data
+          })
+          .then(res => {
+            let tokenBalance;
+            if (Number(res) === 0 || res === '0x') {
+              tokenBalance = 0;
+            } else {
+              const denominator = new BigNumber(10).pow(token.decimals);
+              tokenBalance = new BigNumber(res).div(denominator).toString();
+            }
+            return tokenBalance;
+          })
+          .catch(e => {
+            Toast.responseHandler(e, false);
+          });
+
+        return balance;
+      } catch (e) {
+        Toast.responseHandler(e, Toast.ERROR);
+      }
+    },
+    setCustomTokenStore() {
+      const customTokenStore = store.get('customTokens');
+      Object.keys(networkTypes).forEach(network => {
+        if (customTokenStore[networkTypes[network].name] === undefined) {
+          customTokenStore[networkTypes[network].name] = [];
+        }
+      });
+      store.set('customTokens', customTokenStore);
     },
     async setTokens() {
-      this.receivedTokens = false;
       this.tokens = [];
       let tokens = await this.fetchTokens();
+      tokens = tokens ? tokens : [];
+
       tokens = tokens
         .sort((a, b) => {
           if (a.name.toUpperCase() < b.name.toUpperCase()) {
@@ -389,32 +421,55 @@ export default {
           return convertedToken;
         });
 
+      tokens = tokens ? tokens : [];
+
       this.tokens = tokens.sort(sortByBalance);
-      let customTokens = [];
+      this.setTokensWithBalance();
+    },
+    setTokensWithBalance() {
+      const customStore = store.get('customTokens');
       if (
-        store.get('customTokens') !== undefined &&
-        store.get('customTokens')[this.network.type.name] !== undefined &&
-        store.get('customTokens')[this.network.type.name].length > 0
+        customStore !== undefined &&
+        customStore[this.network.type.name] !== undefined &&
+        customStore[this.network.type.name].length > 0
       ) {
-        customTokens = store.get('customTokens')[
-          // eslint-disable-next-line
-          this.network.type.name
-        ].filter(token => token.balance > 0);
+        new Promise(resolve => {
+          const newArr = customStore[this.network.type.name].map(
+            async token => {
+              token.balance = await this.getTokenBalance(token);
+              return token;
+            }
+          );
+          Promise.all(newArr).then(res => {
+            customStore[this.network.type.name] = res;
+            store.set('customTokens', customStore);
+            resolve(res);
+          });
+        })
+          .then(res => {
+            const allTokens = this.tokens
+              .filter(token => token.balance > 0)
+              .concat(res.filter(token => token.balance > 0));
+            this.tokensWithBalance = allTokens;
+            this.receivedTokens = true;
+          })
+          .catch(e => {
+            Toast.responseHandler(e, Toast.ERROR);
+          });
+      } else {
+        this.receivedTokens = true;
+        this.tokensWithBalance = this.tokens.filter(token => token.balance > 0);
       }
-      const allTokens = this.tokens
-        .filter(token => token.balance > 0)
-        .concat(customTokens);
-      this.tokensWithBalance = allTokens;
     },
     getBlock() {
       this.web3.eth
         .getBlockNumber()
         .then(res => {
           this.blockNumber = res;
+          this.$store.dispatch('updateBlockNumber', res);
         })
-        .catch(err => {
-          // eslint-disable-next-line no-console
-          console.error(err);
+        .catch(e => {
+          Toast.responseHandler(e, Toast.ERROR);
         });
     },
     getBalance() {
@@ -425,9 +480,8 @@ export default {
           this.balance = web3.utils.fromWei(res, 'ether');
           this.$store.dispatch('setAccountBalance', res);
         })
-        .catch(err => {
-          // eslint-disable-next-line no-console
-          console.error(err);
+        .catch(e => {
+          Toast.responseHandler(e, Toast.ERROR);
         });
     },
     getSmiloPayBalance() {
@@ -474,50 +528,67 @@ export default {
         });
       }, 500);
     },
-    matchWeb3WalletNetwork() {
-      this.pollNetwork = setInterval(() => {
-        window.web3.eth.net
-          .getId()
-          .then(netId => {
-            if (this.network.type.chainID.toString() !== netId) {
-              Object.keys(networkTypes).some(net => {
-                if (networkTypes[net].chainID === netId && this.Networks[net]) {
-                  this.$store.dispatch('switchNetwork', this.Networks[net][0]);
-                  clearInterval(this.pollNetwork);
-                  return true;
-                }
-              });
+    matchMetamaskNetwork() {
+      window.ethereum.on('networkChanged', netId => {
+        if (this.network.type.chainID.toString() !== netId) {
+          Object.keys(networkTypes).some(net => {
+            if (
+              networkTypes[net].chainID.toString() === netId &&
+              this.Networks[net]
+            ) {
+              this.$store.dispatch('switchNetwork', this.Networks[net][0]);
+              return true;
             }
-          })
-          .catch(e => {
-            // eslint-disable-next-line
-            console.error(e);
           });
-      }, 500);
+        }
+      });
     },
-    clearIntervals() {
-      clearInterval(this.pollNetwork);
-      clearInterval(this.pollBlock);
-      clearInterval(this.pollAddress);
-    },
-    setupOnlineEnvironment() {
+    setupOnlineEnvironment: web3Utils._.debounce(function() {
       this.clearIntervals();
-      if (this.online === true) {
-        if (this.wallet !== null) {
-          if (this.wallet.identifier === WEB3_TYPE) {
-            this.checkWeb3WalletAddrChange();
-            this.matchWeb3WalletNetwork();
+      if (store.get('customTokens') === undefined) {
+        store.set('customTokens', {});
+        this.setCustomTokenStore();
+      } else {
+        this.setCustomTokenStore();
+      }
+      if (this.online) {
+        if (this.account.address !== null) {
+          if (this.account.identifier === WEB3_TYPE) {
+            if (window.web3.currentProvider.isMetamask) {
+              this.checkWeb3WalletAddrChange();
+              this.matchMetamaskNetwork();
+            } else {
+              this.web3WalletPollNetwork();
+              this.web3WalletPollAddress();
+            }
           }
+          this.setENS();
           this.getBlock();
           this.getBalance();
           this.getSmiloPayBalance();
           this.pollBlock = setInterval(this.getBlock, 14000);
           this.setTokens();
-          this.setENS();
           this.setNonce();
           this.getHighestGas();
+          this.getBlockUpdater().then(_sub => {
+            this.pollBlock = _sub;
+          });
         }
       }
+    }),
+    async getBlockUpdater() {
+      return new Promise(resolve => {
+        let subscription = this.web3.eth
+          .subscribe('newBlockHeaders', err => {
+            if (err) {
+              subscription = setInterval(this.getBlock, 14000);
+            }
+            resolve(subscription);
+          })
+          .on('data', headers => {
+            this.blockNumber = headers.number;
+          });
+      });
     },
     getHighestGas() {
       this.web3.eth
@@ -525,19 +596,90 @@ export default {
         .then(res => {
           this.highestGas = new BigNumber(
             this.web3.utils.fromWei(res, 'gwei')
-          ).toNumber();
+          ).toString();
         })
-        .catch(err => {
-          // eslint-disable-next-line no-console
-          console.error(err);
+        .catch(e => {
+          Toast.responseHandler(e, Toast.ERROR);
         });
     },
     setENS() {
-      if (this.network.type.ensResolver) {
-        this.$store.dispatch('setENS', new ENS(this.web3.currentProvider));
+      if (this.network.type.ens) {
+        this.$store.dispatch(
+          'setENS',
+          new ENS(this.web3.currentProvider, this.network.type.ens.registry)
+        );
       } else {
         this.$store.dispatch('setENS', null);
       }
+    },
+    clearIntervals() {
+      if (this.pollBlock.unsubscribe) this.pollBlock.unsubscribe();
+      else clearInterval(this.pollBlock);
+      clearInterval(this.pollNetwork);
+      clearInterval(this.pollAddress);
+    },
+    web3WalletPollNetwork() {
+      if (
+        !window.web3.eth.net ||
+        typeof window.web3.eth.net.getId !== 'function'
+      )
+        return;
+      this.pollNetwork = setInterval(() => {
+        window.web3.eth.net
+          .getId()
+          .then(id => {
+            if (this.network.type.chainID.toString() !== id) {
+              Object.keys(networkTypes).some(net => {
+                if (networkTypes[net].chainID === id && this.Networks[net]) {
+                  this.$store.dispatch('switchNetwork', this.Networks[net]);
+                  clearInterval(this.pollNetwork);
+                  return true;
+                }
+              });
+            }
+          })
+          .catch(e => {
+            Toast.responseHandler(e, false);
+          });
+      }, 500);
+    },
+    web3WalletPollAddress() {
+      this.pollAddress = setInterval(() => {
+        if (!window.web3.eth) {
+          Toast.responseHandler(
+            new Error('Web3 Instance not found!'),
+            Toast.ERROR
+          );
+          clearInterval(this.pollAddress);
+        }
+
+        window.web3.eth.getAccounts((err, accounts) => {
+          if (err) {
+            Toast.responseHandler(err, false);
+            clearInterval(this.pollAddress);
+          }
+          if (!accounts.length) {
+            Toast.responseHandler(
+              new Error('Please make sure that your Web3 Wallet is unlocked'),
+              Toast.ERROR
+            );
+            clearInterval(this.pollAddress);
+          }
+          const address = accounts[0];
+
+          if (
+            this.account.address !== null &&
+            address.toLowerCase() !== this.account.address.toLowerCase()
+          ) {
+            const wallet = new Web3Wallet(address);
+            this.$store.dispatch('decryptWallet', [
+              wallet,
+              window.web3.currentProvider
+            ]);
+            clearInterval(this.pollAddress);
+          }
+        });
+      }, 500);
     }
   }
 };
