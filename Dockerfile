@@ -1,11 +1,9 @@
-FROM node:8.16.0-jessie
+FROM nginx:alpine
 
-ENV NODE_OPTIONS --max-old-space-size=4096
-RUN npm install npm@6.9 -g
-RUN node -v && npm -v
-COPY package*.json ./
-COPY package-audit.js ./
-RUN  node package-audit.js
-RUN rm package-audit.js
-RUN rm -rf package*.json*
-WORKDIR /home
+## Remove default nginx website
+RUN rm -rf /usr/share/nginx/html/*
+
+## Copy website to default nginx public folder
+COPY ./dist /usr/share/nginx/html
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]

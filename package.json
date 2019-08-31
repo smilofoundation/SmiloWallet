@@ -17,6 +17,7 @@
     "build:mewcx": "ROUTER_MODE=hash BUILD_TYPE=mewcx npm run build",
     "start:mewcx": "ROUTER_MODE=hash BUILD_TYPE=mewcx npm run start",
     "build": "npm run update && vue-cli-service build",
+    "fix-build": "vue-cli-service build --fix",
     "test": "npm run update:lists && jest --clearCache && npm run test:unit",
     "lint": "npm run lint:styles && npm run lint:code && npm run lint:md",
     "codecov": "npm run test && codecov",

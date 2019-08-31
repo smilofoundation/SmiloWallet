@@ -17,5 +17,5 @@ export {
   ethinfura,
   ethinfuraws,
   ethmew,
-  ethmewws,
+  ethmewws
 };

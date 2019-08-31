@@ -62,7 +62,7 @@ const looper = () => {
           latestVersion,
           latestVersionTime
         );
-        updatesFound = true;
+        // updatesFound = true;
       }
     })
     .then(looper);
