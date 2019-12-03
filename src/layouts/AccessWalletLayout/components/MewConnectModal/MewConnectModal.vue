@@ -18,17 +18,17 @@
       </div>
       <div class="appstore-button-container">
         <div class="links-container">
-<!--          <a-->
-<!--            v-if="canDownloadApple"-->
-<!--            href="https://itunes.apple.com/us/app/mewconnect/id1391097156?mt=8"-->
-<!--            target="_blank"-->
-<!--            rel="noopener noreferrer"-->
-<!--          >-->
-<!--            <img src="~@/assets/images/icons/appstore.svg" height="35" />-->
-<!--          </a>-->
-<!--          <div v-else @click="openIpadModal">-->
-<!--            <img src="~@/assets/images/icons/appstore.svg" height="35" />-->
-<!--          </div>-->
+          <!--          <a-->
+          <!--            v-if="canDownloadApple"-->
+          <!--            href="https://itunes.apple.com/us/app/mewconnect/id1391097156?mt=8"-->
+          <!--            target="_blank"-->
+          <!--            rel="noopener noreferrer"-->
+          <!--          >-->
+          <!--            <img src="~@/assets/images/icons/appstore.svg" height="35" />-->
+          <!--          </a>-->
+          <!--          <div v-else @click="openIpadModal">-->
+          <!--            <img src="~@/assets/images/icons/appstore.svg" height="35" />-->
+          <!--          </div>-->
           <a
             href="http://play.google.com/store/apps/details?id=io.smilowallet.smilosecurewallet"
             target="_blank"
