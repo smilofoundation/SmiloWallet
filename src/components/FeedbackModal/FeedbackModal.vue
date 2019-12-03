@@ -9,7 +9,10 @@
     >
       <div class="modal-content">
         If you want to send us your feedback, please use
-        <a href="mailto:info@smilo.foundation" target="_blank" rel="noopener noreferrer"
+        <a
+          href="mailto:info@smilo.foundation"
+          target="_blank"
+          rel="noopener noreferrer"
           >info@smilo.foundation</a
         >. Thank you.
       </div>

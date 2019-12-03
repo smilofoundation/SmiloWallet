@@ -22,7 +22,7 @@
 mkdir -p publicweb
 
 echo "Generating site"
-#npm run build:hash && cp -r dist/* publicweb
+npm run build:hash && cp -r dist/* publicweb
 
 cp CNAME public/CNAME
 #cp 404.html public
