@@ -15,7 +15,7 @@ importScripts("workbox-v3.6.3/workbox-sw.js");
 workbox.setConfig({modulePathPrefix: "workbox-v3.6.3"});
 
 importScripts(
-  "precache-manifest.57dcc93300b131bfacdf116f476d27ae.js"
+  "precache-manifest.7a4f7879079a70e424ef8ce107db1327.js"
 );
 
 workbox.core.setCacheNameDetails({prefix: "smilowallet"});
