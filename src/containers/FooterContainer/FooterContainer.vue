@@ -152,7 +152,7 @@ export default {
       lowerLinks: [
         {
           title: this.$t('footer.feedback'),
-          href: 'mailto:info@smilo.io'
+          href: 'mailto:info@smilo.foundation'
         },
         {
           title: this.$t('footer.privacy'),
@@ -170,7 +170,7 @@ export default {
           contents: [
             {
               text: this.$t('footer.smilo'),
-              href: 'https://smilo.io/'
+              href: 'https://smilo.foundation/'
             },
             {
               text: this.$t('footer.explorer'),
@@ -178,7 +178,7 @@ export default {
             },
             {
               text: this.$t('footer.wiki'),
-              href: 'https://github.com/Smilo-platform/Wiki/wiki'
+              href: 'https://github.com/smilofoundation/Wiki/wiki'
             },
             {
               text: this.$t('footer.quake'),
@@ -204,7 +204,7 @@ export default {
             },
             {
               text: this.$t('common.customerSupport'),
-              href: 'mailto:info@smilo.io'
+              href: 'mailto:info@smilo.foundation'
             }
           ]
         },
@@ -225,11 +225,11 @@ export default {
           class: 'fa-twitter'
         },
         {
-          to: 'https://www.linkedin.com/company/smilo-platform-bv',
+          to: 'https://www.linkedin.com/company/smilofoundation-bv',
           class: 'fa-linkedin'
         },
         {
-          to: 'https://github.com/Smilo-platform',
+          to: 'https://github.com/smilofoundation',
           class: 'fa-github'
         },
         {
@@ -237,7 +237,7 @@ export default {
           class: 'fa-reddit-alien'
         },
         {
-          to: 'https://medium.com/smilo-platform',
+          to: 'https://medium.com/smilofoundation',
           class: 'fa-medium'
         }
       ]

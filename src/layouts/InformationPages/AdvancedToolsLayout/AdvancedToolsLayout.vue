@@ -157,7 +157,7 @@
                 <div class="link-block">
                   <a
                     rel="noopener noreferrer"
-                    href="https:/kb.smilowallet.io"
+                    href="https://kb.smilo.foundation"
                     target="_blank"
                   >
                     >Learn more</a

@@ -7,7 +7,7 @@ import xsmnetworkicon from '@/assets/images/networks/xsmnetworkicon.png';
 export default {
   name: 'XSMT',
   name_long: 'Smilo',
-  homePage: 'https://smilo.io',
+  homePage: 'https://smilo.foundation',
   blockExplorerTX: 'https://testnet-explorer.smilo.network/tx/[[txHash]]',
   blockExplorerAddr:
     'https://testnet-explorer.smilo.network/account/[[address]]',

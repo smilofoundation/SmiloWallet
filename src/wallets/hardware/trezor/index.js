@@ -19,8 +19,8 @@ const NEED_PASSWORD = false;
 class TrezorWallet {
   constructor() {
     Trezor.manifest({
-      email: 'info@smilo.io',
-      appUrl: 'https://smilowallet.io'
+      email: 'info@smilo.foundation',
+      appUrl: 'https://wallet.smilo.foundation'
     });
 
     this.identifier = trezorType;

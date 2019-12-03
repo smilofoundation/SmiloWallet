@@ -60,7 +60,7 @@ export default {
         },
         {
           img: medium,
-          to: 'https://medium.com/smilo-platform',
+          to: 'https://medium.com/smilofoundation',
           name: 'Medium'
         },
         {
@@ -70,7 +70,7 @@ export default {
         },
         {
           img: linkedin,
-          to: 'https://www.linkedin.com/company/smilo-platform-bv',
+          to: 'https://www.linkedin.com/company/smilofoundation-bv',
           name: 'linkedin'
         },
         {
@@ -80,7 +80,7 @@ export default {
         },
         {
           img: github,
-          to: 'https://github.com/Smilo-platform',
+          to: 'https://github.com/smilofoundation',
           name: 'github'
         }
       ]

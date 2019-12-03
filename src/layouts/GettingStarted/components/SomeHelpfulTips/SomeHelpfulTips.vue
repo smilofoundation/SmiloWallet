@@ -66,7 +66,7 @@ export default {
           desc: this.$t('gettingStarted.tip3Desc'),
           linkText: this.$t('gettingStarted.tip3DescLink'),
           linkUrl:
-            'https://chrome.google.com/webstore/detail/SmiloWallet/?hl=en',
+            'https://chrome.google.com/webstore/detail/Smilo Foundation Wallet/?hl=en',
           descCont: this.$t('gettingStarted.tip3DescCont')
         },
         {
@@ -80,7 +80,7 @@ export default {
           title: this.$t('gettingStarted.tip5Title'),
           desc: this.$t('gettingStarted.tip5Desc'),
           linkText: this.$t('gettingStarted.tip5DescLink'),
-          linkUrl: 'mailto:info@smilo.io',
+          linkUrl: 'mailto:info@smilo.foundation',
           descCont: this.$t('gettingStarted.tip5DescCont')
         }
       ]

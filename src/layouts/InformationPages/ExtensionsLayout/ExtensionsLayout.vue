@@ -64,8 +64,8 @@ export default {
         // }
         {
           image: metamask,
-          title: 'SmiloWallet Chrome',
-          description: 'Use SmiloWallet without internet',
+          title: 'Smilo Foundation Wallet Chrome',
+          description: 'Use Smilo Foundation Wallet without internet',
           linkName: 'Download',
           linkURL: 'https://google.com'
         }

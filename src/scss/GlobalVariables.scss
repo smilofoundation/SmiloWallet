@@ -57,7 +57,7 @@ $light-green-4: #f1fafa;
 $light-green-5: #00bfa4;
 $light-green-6: #c9f2ed;
 
-$mew-green: #05c0a5;
+$mew-green: #000;
 
 $white: #fff;
 $black: #000;
@@ -175,13 +175,13 @@ $nav-tab--progress-bar-background-color: $background-color-2;
 $about-mew-spaceman-background-color: $dark-blue-2;
 $create-wallet-background-color: $light-blue-1;
 $unlock-wallet-background-color: $background-color-2;
-$footer-background-color: $dark-blue-2;
+$footer-background-color: $black;
 $price-bar-background-color: $light-blue-3;
 $bootstrap-modal-header-background-color: $dark-grey-1;
 
-$transaction-block-address: $light-purple-1;
-$transaction-block-balance: $light-blue-1;
-$transaction-block-network: $light-blue-4;
+$transaction-block-address: $black;
+$transaction-block-balance: $dark-grey-12;
+$transaction-block-network: $light-purple-1;
 $transaction-block-token-search: $dark-grey-2;
 
 $button-background-color-1: $dark-grey-4;

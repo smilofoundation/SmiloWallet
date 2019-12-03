@@ -4,7 +4,7 @@ const fs = require('fs');
 
 const fetchLists = async () => {
   const tokenList = await fetch(
-    'https://api.github.com/repos/Smilo-platform/ethereum-lists/contents/dist/tokens'
+    'https://api.github.com/repos/smilofoundation/ethereum-lists/contents/dist/tokens'
   )
     .then(res => res.json())
     .catch(console.error);
@@ -13,7 +13,7 @@ const fetchLists = async () => {
     JSON.stringify(tokenList)
   );
   const contractList = await fetch(
-    'https://api.github.com/repos/Smilo-platform/ethereum-lists/contents/dist/contracts'
+    'https://api.github.com/repos/smilofoundation/ethereum-lists/contents/dist/contracts'
   )
     .then(res => res.json())
     .catch(console.error);

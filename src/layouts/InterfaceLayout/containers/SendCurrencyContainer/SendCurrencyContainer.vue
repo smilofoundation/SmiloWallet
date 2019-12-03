@@ -109,7 +109,7 @@
               <!--(Economic)-->
             </div>
             <div v-show="network.type.name === 'ETH'" class="usd">
-              Cost {{ txFeeEth }} ETH = ${{ convert }}
+              Cost {{ txFeeEth }} XSM = ${{ convert }}
             </div>
           </div>
         </div>
@@ -190,7 +190,7 @@
       <interface-bottom-text
         :link-text="$t('interface.helpCenter')"
         :question="$t('interface.haveIssues')"
-        link="https://kb.smilowallet.io"
+        link="https://kb.smilo.foundation"
       />
     </div>
   </div>

@@ -48,7 +48,7 @@
         <interface-bottom-text
           :link-text="$t('interface.helpCenter')"
           :question="$t('interface.haveIssues')"
-          link="https://kb.smilowallet.io"
+          link="https://kb.smilo.foundation"
         />
       </div>
     </div>

@@ -10,7 +10,7 @@
               <a
                 target="_blank"
                 rel="noopener noreferrer"
-                href="https://kb.smilowallet.io/"
+                href="https://kb.smilo.foundation/"
               >
                 {{ $t('home.faqsSeeMore') }}
               </a>
@@ -78,14 +78,14 @@ export default {
           content: this.$t('home.howToCreateWalletDesc'),
           linkText: this.$t('home.here'),
           link:
-            'https://kb.smilowallet.io/getting-started/creating-a-new-wallet-on-myetherwallet.html'
+            'https://kb.smilo.foundation/getting-started/creating-a-new-wallet-on-myetherwallet.html'
         },
         faq2: {
           open: false,
           title: this.$t('home.whatIsMewConnectTitle'),
           content: this.$t('home.whatIsMewConnectDesc'),
           linkText: this.$t('home.here'),
-          link: 'https://mewconnect.smilowallet.io/'
+          link: 'https://mewconnect.smilo.foundation/'
         },
         faq3: {
           open: false,
@@ -93,7 +93,7 @@ export default {
           content: this.$t('home.workingWOtherWalletsDesc'),
           linkText: this.$t('home.here'),
           link:
-            'https://kb.smilowallet.io/getting-started/accessing-your-new-eth-wallet.html'
+            'https://kb.smilo.foundation/getting-started/accessing-your-new-eth-wallet.html'
         },
         faq4: {
           open: false,
@@ -101,7 +101,7 @@ export default {
           content: this.$t('home.howToSendTxDesc'),
           linkText: this.$t('home.here'),
           link:
-            'https://kb.smilowallet.io/transactions/how-to-send-transaction.html'
+            'https://kb.smilo.foundation/transactions/how-to-send-transaction.html'
         },
         faq5: {
           open: false,
@@ -109,7 +109,7 @@ export default {
           content: this.$t('home.forgotPasswordPrivKeyDesc'),
           linkText: this.$t('home.here'),
           link:
-            'https://kb.smilowallet.io/private-keys-passwords/lost-eth-private-key.html'
+            'https://kb.smilo.foundation/private-keys-passwords/lost-eth-private-key.html'
         }
       }
     };

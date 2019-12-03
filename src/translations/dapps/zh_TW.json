@@ -5,7 +5,7 @@
   "subDomainPlaceholder": "請輸入子網域名稱",
   "areYouFinalizingCont": "and claim this name?",
   "confirm": "確認",
-  "nodeProvider": "The ETH node you are sending through is provided by",
+  "nodeProvider": "The XSM node you are sending through is provided by",
   "finalize": "Finalize",
   "alreadyOwned": "is already owned",
   "labelHash": "Labelhash",
@@ -43,6 +43,6 @@
   "updateResolver": "Update Resolving address",
   "transferEnsTo": "轉移 ENS 網域給",
   "ensNotAvailable": "is not available yet",
-  "safesend_title": "安全地發送 ETH 交易",
-  "safesend_desc": "使用 SafeSend 來發送 ETH 交易"
+  "safesend_title": "安全地發送 XSM 交易",
+  "safesend_desc": "使用 SafeSend 來發送 XSM 交易"
 }

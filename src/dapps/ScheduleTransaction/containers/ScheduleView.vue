@@ -26,7 +26,7 @@
                 Amount higher than balance
               </div>
               <div v-show="!hasEnoughEthToSchedule" class="text-danger">
-                Not enough ETH on account to schedule
+                Not enough XSM on account to schedule
               </div>
             </b-col>
           </b-row>
@@ -124,7 +124,7 @@
               <div v-show="!advancedExpand" class="time-bounty-selector">
                 <div
                   v-b-tooltip.hover
-                  title="The amount of ETH you wish to offer to TimeNodes in exchange for execution. The higher the Time Bounty, the likelier your transaction will get executed."
+                  title="The amount of XSM you wish to offer to TimeNodes in exchange for execution. The higher the Time Bounty, the likelier your transaction will get executed."
                   class="input-title"
                 >
                   Time Bounty

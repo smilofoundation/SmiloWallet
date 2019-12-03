@@ -4,7 +4,7 @@
   "description": "Client side smilo wallet",
   "repository": {
     "type": "git",
-    "url": "git://github.com/Smilo-platform/SmiloWallet.git"
+    "url": "git://github.com/smilofoundation/SmiloWallet.git"
   },
   "licsense": {
     "type": "MIT",

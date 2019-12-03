@@ -140,7 +140,7 @@
         <p class="learn-more">
           Have any issues?
           <a
-            href="https:/kb.smilowallet.io"
+            href="https://kb.smilo.foundation"
             target="_blank"
             rel="noopener noreferrer"
             >Learn more</a

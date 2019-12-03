@@ -6,7 +6,7 @@ import xsm from '@/assets/images/networks/xsm.svg';
 export default {
   name: 'XSM',
   name_long: 'Smilo',
-  homePage: 'https://smilo.io',
+  homePage: 'https://smilo.foundation',
   blockExplorerTX: 'https://explorer.smilo.foundation/tx/[[txHash]]',
   blockExplorerAddr: 'https://explorer.smilo.foundation/account/[[address]]',
   chainID: 20080914,

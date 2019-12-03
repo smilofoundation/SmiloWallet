@@ -16,7 +16,7 @@
 
         <div class="searchable-contents">
           <p>
-            Top Searches: MEWconnect / Swap / Send ETH / Security/ Blockchain /
+            Top Searches: MEWconnect / Swap / Send XSM / Security/ Blockchain /
             Create a Wallet
           </p>
         </div>

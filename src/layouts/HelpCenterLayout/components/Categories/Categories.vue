@@ -67,7 +67,7 @@ export default {
           title: 'Customer Support',
           description:
             "Can't find your answer? Get in touch and we'll get back as soon as we can.",
-          email: 'info@smilo.io'
+          email: 'info@smilo.foundation'
         },
         {
           icon: iconCommunity,
