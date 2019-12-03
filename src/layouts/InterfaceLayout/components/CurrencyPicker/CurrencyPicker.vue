@@ -39,12 +39,11 @@
                 ? curr.name + idx + curr.symbol + page
                 : curr.name + page + idx
             "
-            @click="selectCurrency(curr)"
+            @click="selectCurrency(idx)"
           >
             <p v-show="token">
               {{ curr.symbol }}<span class="subname"> - {{ curr.name }}</span>
             </p>
-            <p />
             <p v-show="!token">{{ curr.name }}</p>
           </div>
         </div>
@@ -55,6 +54,7 @@
 
 <script>
 import { mapState } from 'vuex';
+import { BigNumber } from 'bignumber.js';
 export default {
   props: {
     currency: {
@@ -71,16 +71,15 @@ export default {
       type: Boolean,
       default: true
     },
-    default: {
-      type: Object,
-      default: () => {
-        return {};
-      }
+    getSrcTwentyTokens: {
+      type: Function,
+      default: function() {}
     }
   },
   data() {
     return {
-      selectedCurrency: { name: 'Select an item', abi: '', address: '' },
+      localCurrency: [],
+      selectedCurrency: [],
       open: false,
       search: '',
       abi: '',
@@ -92,24 +91,10 @@ export default {
     networkToken() {
       return {
         name: this.network.type.name_long,
-        symbol: this.network.type.currencyName
+        symbol: this.network.type.name,
+        isToken: false,
+        decimals: 18
       };
-    },
-    localCurrency() {
-      if (this.search !== '') {
-        return this.currency.filter(curr => {
-          if (curr.name.toLowerCase().includes(this.search.toLowerCase())) {
-            return curr;
-          }
-        });
-      }
-      if (this.token) {
-        return [this.networkToken, ...this.currency];
-      }
-      return [
-        { name: 'Select an item', abi: '', address: '' },
-        ...this.currency
-      ];
     }
   },
   watch: {
@@ -119,23 +104,72 @@ export default {
     selectedCurrency(newVal) {
       this.$emit('selectedCurrency', newVal);
     },
-    default(newVal) {
-      if (newVal.hasOwnProperty('symbol')) this.selectedCurrency = newVal;
+    search(newVal) {
+      if (newVal !== '') {
+        this.localCurrency = this.localCurrency.filter(curr => {
+          if (curr.name.toLowerCase().includes(newVal.toLowerCase())) {
+            return curr;
+          }
+        });
+      } else {
+        if (this.token) {
+          this.localCurrency = [this.networkToken];
+        } else {
+          this.localCurrency = [
+            { name: 'Select an item', abi: '', address: '' }
+          ];
+        }
+        this.currency.forEach(curr => this.localCurrency.push(curr));
+      }
     }
   },
   mounted() {
+    this.localCurrency = [];
+    this.localCurrency =
+      this.token === true
+        ? [this.networkToken]
+        : [{ name: 'Select an item', abi: '', address: '' }];
     this.selectedCurrency =
       this.token === true
         ? this.networkToken
         : { name: 'Select an item', abi: '', address: '' };
+    // Add the tokens aswell
+    for (let i = 0; i < this.network.type.tokens.length; i++) {
+      this.localCurrency.push({
+        name: this.network.type.tokens[i].name,
+        symbol: this.network.type.tokens[i].symbol,
+        address: this.network.type.tokens[i].address,
+        isToken: true,
+        decimals: this.network.type.tokens[i].decimals
+      });
+    }
+    this.chooseCurrency(0);
   },
   methods: {
     openDropdown() {
       this.open = !this.open;
     },
-    selectCurrency(currency) {
+    selectCurrency(index) {
       this.openDropdown();
-      this.selectedCurrency = currency;
+      this.chooseCurrency(index);
+    },
+    chooseCurrency(index) {
+      setTimeout(() => {
+        this.selectedCurrency = this.localCurrency[index];
+        this.network.selectedCurrency = this.selectedCurrency;
+        this.$root.$emit(
+          'selected_currency_changed',
+          this.selectedCurrency.symbol
+        );
+        if (this.selectedCurrency.isToken) {
+          const tokenBalance = this.$parent.getSrcTwentyTokenBalance(
+            this.selectedCurrency.symbol
+          );
+          this.selectedCurrency.balance = new BigNumber(tokenBalance).shiftedBy(
+            this.selectedCurrency.decimals
+          );
+        }
+      }, 1000);
     }
   }
 };

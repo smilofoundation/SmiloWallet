@@ -17,7 +17,7 @@ const explicitStringReplacements = {
 
 class CompileSwapOptions {
   constructor() {
-    this.web3 = new web3('https://api.smilo.network');
+    this.web3 = new web3('https://api.smilo.foundation');
     this.changellyBaseOptions = {};
     this.kyberBaseOptions = {};
 

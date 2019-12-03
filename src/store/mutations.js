@@ -91,11 +91,14 @@ const SET_WEB3_INSTANCE = function(state, web3) {
 };
 
 const SWITCH_NETWORK = function(state, networkObj) {
-  state.network = networkObj;
-  const _netObj = Object.assign({}, networkObj);
+  // console.log("SWITCH_NETWORK, before ", "networkObj", networkObj, "state.network", state.network);
+  // state.network = networkObj;
+  const _netObj = Object.assign({}, networkObj.selectedCurrency);
+  Object.assign(_netObj, networkObj[0]);
   _netObj.type = {
-    name: networkObj.type.name
+    name: networkObj[0].type.name
   };
+  // console.log("SWITCH_NETWORK, after ", "_netObj", _netObj, "state.network", state.network);
   store.set('network', _netObj);
 };
 

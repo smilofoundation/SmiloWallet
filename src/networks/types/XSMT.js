@@ -9,7 +9,8 @@ export default {
   name_long: 'Smilo',
   homePage: 'https://smilo.io',
   blockExplorerTX: 'https://testnet-explorer.smilo.network/tx/[[txHash]]',
-  blockExplorerAddr: 'https://testnet-explorer.smilo.network/addr/[[address]]',
+  blockExplorerAddr:
+    'https://testnet-explorer.smilo.network/account/[[address]]',
   chainID: 10,
   tokens: tokens,
   contracts: contracts,
